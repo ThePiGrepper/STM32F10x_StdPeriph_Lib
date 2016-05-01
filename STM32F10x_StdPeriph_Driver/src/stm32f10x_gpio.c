@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_gpio.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the GPIO firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -119,8 +114,8 @@ void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
   u32 tmpreg = 0x00, pinmask = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_MODE(GPIO_InitStruct->GPIO_Mode));
-  assert(IS_GPIO_PIN(GPIO_InitStruct->GPIO_Pin));  
+  assert_param(IS_GPIO_MODE(GPIO_InitStruct->GPIO_Mode));
+  assert_param(IS_GPIO_PIN(GPIO_InitStruct->GPIO_Pin));  
   
 /*---------------------------- GPIO Mode Configuration -----------------------*/
   currentmode = ((u32)GPIO_InitStruct->GPIO_Mode) & ((u32)0x0F);
@@ -128,7 +123,7 @@ void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
   if ((((u32)GPIO_InitStruct->GPIO_Mode) & ((u32)0x10)) != 0x00)
   { 
     /* Check the parameters */
-    assert(IS_GPIO_SPEED(GPIO_InitStruct->GPIO_Speed));
+    assert_param(IS_GPIO_SPEED(GPIO_InitStruct->GPIO_Speed));
     /* Output mode */
     currentmode |= (u32)GPIO_InitStruct->GPIO_Speed;
   }
@@ -237,7 +232,7 @@ u8 GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
   u8 bitstatus = 0x00;
   
   /* Check the parameters */
-  assert(IS_GET_GPIO_PIN(GPIO_Pin)); 
+  assert_param(IS_GET_GPIO_PIN(GPIO_Pin)); 
   
   if ((GPIOx->IDR & GPIO_Pin) != (u32)Bit_RESET)
   {
@@ -276,7 +271,7 @@ u8 GPIO_ReadOutputDataBit(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
   u8 bitstatus = 0x00;
 
   /* Check the parameters */
-  assert(IS_GET_GPIO_PIN(GPIO_Pin)); 
+  assert_param(IS_GET_GPIO_PIN(GPIO_Pin)); 
   
   if ((GPIOx->ODR & GPIO_Pin) != (u32)Bit_RESET)
   {
@@ -314,7 +309,7 @@ u16 GPIO_ReadOutputData(GPIO_TypeDef* GPIOx)
 void GPIO_SetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
 {
   /* Check the parameters */
-  assert(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
   GPIOx->BSRR = GPIO_Pin;
 }
 
@@ -331,7 +326,7 @@ void GPIO_SetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
 void GPIO_ResetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
 {
   /* Check the parameters */
-  assert(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
   GPIOx->BRR = GPIO_Pin;
 }
 
@@ -351,8 +346,8 @@ void GPIO_ResetBits(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
 void GPIO_WriteBit(GPIO_TypeDef* GPIOx, u16 GPIO_Pin, BitAction BitVal)
 {
   /* Check the parameters */
-  assert(IS_GET_GPIO_PIN(GPIO_Pin));
-  assert(IS_GPIO_BIT_ACTION(BitVal)); 
+  assert_param(IS_GET_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_BIT_ACTION(BitVal)); 
   
   if (BitVal != Bit_RESET)
   {
@@ -393,7 +388,7 @@ void GPIO_PinLockConfig(GPIO_TypeDef* GPIOx, u16 GPIO_Pin)
   u32 tmp = 0x00010000;
   
   /* Check the parameters */
-  assert(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
   
   tmp |= GPIO_Pin;
   /* Set LCKK bit */
@@ -425,8 +420,8 @@ void GPIO_EventOutputConfig(u8 GPIO_PortSource, u8 GPIO_PinSource)
   u32 tmpreg = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
-  assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
+  assert_param(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
+  assert_param(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
     
   tmpreg = AFIO->EVCR;
   /* Clear the PORT[6:4] and PIN[3:0] bits */
@@ -448,7 +443,7 @@ void GPIO_EventOutputConfig(u8 GPIO_PortSource, u8 GPIO_PinSource)
 void GPIO_EventOutputCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
   
   *(vu32 *) EVCR_EVOE_BB = (u32)NewState;
 }
@@ -488,8 +483,8 @@ void GPIO_PinRemapConfig(u32 GPIO_Remap, FunctionalState NewState)
   u32 tmp = 0x00, tmp1 = 0x00, tmpreg = 0x00, tmpmask = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_REMAP(GPIO_Remap));
-  assert(IS_FUNCTIONAL_STATE(NewState));  
+  assert_param(IS_GPIO_REMAP(GPIO_Remap));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));  
   
   tmpreg = AFIO->MAPR;
 
@@ -539,8 +534,8 @@ void GPIO_EXTILineConfig(u8 GPIO_PortSource, u8 GPIO_PinSource)
   u32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
-  assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
+  assert_param(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
+  assert_param(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
   
   tmp = ((u32)0x0F) << (0x04 * (GPIO_PinSource & (u8)0x03));
 

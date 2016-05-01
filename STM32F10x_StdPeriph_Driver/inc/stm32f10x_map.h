@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_map.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the peripheral register's definitions
 *                      and memory mapping.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -34,7 +29,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /******************************************************************************/
-/*                          IP registers structures                           */
+/*                         Peripheral registers structures                    */
 /******************************************************************************/
 
 /*------------------------ Analog to Digital Converter -----------------------*/
@@ -249,34 +244,35 @@ typedef struct
 /*------------------------ Nested Vectored Interrupt Controller --------------*/
 typedef struct
 {
-  vu32 Enable[2];
+  vu32 ISER[2];
   u32 RESERVED0[30];
-  vu32 Disable[2];
+  vu32 ICER[2];
   u32 RSERVED1[30];
-  vu32 Set[2];
+  vu32 ISPR[2];
   u32 RESERVED2[30];
-  vu32 Clear[2];
+  vu32 ICPR[2];
   u32 RESERVED3[30];
-  vu32 Active[2];
+  vu32 IABR[2];
   u32 RESERVED4[62];
-  vu32 Priority[11];
+  vu32 IPR[11];
 } NVIC_TypeDef;
 
 typedef struct
 {
-  vu32 CPUID;
-  vu32 IRQControlState;
-  vu32 ExceptionTableOffset;
-  vu32 AIRC;
-  vu32 SysCtrl;
-  vu32 ConfigCtrl;
-  vu32 SystemPriority[3];
-  vu32 SysHandlerCtrl;
-  vu32 ConfigFaultStatus;
-  vu32 HardFaultStatus;
-  vu32 DebugFaultStatus;
-  vu32 MemoryManageFaultAddr;
-  vu32 BusFaultAddr;
+  vuc32 CPUID;
+  vu32 ICSR;
+  vu32 VTOR;
+  vu32 AIRCR;
+  vu32 SCR;
+  vu32 CCR;
+  vu32 SHPR[3];
+  vu32 SHCSR;
+  vu32 CFSR;
+  vu32 HFSR;
+  vu32 DFSR;
+  vu32 MMFAR;
+  vu32 BFAR;
+  vu32 AFSR;
 } SCB_TypeDef;
 
 /*------------------------ Power Control -------------------------------------*/
@@ -468,7 +464,7 @@ typedef struct
 } WWDG_TypeDef;
 
 /******************************************************************************/
-/*                       Peripheral memory map                                */
+/*                         Peripheral memory map                              */
 /******************************************************************************/
 /* Peripheral and SRAM base address in the alias region */
 #define PERIPH_BB_BASE        ((u32)0x42000000)
@@ -535,10 +531,10 @@ typedef struct
 
 
 /******************************************************************************/
-/*                            IPs' declaration                                */
+/*                         Peripheral declaration                             */
 /******************************************************************************/
 
-/*------------------- Non Debug Mode -----------------------------------------*/
+/*------------------------ Non Debug Mode ------------------------------------*/
 #ifndef DEBUG
 #ifdef _TIM2
   #define TIM2                ((TIM_TypeDef *) TIM2_BASE)
@@ -694,7 +690,7 @@ typedef struct
   #define SCB                 ((SCB_TypeDef *) SCB_BASE)  
 #endif /*_NVIC */
 
-/*----------------------  Debug Mode -----------------------------------------*/
+/*------------------------ Debug Mode ----------------------------------------*/
 #else   /* DEBUG */
 #ifdef _TIM2
   EXT TIM_TypeDef             *TIM2;

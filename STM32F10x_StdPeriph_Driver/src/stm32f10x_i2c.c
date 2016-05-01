@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_i2c.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the I2C firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -153,12 +148,12 @@ void I2C_Init(I2C_TypeDef* I2Cx, I2C_InitTypeDef* I2C_InitStruct)
   RCC_ClocksTypeDef  RCC_Clocks;
 
   /* Check the parameters */
-  assert(IS_I2C_MODE(I2C_InitStruct->I2C_Mode));
-  assert(IS_I2C_DUTY_CYCLE(I2C_InitStruct->I2C_DutyCycle));
-  assert(IS_I2C_OWN_ADDRESS1(I2C_InitStruct->I2C_OwnAddress1));
-  assert(IS_I2C_ACK_STATE(I2C_InitStruct->I2C_Ack));
-  assert(IS_I2C_ACKNOWLEDGE_ADDRESS(I2C_InitStruct->I2C_AcknowledgedAddress));
-  assert(IS_I2C_CLOCK_SPEED(I2C_InitStruct->I2C_ClockSpeed));
+  assert_param(IS_I2C_MODE(I2C_InitStruct->I2C_Mode));
+  assert_param(IS_I2C_DUTY_CYCLE(I2C_InitStruct->I2C_DutyCycle));
+  assert_param(IS_I2C_OWN_ADDRESS1(I2C_InitStruct->I2C_OwnAddress1));
+  assert_param(IS_I2C_ACK_STATE(I2C_InitStruct->I2C_Ack));
+  assert_param(IS_I2C_ACKNOWLEDGE_ADDRESS(I2C_InitStruct->I2C_AcknowledgedAddress));
+  assert_param(IS_I2C_CLOCK_SPEED(I2C_InitStruct->I2C_ClockSpeed));
 
 /*---------------------------- I2Cx CR2 Configuration ------------------------*/
   /* Get the I2Cx CR2 value */
@@ -289,7 +284,7 @@ void I2C_StructInit(I2C_InitTypeDef* I2C_InitStruct)
 void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -315,7 +310,7 @@ void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -341,7 +336,7 @@ void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -367,7 +362,7 @@ void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -393,7 +388,7 @@ void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_GenerateSTOP(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -419,7 +414,7 @@ void I2C_GenerateSTOP(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_AcknowledgeConfig(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -467,7 +462,7 @@ void I2C_OwnAddress2Config(I2C_TypeDef* I2Cx, u8 Address)
 void I2C_DualAddressCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -493,7 +488,7 @@ void I2C_DualAddressCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_GeneralCallCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -525,8 +520,8 @@ void I2C_GeneralCallCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_ITConfig(I2C_TypeDef* I2Cx, u16 I2C_IT, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
-  assert(IS_I2C_CONFIG_IT(I2C_IT));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_I2C_CONFIG_IT(I2C_IT));
   
   if (NewState != DISABLE)
   {
@@ -583,7 +578,7 @@ u8 I2C_ReceiveData(I2C_TypeDef* I2Cx)
 void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, u8 Address, u8 I2C_Direction)
 {
   /* Check the parameters */
-  assert(IS_I2C_DIRECTION(I2C_Direction));
+  assert_param(IS_I2C_DIRECTION(I2C_Direction));
 
   /* Test on the direction to set/reset the read/write bit */
   if (I2C_Direction != I2C_Direction_Transmitter)
@@ -620,7 +615,7 @@ void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, u8 Address, u8 I2C_Direction)
 u16 I2C_ReadRegister(I2C_TypeDef* I2Cx, u8 I2C_Register)
 {
   /* Check the parameters */
-  assert(IS_I2C_REGISTER(I2C_Register));
+  assert_param(IS_I2C_REGISTER(I2C_Register));
 
   /* Return the selected register value */
   return (*(u16 *)(*((u32 *)&I2Cx) + I2C_Register));
@@ -638,7 +633,7 @@ u16 I2C_ReadRegister(I2C_TypeDef* I2Cx, u8 I2C_Register)
 void I2C_SoftwareResetCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -666,7 +661,7 @@ void I2C_SoftwareResetCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_SMBusAlertConfig(I2C_TypeDef* I2Cx, u16 I2C_SMBusAlert)
 {
   /* Check the parameters */
-  assert(IS_I2C_SMBUS_ALERT(I2C_SMBusAlert));
+  assert_param(IS_I2C_SMBUS_ALERT(I2C_SMBusAlert));
 
   if (I2C_SMBusAlert == I2C_SMBusAlert_Low)
   {
@@ -692,7 +687,7 @@ void I2C_SMBusAlertConfig(I2C_TypeDef* I2Cx, u16 I2C_SMBusAlert)
 void I2C_TransmitPEC(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -722,7 +717,7 @@ void I2C_TransmitPEC(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_PECPositionConfig(I2C_TypeDef* I2Cx, u16 I2C_PECPosition)
 {
   /* Check the parameters */
-  assert(IS_I2C_PEC_POSITION(I2C_PECPosition));
+  assert_param(IS_I2C_PEC_POSITION(I2C_PECPosition));
 
   if (I2C_PECPosition == I2C_PECPosition_Next)
   {
@@ -749,7 +744,7 @@ void I2C_PECPositionConfig(I2C_TypeDef* I2Cx, u16 I2C_PECPosition)
 void I2C_CalculatePEC(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -792,7 +787,7 @@ u8 I2C_GetPEC(I2C_TypeDef* I2Cx)
 void I2C_ARPCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -818,7 +813,7 @@ void I2C_ARPCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState == DISABLE)
   {
@@ -846,7 +841,7 @@ void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_FastModeDutyCycleConfig(I2C_TypeDef* I2Cx, u16 I2C_DutyCycle)
 {
   /* Check the parameters */
-  assert(IS_I2C_DUTY_CYCLE(I2C_DutyCycle));
+  assert_param(IS_I2C_DUTY_CYCLE(I2C_DutyCycle));
 
   if (I2C_DutyCycle != I2C_DutyCycle_16_9)
   {
@@ -912,7 +907,7 @@ ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, u32 I2C_EVENT)
   ErrorStatus status = ERROR;
 
   /* Check the parameters */
-  assert(IS_I2C_EVENT(I2C_EVENT));
+  assert_param(IS_I2C_EVENT(I2C_EVENT));
 
   Flag1 = I2Cx->SR1;
   Flag2 = I2Cx->SR2;
@@ -975,7 +970,7 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef* I2Cx, u32 I2C_FLAG)
   u32 Flag1 = 0, Flag2 = 0;
 
   /* Check the parameters */
-  assert(IS_I2C_GET_FLAG(I2C_FLAG));
+  assert_param(IS_I2C_GET_FLAG(I2C_FLAG));
 
   /* Read the I2Cx status register */
   Flag1 = I2Cx->SR1;
@@ -1031,7 +1026,7 @@ void I2C_ClearFlag(I2C_TypeDef* I2Cx, u32 I2C_FLAG)
   u8 flagindex = 0;
 
   /* Check the parameters */
-  assert(IS_I2C_CLEAR_FLAG(I2C_FLAG));
+  assert_param(IS_I2C_CLEAR_FLAG(I2C_FLAG));
 
   /* Get the I2C flag position */
   flagpos = I2C_FLAG & I2C_FLAG_Mask;
@@ -1102,7 +1097,7 @@ ITStatus I2C_GetITStatus(I2C_TypeDef* I2Cx, u32 I2C_IT)
   u32 Flag1 = 0, Flag2 = 0;
 
   /* Check the parameters */
-  assert(IS_I2C_GET_IT(I2C_IT));
+  assert_param(IS_I2C_GET_IT(I2C_IT));
 
   /* Read the I2Cx status register */
   Flag1 = I2Cx->SR1;
@@ -1158,7 +1153,7 @@ void I2C_ClearITPendingBit(I2C_TypeDef* I2Cx, u32 I2C_IT)
   u8 flagindex = 0;
 
   /* Check the parameters */
-  assert(IS_I2C_CLEAR_IT(I2C_IT));
+  assert_param(IS_I2C_CLEAR_IT(I2C_IT));
 
   /* Get the I2C flag position */
   flagpos = I2C_IT & I2C_FLAG_Mask;

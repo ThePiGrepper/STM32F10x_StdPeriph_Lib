@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_dma.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the DMA firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -130,15 +125,15 @@ void DMA_Init(DMA_Channel_TypeDef* DMA_Channelx, DMA_InitTypeDef* DMA_InitStruct
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_DMA_DIR(DMA_InitStruct->DMA_DIR));
-  assert(IS_DMA_BUFFER_SIZE(DMA_InitStruct->DMA_BufferSize));	   
-  assert(IS_DMA_PERIPHERAL_INC_STATE(DMA_InitStruct->DMA_PeripheralInc));  
-  assert(IS_DMA_MEMORY_INC_STATE(DMA_InitStruct->DMA_MemoryInc));   
-  assert(IS_DMA_PERIPHERAL_DATA_SIZE(DMA_InitStruct->DMA_PeripheralDataSize));
-  assert(IS_DMA_MEMORY_DATA_SIZE(DMA_InitStruct->DMA_MemoryDataSize));
-  assert(IS_DMA_MODE(DMA_InitStruct->DMA_Mode));
-  assert(IS_DMA_PRIORITY(DMA_InitStruct->DMA_Priority));
-  assert(IS_DMA_M2M_STATE(DMA_InitStruct->DMA_M2M));
+  assert_param(IS_DMA_DIR(DMA_InitStruct->DMA_DIR));
+  assert_param(IS_DMA_BUFFER_SIZE(DMA_InitStruct->DMA_BufferSize));	   
+  assert_param(IS_DMA_PERIPHERAL_INC_STATE(DMA_InitStruct->DMA_PeripheralInc));  
+  assert_param(IS_DMA_MEMORY_INC_STATE(DMA_InitStruct->DMA_MemoryInc));   
+  assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(DMA_InitStruct->DMA_PeripheralDataSize));
+  assert_param(IS_DMA_MEMORY_DATA_SIZE(DMA_InitStruct->DMA_MemoryDataSize));
+  assert_param(IS_DMA_MODE(DMA_InitStruct->DMA_Mode));
+  assert_param(IS_DMA_PRIORITY(DMA_InitStruct->DMA_Priority));
+  assert_param(IS_DMA_M2M_STATE(DMA_InitStruct->DMA_M2M));
 
 /*--------------------------- DMA Channelx CCR Configuration -----------------*/
   /* Get the DMA_Channelx CCR value */
@@ -232,7 +227,7 @@ void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct)
 void DMA_Cmd(DMA_Channel_TypeDef* DMA_Channelx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)				  
   {
@@ -263,8 +258,8 @@ void DMA_Cmd(DMA_Channel_TypeDef* DMA_Channelx, FunctionalState NewState)
 void DMA_ITConfig(DMA_Channel_TypeDef* DMA_Channelx, u32 DMA_IT, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_DMA_CONFIG_IT(DMA_IT));
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_DMA_CONFIG_IT(DMA_IT));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -335,7 +330,7 @@ FlagStatus DMA_GetFlagStatus(u32 DMA_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_DMA_GET_FLAG(DMA_FLAG));
+  assert_param(IS_DMA_GET_FLAG(DMA_FLAG));
 
   /* Check the status of the specified DMA flag */
   if ((DMA->ISR & DMA_FLAG) != (u32)RESET)
@@ -391,7 +386,7 @@ FlagStatus DMA_GetFlagStatus(u32 DMA_FLAG)
 void DMA_ClearFlag(u32 DMA_FLAG)
 {
   /* Check the parameters */
-  assert(IS_DMA_CLEAR_FLAG(DMA_FLAG));
+  assert_param(IS_DMA_CLEAR_FLAG(DMA_FLAG));
 
   /* Clear the selected DMA flags */
   DMA->IFCR = DMA_FLAG;
@@ -439,7 +434,7 @@ ITStatus DMA_GetITStatus(u32 DMA_IT)
   ITStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_DMA_GET_IT(DMA_IT));
+  assert_param(IS_DMA_GET_IT(DMA_IT));
 
   /* Check the status of the specified DMA interrupt */
   if ((DMA->ISR & DMA_IT) != (u32)RESET)
@@ -495,7 +490,7 @@ ITStatus DMA_GetITStatus(u32 DMA_IT)
 void DMA_ClearITPendingBit(u32 DMA_IT)
 {
   /* Check the parameters */
-  assert(IS_DMA_CLEAR_IT(DMA_IT));
+  assert_param(IS_DMA_CLEAR_IT(DMA_IT));
 
   /* Clear the selected DMA interrupt pending bits */
   DMA->IFCR = DMA_IT;

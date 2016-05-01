@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_exti.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the EXTI firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -60,10 +55,10 @@ void EXTI_DeInit(void)
 void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct)
 {
   /* Check the parameters */
-  assert(IS_EXTI_MODE(EXTI_InitStruct->EXTI_Mode));
-  assert(IS_EXTI_TRIGGER(EXTI_InitStruct->EXTI_Trigger));
-  assert(IS_EXTI_LINE(EXTI_InitStruct->EXTI_Line));  
-  assert(IS_FUNCTIONAL_STATE(EXTI_InitStruct->EXTI_LineCmd));
+  assert_param(IS_EXTI_MODE(EXTI_InitStruct->EXTI_Mode));
+  assert_param(IS_EXTI_TRIGGER(EXTI_InitStruct->EXTI_Trigger));
+  assert_param(IS_EXTI_LINE(EXTI_InitStruct->EXTI_Line));  
+  assert_param(IS_FUNCTIONAL_STATE(EXTI_InitStruct->EXTI_LineCmd));
      
   if (EXTI_InitStruct->EXTI_LineCmd != DISABLE)
   {
@@ -121,7 +116,7 @@ void EXTI_StructInit(EXTI_InitTypeDef* EXTI_InitStruct)
 void EXTI_GenerateSWInterrupt(u32 EXTI_Line)
 {
   /* Check the parameters */
-  assert(IS_EXTI_LINE(EXTI_Line));
+  assert_param(IS_EXTI_LINE(EXTI_Line));
   
   EXTI->SWIER |= EXTI_Line;
 }
@@ -140,7 +135,7 @@ FlagStatus EXTI_GetFlagStatus(u32 EXTI_Line)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_GET_EXTI_LINE(EXTI_Line));
+  assert_param(IS_GET_EXTI_LINE(EXTI_Line));
   
   if ((EXTI->PR & EXTI_Line) != (u32)RESET)
   {
@@ -165,7 +160,7 @@ FlagStatus EXTI_GetFlagStatus(u32 EXTI_Line)
 void EXTI_ClearFlag(u32 EXTI_Line)
 {
   /* Check the parameters */
-  assert(IS_EXTI_LINE(EXTI_Line));
+  assert_param(IS_EXTI_LINE(EXTI_Line));
   
   EXTI->PR = EXTI_Line;
 }
@@ -185,7 +180,7 @@ ITStatus EXTI_GetITStatus(u32 EXTI_Line)
   u32 enablestatus = 0;
 
   /* Check the parameters */
-  assert(IS_GET_EXTI_LINE(EXTI_Line));
+  assert_param(IS_GET_EXTI_LINE(EXTI_Line));
   
   enablestatus =  EXTI->IMR & EXTI_Line;
 
@@ -212,7 +207,7 @@ ITStatus EXTI_GetITStatus(u32 EXTI_Line)
 void EXTI_ClearITPendingBit(u32 EXTI_Line)
 {
   /* Check the parameters */
-  assert(IS_EXTI_LINE(EXTI_Line));
+  assert_param(IS_EXTI_LINE(EXTI_Line));
   
   EXTI->PR = EXTI_Line;
 }

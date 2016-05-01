@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_rtc.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the
 *                      RTC firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -60,7 +55,6 @@ void RTC_EnterConfigMode(void);
 void RTC_ExitConfigMode(void);
 u32  RTC_GetCounter(void);
 void RTC_SetCounter(u32 CounterValue);
-u32  RTC_GetPrescaler(void);
 void RTC_SetPrescaler(u32 PrescalerValue);
 void RTC_SetAlarm(u32 AlarmValue);
 u32  RTC_GetDivider(void);

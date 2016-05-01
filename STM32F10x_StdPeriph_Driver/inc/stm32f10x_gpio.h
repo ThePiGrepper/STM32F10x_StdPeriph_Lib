@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_gpio.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the
 *                      GPIO firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -124,7 +119,7 @@ typedef enum
 #define GPIO_PartialRemap_TIM3     ((u32)0x001A0800)  /* TIM3 Partial Alternate Function mapping */
 #define GPIO_FullRemap_TIM3        ((u32)0x001A0C00)  /* TIM3 Full Alternate Function mapping */
 #define GPIO_Remap_TIM4            ((u32)0x00001000)  /* TIM4 Alternate Function mapping */
-#define GPIO_Remap1_CAN            ((u32)0x001D2000)  /* CAN Alternate Function mapping */
+#define GPIO_Remap1_CAN            ((u32)0x001D4000)  /* CAN Alternate Function mapping */
 #define GPIO_Remap2_CAN            ((u32)0x001D6000)  /* CAN Alternate Function mapping */
 #define GPIO_Remap_PD01            ((u32)0x00008000)  /* PD01 Alternate Function mapping */
 #define GPIO_Remap_SWJ_NoJTRST     ((u32)0x00300100)  /* Full SWJ Enabled (JTAG-DP + SW-DP) but without JTRST */

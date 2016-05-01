@@ -1,7 +1,8 @@
 ;******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 ;* File Name          : stm32f10x_vector.s
 ;* Author             : MCD Application Team
-;* Date First Issued  : 05/21/2007
+;* Version            : V1.0
+;* Date               : 10/08/2007
 ;* Description        : This module performs:
 ;*                      - Set the initial SP
 ;*                      - Set the initial PC == Reset_Handler,
@@ -11,9 +12,6 @@
 ;*                      After Reset the CortexM3 processor is in Thread mode,
 ;*                      priority is Privileged, and the Stack is set to Main.
 ;* <<< Use Configuration Wizard in Context Menu >>>   
-;*******************************************************************************
-; History:
-; 05/21/2007: V0.3                     
 ;*******************************************************************************
 ; THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 ; WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -29,7 +27,7 @@
 ;//   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ;// </h>
 
-Stack_Size       EQU     0x00000200
+Stack_Size       EQU     0x00000400
 
                  AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem        SPACE   Stack_Size

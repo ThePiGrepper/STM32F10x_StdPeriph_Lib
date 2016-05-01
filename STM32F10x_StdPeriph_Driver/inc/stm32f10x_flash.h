@@ -1,12 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_flash.h
 * Author             : MCD Application Team
-* Date First Issued  : 05/21/2007
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the
 *                      FLASH firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.

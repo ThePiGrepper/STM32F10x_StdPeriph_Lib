@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_spi.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the SPI firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -94,15 +89,15 @@ void SPI_Init(SPI_TypeDef* SPIx, SPI_InitTypeDef* SPI_InitStruct)
   u16 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_SPI_DIRECTION_MODE(SPI_InitStruct->SPI_Direction));
-  assert(IS_SPI_MODE(SPI_InitStruct->SPI_Mode));
-  assert(IS_SPI_DATASIZE(SPI_InitStruct->SPI_DataSize));
-  assert(IS_SPI_CPOL(SPI_InitStruct->SPI_CPOL));
-  assert(IS_SPI_CPHA(SPI_InitStruct->SPI_CPHA));
-  assert(IS_SPI_NSS(SPI_InitStruct->SPI_NSS));
-  assert(IS_SPI_BAUDRATE_PRESCALER(SPI_InitStruct->SPI_BaudRatePrescaler));
-  assert(IS_SPI_FIRST_BIT(SPI_InitStruct->SPI_FirstBit));
-  assert(IS_SPI_CRC_POLYNOMIAL(SPI_InitStruct->SPI_CRCPolynomial));
+  assert_param(IS_SPI_DIRECTION_MODE(SPI_InitStruct->SPI_Direction));
+  assert_param(IS_SPI_MODE(SPI_InitStruct->SPI_Mode));
+  assert_param(IS_SPI_DATASIZE(SPI_InitStruct->SPI_DataSize));
+  assert_param(IS_SPI_CPOL(SPI_InitStruct->SPI_CPOL));
+  assert_param(IS_SPI_CPHA(SPI_InitStruct->SPI_CPHA));
+  assert_param(IS_SPI_NSS(SPI_InitStruct->SPI_NSS));
+  assert_param(IS_SPI_BAUDRATE_PRESCALER(SPI_InitStruct->SPI_BaudRatePrescaler));
+  assert_param(IS_SPI_FIRST_BIT(SPI_InitStruct->SPI_FirstBit));
+  assert_param(IS_SPI_CRC_POLYNOMIAL(SPI_InitStruct->SPI_CRCPolynomial));
 
 /*---------------------------- SPIx CR1 Configuration ------------------------*/
   /* Get the SPIx CR1 value */
@@ -180,7 +175,7 @@ void SPI_StructInit(SPI_InitTypeDef* SPI_InitStruct)
 void SPI_Cmd(SPI_TypeDef* SPIx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -214,8 +209,8 @@ void SPI_ITConfig(SPI_TypeDef* SPIx, u8 SPI_IT, FunctionalState NewState)
   u16 itpos = 0, itmask = 0 ;
 
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
-  assert(IS_SPI_CONFIG_IT(SPI_IT));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_SPI_CONFIG_IT(SPI_IT));
 
   /* Get the SPI IT index */
   itpos = SPI_IT >> 4;
@@ -251,8 +246,8 @@ void SPI_ITConfig(SPI_TypeDef* SPIx, u8 SPI_IT, FunctionalState NewState)
 void SPI_DMACmd(SPI_TypeDef* SPIx, u16 SPI_DMAReq, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
-  assert(IS_SPI_DMA_REQ(SPI_DMAReq));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_SPI_DMA_REQ(SPI_DMAReq));
 
   if (NewState != DISABLE)
   {
@@ -308,7 +303,7 @@ u16 SPI_ReceiveData(SPI_TypeDef* SPIx)
 void SPI_NSSInternalSoftwareConfig(SPI_TypeDef* SPIx, u16 SPI_NSSInternalSoft)
 {
   /* Check the parameters */
-  assert(IS_SPI_NSS_INTERNAL(SPI_NSSInternalSoft));
+  assert_param(IS_SPI_NSS_INTERNAL(SPI_NSSInternalSoft));
 
   if (SPI_NSSInternalSoft != SPI_NSSInternalSoft_Reset)
   {
@@ -334,7 +329,7 @@ void SPI_NSSInternalSoftwareConfig(SPI_TypeDef* SPIx, u16 SPI_NSSInternalSoft)
 void SPI_SSOutputCmd(SPI_TypeDef* SPIx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -362,7 +357,7 @@ void SPI_SSOutputCmd(SPI_TypeDef* SPIx, FunctionalState NewState)
 void SPI_DataSizeConfig(SPI_TypeDef* SPIx, u16 SPI_DataSize)
 {
   /* Check the parameters */
-  assert(IS_SPI_DATASIZE(SPI_DataSize));
+  assert_param(IS_SPI_DATASIZE(SPI_DataSize));
 
   /* Clear DFF bit */
   SPIx->CR1 &= (u16)~SPI_DataSize_16b;
@@ -396,7 +391,7 @@ void SPI_TransmitCRC(SPI_TypeDef* SPIx)
 void SPI_CalculateCRC(SPI_TypeDef* SPIx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -427,7 +422,7 @@ u16 SPI_GetCRC(SPI_TypeDef* SPIx, u8 SPI_CRC)
   u16 crcreg = 0;
 
   /* Check the parameters */
-  assert(IS_SPI_CRC(SPI_CRC));
+  assert_param(IS_SPI_CRC(SPI_CRC));
 
   if (SPI_CRC != SPI_CRC_Rx)
   {
@@ -473,7 +468,7 @@ u16 SPI_GetCRCPolynomial(SPI_TypeDef* SPIx)
 void SPI_BiDirectionalLineConfig(SPI_TypeDef* SPIx, u16 SPI_Direction)
 {
   /* Check the parameters */
-  assert(IS_SPI_DIRECTION(SPI_Direction));
+  assert_param(IS_SPI_DIRECTION(SPI_Direction));
 
   if (SPI_Direction == SPI_Direction_Tx)
   {
@@ -507,7 +502,7 @@ FlagStatus SPI_GetFlagStatus(SPI_TypeDef* SPIx, u16 SPI_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_SPI_GET_FLAG(SPI_FLAG));
+  assert_param(IS_SPI_GET_FLAG(SPI_FLAG));
 
   /* Check the status of the specified SPI flag */
   if ((SPIx->SR & SPI_FLAG) != (u16)RESET)
@@ -539,7 +534,7 @@ FlagStatus SPI_GetFlagStatus(SPI_TypeDef* SPIx, u16 SPI_FLAG)
 void SPI_ClearFlag(SPI_TypeDef* SPIx, u16 SPI_FLAG)
 {
   /* Check the parameters */
-  assert(IS_SPI_CLEAR_FLAG(SPI_FLAG));
+  assert_param(IS_SPI_CLEAR_FLAG(SPI_FLAG));
     
   /* SPI_FLAG_MODF flag clear */
   if(SPI_FLAG == SPI_FLAG_MODF)
@@ -582,7 +577,7 @@ ITStatus SPI_GetITStatus(SPI_TypeDef* SPIx, u8 SPI_IT)
   u16 itpos = 0, itmask = 0, enablestatus = 0;
 
   /* Check the parameters */
-  assert(IS_SPI_GET_IT(SPI_IT));
+  assert_param(IS_SPI_GET_IT(SPI_IT));
 
   /* Get the SPI IT index */
   itpos = (u16)((u16)0x01 << (SPI_IT & (u8)0x0F));
@@ -626,7 +621,7 @@ void SPI_ClearITPendingBit(SPI_TypeDef* SPIx, u8 SPI_IT)
   u16 itpos = 0;
 
   /* Check the parameters */
-  assert(IS_SPI_CLEAR_IT(SPI_IT));
+  assert_param(IS_SPI_CLEAR_IT(SPI_IT));
 
   /* SPI_IT_MODF pending bit clear */
   if(SPI_IT == SPI_IT_MODF)

@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_wwdg.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the WWDG firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -83,7 +78,7 @@ void WWDG_SetPrescaler(u32 WWDG_Prescaler)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_WWDG_PRESCALER(WWDG_Prescaler));
+  assert_param(IS_WWDG_PRESCALER(WWDG_Prescaler));
 
   /* Clear WDGTB[8:7] bits */
   tmpreg = WWDG->CFR & CFR_WDGTB_Mask;
@@ -109,7 +104,7 @@ void WWDG_SetWindowValue(u8 WindowValue)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_WWDG_WINDOW_VALUE(WindowValue));
+  assert_param(IS_WWDG_WINDOW_VALUE(WindowValue));
 
   /* Clear W[6:0] bits */
   tmpreg = WWDG->CFR & CFR_W_Mask;
@@ -144,7 +139,7 @@ void WWDG_EnableIT(void)
 void WWDG_SetCounter(u8 Counter)
 {
   /* Check the parameters */
-  assert(IS_WWDG_COUNTER(Counter));
+  assert_param(IS_WWDG_COUNTER(Counter));
 
   /* Write to T[6:0] bits to configure the counter value, no need to do
      a read-modify-write; writing a 0 to WDGA bit does nothing */
@@ -163,7 +158,7 @@ void WWDG_SetCounter(u8 Counter)
 void WWDG_Enable(u8 Counter)
 {
   /* Check the parameters */
-  assert(IS_WWDG_COUNTER(Counter));
+  assert_param(IS_WWDG_COUNTER(Counter));
 
   WWDG->CR = CR_WDGA_Set | Counter;
 }

@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_systick.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the SysTick firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -51,7 +46,7 @@
 void SysTick_CLKSourceConfig(u32 SysTick_CLKSource)
 {
   /* Check the parameters */
-  assert(IS_SYSTICK_CLK_SOURCE(SysTick_CLKSource));
+  assert_param(IS_SYSTICK_CLK_SOURCE(SysTick_CLKSource));
 
   if (SysTick_CLKSource == SysTick_CLKSource_HCLK)
   {
@@ -74,7 +69,7 @@ void SysTick_CLKSourceConfig(u32 SysTick_CLKSource)
 void SysTick_SetReload(u32 Reload)
 {
   /* Check the parameters */
-  assert(IS_SYSTICK_RELOAD(Reload));
+  assert_param(IS_SYSTICK_RELOAD(Reload));
 
   SysTick->LOAD = Reload;
 }
@@ -93,7 +88,7 @@ void SysTick_SetReload(u32 Reload)
 void SysTick_CounterCmd(u32 SysTick_Counter)
 {
   /* Check the parameters */
-  assert(IS_SYSTICK_COUNTER(SysTick_Counter));
+  assert_param(IS_SYSTICK_COUNTER(SysTick_Counter));
 
   if (SysTick_Counter == SysTick_Counter_Clear)
   {
@@ -123,7 +118,7 @@ void SysTick_CounterCmd(u32 SysTick_Counter)
 void SysTick_ITConfig(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -165,7 +160,7 @@ FlagStatus SysTick_GetFlagStatus(u8 SysTick_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_SYSTICK_FLAG(SysTick_FLAG));
+  assert_param(IS_SYSTICK_FLAG(SysTick_FLAG));
 
   /* Get the SysTick register index */
   tmp = SysTick_FLAG >> 5;

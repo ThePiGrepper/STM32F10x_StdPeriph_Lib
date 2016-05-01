@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_can.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the
 *                      CAN firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -96,13 +91,13 @@ typedef struct
                            (MODE == CAN_Mode_Silent) || (MODE == CAN_Mode_Silent_LoopBack))
 
 /* CAN synchronisation jump width */
-#define CAN_SJW_0tq                 ((u8)0x00)  /* 0 time quantum */
-#define CAN_SJW_1tq                 ((u8)0x01)  /* 1 time quantum */
-#define CAN_SJW_2tq                 ((u8)0x02)  /* 2 time quantum */
-#define CAN_SJW_3tq                 ((u8)0x03)  /* 3 time quantum */
+#define CAN_SJW_1tq                 ((u8)0x00)  /* 1 time quantum */
+#define CAN_SJW_2tq                 ((u8)0x01)  /* 2 time quantum */
+#define CAN_SJW_3tq                 ((u8)0x02)  /* 3 time quantum */
+#define CAN_SJW_4tq                 ((u8)0x03)  /* 4 time quantum */
 
-#define IS_CAN_SJW(SJW) ((SJW == CAN_SJW_0tq) || (SJW == CAN_SJW_1tq)|| \
-                         (SJW == CAN_SJW_2tq) || (SJW == CAN_SJW_3tq))
+#define IS_CAN_SJW(SJW) ((SJW == CAN_SJW_1tq) || (SJW == CAN_SJW_2tq)|| \
+                         (SJW == CAN_SJW_3tq) || (SJW == CAN_SJW_4tq))
 
 /* time quantum in bit segment 1 */
 #define CAN_BS1_1tq                 ((u8)0x00)  /* 1 time quantum */

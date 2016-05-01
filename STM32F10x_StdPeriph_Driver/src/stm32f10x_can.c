@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_can.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the CAN firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -113,17 +108,17 @@ u8 CAN_Init(CAN_InitTypeDef* CAN_InitStruct)
   u8 InitStatus = 0;
 
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_TTCM));
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_ABOM));
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_AWUM));
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_NART));
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_RFLM));
-  assert(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_TXFP));
-  assert(IS_CAN_MODE(CAN_InitStruct->CAN_Mode));
-  assert(IS_CAN_SJW(CAN_InitStruct->CAN_SJW));
-  assert(IS_CAN_BS1(CAN_InitStruct->CAN_BS1));
-  assert(IS_CAN_BS2(CAN_InitStruct->CAN_BS2));
-  assert(IS_CAN_PRESCALER(CAN_InitStruct->CAN_Prescaler));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_TTCM));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_ABOM));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_AWUM));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_NART));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_RFLM));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_InitStruct->CAN_TXFP));
+  assert_param(IS_CAN_MODE(CAN_InitStruct->CAN_Mode));
+  assert_param(IS_CAN_SJW(CAN_InitStruct->CAN_SJW));
+  assert_param(IS_CAN_BS1(CAN_InitStruct->CAN_BS1));
+  assert_param(IS_CAN_BS2(CAN_InitStruct->CAN_BS2));
+  assert_param(IS_CAN_PRESCALER(CAN_InitStruct->CAN_Prescaler));
 
   /* Request initialisation */
   CAN->MCR = CAN_MCR_INRQ;
@@ -230,11 +225,11 @@ void CAN_FilterInit(CAN_FilterInitTypeDef* CAN_FilterInitStruct)
   u16 FilterNumber_BitPos = 0;
 
   /* Check the parameters */
-  assert(IS_CAN_FILTER_NUMBER(CAN_FilterInitStruct->CAN_FilterNumber));
-  assert(IS_CAN_FILTER_MODE(CAN_FilterInitStruct->CAN_FilterMode));
-  assert(IS_CAN_FILTER_SCALE(CAN_FilterInitStruct->CAN_FilterScale));
-  assert(IS_CAN_FILTER_FIFO(CAN_FilterInitStruct->CAN_FilterFIFOAssignment));
-  assert(IS_FUNCTIONAL_STATE(CAN_FilterInitStruct->CAN_FilterActivation));
+  assert_param(IS_CAN_FILTER_NUMBER(CAN_FilterInitStruct->CAN_FilterNumber));
+  assert_param(IS_CAN_FILTER_MODE(CAN_FilterInitStruct->CAN_FilterMode));
+  assert_param(IS_CAN_FILTER_SCALE(CAN_FilterInitStruct->CAN_FilterScale));
+  assert_param(IS_CAN_FILTER_FIFO(CAN_FilterInitStruct->CAN_FilterFIFOAssignment));
+  assert_param(IS_FUNCTIONAL_STATE(CAN_FilterInitStruct->CAN_FilterActivation));
 
   FilterNumber_BitPos = 
   (u16)((u16)0x0001 << ((u16)CAN_FilterInitStruct->CAN_FilterNumber));
@@ -348,7 +343,7 @@ void CAN_StructInit(CAN_InitTypeDef* CAN_InitStruct)
   CAN_InitStruct->CAN_Mode = CAN_Mode_Normal;
 
   /* Initialize the CAN_SJW member */
-  CAN_InitStruct->CAN_SJW = CAN_SJW_0tq;
+  CAN_InitStruct->CAN_SJW = CAN_SJW_1tq;
 
   /* Initialize the CAN_BS1 member */
   CAN_InitStruct->CAN_BS1 = CAN_BS1_4tq;
@@ -378,8 +373,8 @@ void CAN_StructInit(CAN_InitTypeDef* CAN_InitStruct)
 void CAN_ITConfig(u32 CAN_IT, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_CAN_ITConfig(CAN_IT));
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_CAN_ITConfig(CAN_IT));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -407,11 +402,11 @@ u8 CAN_Transmit(CanTxMsg* TxMessage)
   u8 TransmitMailbox = 0;
 
   /* Check the parameters */
-  assert(IS_CAN_STDID(TxMessage->StdId));
-  assert(IS_CAN_EXTID(TxMessage->StdId));
-  assert(IS_CAN_IDTYPE(TxMessage->IDE));
-  assert(IS_CAN_RTR(TxMessage->RTR));
-  assert(IS_CAN_DLC(TxMessage->DLC));
+  assert_param(IS_CAN_STDID(TxMessage->StdId));
+  assert_param(IS_CAN_EXTID(TxMessage->StdId));
+  assert_param(IS_CAN_IDTYPE(TxMessage->IDE));
+  assert_param(IS_CAN_RTR(TxMessage->RTR));
+  assert_param(IS_CAN_DLC(TxMessage->DLC));
 
   /* Select one empty transmit mailbox */
   if ((CAN->TSR&CAN_TSR_TME0) == CAN_TSR_TME0)
@@ -477,10 +472,10 @@ u8 CAN_Transmit(CanTxMsg* TxMessage)
 u8 CAN_TransmitStatus(u8 TransmitMailbox)
 {
   /* RQCP, TXOK and TME bits */
-  u32 State = 0;
+  u8 State = 0;
 
   /* Check the parameters */
-  assert(IS_CAN_TRANSMITMAILBOX(TransmitMailbox));
+  assert_param(IS_CAN_TRANSMITMAILBOX(TransmitMailbox));
 
   switch (TransmitMailbox)
   {
@@ -530,7 +525,7 @@ u8 CAN_TransmitStatus(u8 TransmitMailbox)
 void CAN_CancelTransmit(u8 Mailbox)
 {
   /* Check the parameters */
-  assert(IS_CAN_TRANSMITMAILBOX(Mailbox));
+  assert_param(IS_CAN_TRANSMITMAILBOX(Mailbox));
 
   /* abort transmission */
   switch (Mailbox)
@@ -556,7 +551,7 @@ void CAN_CancelTransmit(u8 Mailbox)
 void CAN_FIFORelease(u8 FIFONumber)
 {
   /* Check the parameters */
-  assert(IS_CAN_FIFO(FIFONumber));
+  assert_param(IS_CAN_FIFO(FIFONumber));
 
   /* Release FIFO0 */
   if (FIFONumber == CAN_FIFO0)
@@ -582,7 +577,7 @@ u8 CAN_MessagePending(u8 FIFONumber)
   u8 MessagePending=0;
 
   /* Check the parameters */
-  assert(IS_CAN_FIFO(FIFONumber));
+  assert_param(IS_CAN_FIFO(FIFONumber));
 
   if (FIFONumber == CAN_FIFO0)
   {
@@ -610,7 +605,7 @@ u8 CAN_MessagePending(u8 FIFONumber)
 void CAN_Receive(u8 FIFONumber, CanRxMsg* RxMessage)
 {
   /* Check the parameters */
-  assert(IS_CAN_FIFO(FIFONumber));
+  assert_param(IS_CAN_FIFO(FIFONumber));
 
   /* Get the Id */
   RxMessage->StdId = (u32)0x000007FF & (CAN->sFIFOMailBox[FIFONumber].RIR >> 21);
@@ -707,7 +702,7 @@ FlagStatus CAN_GetFlagStatus(u32 CAN_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_CAN_FLAG(CAN_FLAG));
+  assert_param(IS_CAN_FLAG(CAN_FLAG));
 
   /* Check the status of the specified CAN flag */
   if ((CAN->ESR & CAN_FLAG) != (u32)RESET)
@@ -734,7 +729,7 @@ FlagStatus CAN_GetFlagStatus(u32 CAN_FLAG)
 void CAN_ClearFlag(u32 CAN_FLAG)
 {
   /* Check the parameters */
-  assert(IS_CAN_FLAG(CAN_FLAG));
+  assert_param(IS_CAN_FLAG(CAN_FLAG));
 
   /* Clear the selected CAN flags */
   CAN->ESR &= ~CAN_FLAG;
@@ -757,7 +752,7 @@ ITStatus CAN_GetITStatus(u32 CAN_IT)
   ITStatus pendingbitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_CAN_ITStatus(CAN_IT));
+  assert_param(IS_CAN_ITStatus(CAN_IT));
 
   switch (CAN_IT)
   {
@@ -817,7 +812,7 @@ ITStatus CAN_GetITStatus(u32 CAN_IT)
 void CAN_ClearITPendingBit(u32 CAN_IT)
 {
   /* Check the parameters */
-  assert(IS_CAN_ITStatus(CAN_IT));
+  assert_param(IS_CAN_ITStatus(CAN_IT));
 
   switch (CAN_IT)
   {

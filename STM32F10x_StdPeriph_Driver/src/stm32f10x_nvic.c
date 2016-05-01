@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_nvic.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the NVIC firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -23,7 +18,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define AIRC_VECTKEY_MASK    ((u32)0x05FA0000)
+#define AIRCR_VECTKEY_MASK    ((u32)0x05FA0000)
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -42,14 +37,14 @@ void NVIC_DeInit(void)
 {
   u32 index = 0;
   
-  NVIC->Disable[0] = 0xFFFFFFFF;
-  NVIC->Disable[1] = 0x000007FF;
-  NVIC->Clear[0] = 0xFFFFFFFF;
-  NVIC->Clear[1] = 0x000007FF;
+  NVIC->ICER[0] = 0xFFFFFFFF;
+  NVIC->ICER[1] = 0x000007FF;
+  NVIC->ICPR[0] = 0xFFFFFFFF;
+  NVIC->ICPR[1] = 0x000007FF;
   
   for(index = 0; index < 0x0B; index++)
   {
-     NVIC->Priority[index] = 0x00000000;
+     NVIC->IPR[index] = 0x00000000;
   } 
 }
 
@@ -65,19 +60,19 @@ void NVIC_SCBDeInit(void)
 {
   u32 index = 0x00;
   
-  SCB->IRQControlState = 0x0A000000;
-  SCB->ExceptionTableOffset = 0x00000000;
-  SCB->AIRC = AIRC_VECTKEY_MASK;
-  SCB->SysCtrl = 0x00000000;
-  SCB->ConfigCtrl = 0x00000000;
+  SCB->ICSR = 0x0A000000;
+  SCB->VTOR = 0x00000000;
+  SCB->AIRCR = AIRCR_VECTKEY_MASK;
+  SCB->SCR = 0x00000000;
+  SCB->CCR = 0x00000000;
   for(index = 0; index < 0x03; index++)
   {
-     SCB->SystemPriority[index] = 0;
+     SCB->SHPR[index] = 0;
   }
-  SCB->SysHandlerCtrl = 0x00000000;
-  SCB->ConfigFaultStatus = 0xFFFFFFFF;
-  SCB->HardFaultStatus = 0xFFFFFFFF;
-  SCB->DebugFaultStatus = 0xFFFFFFFF;
+  SCB->SHCSR = 0x00000000;
+  SCB->CFSR = 0xFFFFFFFF;
+  SCB->HFSR = 0xFFFFFFFF;
+  SCB->DFSR = 0xFFFFFFFF;
 }
 
 /*******************************************************************************
@@ -102,10 +97,10 @@ void NVIC_SCBDeInit(void)
 void NVIC_PriorityGroupConfig(u32 NVIC_PriorityGroup)
 {
   /* Check the parameters */
-  assert(IS_NVIC_PRIORITY_GROUP(NVIC_PriorityGroup));
+  assert_param(IS_NVIC_PRIORITY_GROUP(NVIC_PriorityGroup));
   
   /* Set the PRIGROUP[10:8] bits according to NVIC_PriorityGroup value */
-  SCB->AIRC = AIRC_VECTKEY_MASK | NVIC_PriorityGroup;
+  SCB->AIRCR = AIRCR_VECTKEY_MASK | NVIC_PriorityGroup;
 }
 
 /*******************************************************************************
@@ -124,15 +119,15 @@ void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct)
   u32 tmppre = 0, tmpsub = 0x0F;
 
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NVIC_InitStruct->NVIC_IRQChannelCmd));
-  assert(IS_NVIC_IRQ_CHANNEL(NVIC_InitStruct->NVIC_IRQChannel));
-  assert(IS_NVIC_PREEMPTION_PRIORITY(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority));  
-  assert(IS_NVIC_SUB_PRIORITY(NVIC_InitStruct->NVIC_IRQChannelSubPriority));
+  assert_param(IS_FUNCTIONAL_STATE(NVIC_InitStruct->NVIC_IRQChannelCmd));
+  assert_param(IS_NVIC_IRQ_CHANNEL(NVIC_InitStruct->NVIC_IRQChannel));
+  assert_param(IS_NVIC_PREEMPTION_PRIORITY(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority));  
+  assert_param(IS_NVIC_SUB_PRIORITY(NVIC_InitStruct->NVIC_IRQChannelSubPriority));
     
   if (NVIC_InitStruct->NVIC_IRQChannelCmd != DISABLE)
   {
     /* Compute the Corresponding IRQ Priority --------------------------------*/    
-    tmppriority = (0x700 - (SCB->AIRC & (u32)0x700))>> 0x08;
+    tmppriority = (0x700 - (SCB->AIRCR & (u32)0x700))>> 0x08;
     tmppre = (0x4 - tmppriority);
     tmpsub = tmpsub >> tmppriority;
     
@@ -142,22 +137,22 @@ void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct)
     tmppriority = tmppriority << 0x04;
     tmppriority = ((u32)tmppriority) << ((NVIC_InitStruct->NVIC_IRQChannel & (u8)0x03) * 0x08);
     
-    tmpreg = NVIC->Priority[(NVIC_InitStruct->NVIC_IRQChannel >> 0x02)];
+    tmpreg = NVIC->IPR[(NVIC_InitStruct->NVIC_IRQChannel >> 0x02)];
     tmpmask = (u32)0xFF << ((NVIC_InitStruct->NVIC_IRQChannel & (u8)0x03) * 0x08);
     tmpreg &= ~tmpmask;
     tmppriority &= tmpmask;  
     tmpreg |= tmppriority;
 
-    NVIC->Priority[(NVIC_InitStruct->NVIC_IRQChannel >> 0x02)] = tmpreg;
+    NVIC->IPR[(NVIC_InitStruct->NVIC_IRQChannel >> 0x02)] = tmpreg;
     
     /* Enable the Selected IRQ Channels --------------------------------------*/
-    NVIC->Enable[(NVIC_InitStruct->NVIC_IRQChannel >> 0x05)] =
+    NVIC->ISER[(NVIC_InitStruct->NVIC_IRQChannel >> 0x05)] =
       (u32)0x01 << (NVIC_InitStruct->NVIC_IRQChannel & (u8)0x1F);
   }
   else
   {
     /* Disable the Selected IRQ Channels -------------------------------------*/
-    NVIC->Disable[(NVIC_InitStruct->NVIC_IRQChannel >> 0x05)] =
+    NVIC->ICER[(NVIC_InitStruct->NVIC_IRQChannel >> 0x05)] =
       (u32)0x01 << (NVIC_InitStruct->NVIC_IRQChannel & (u8)0x1F);
   }
 }
@@ -238,7 +233,7 @@ void NVIC_RESETFAULTMASK(void)
 void NVIC_BASEPRICONFIG(u32 NewPriority)
 {
   /* Check the parameters */
-  assert(IS_NVIC_BASE_PRI(NewPriority));
+  assert_param(IS_NVIC_BASE_PRI(NewPriority));
   
   __BASEPRICONFIG(NewPriority << 0x04);
 }
@@ -264,7 +259,7 @@ u32 NVIC_GetBASEPRI(void)
 *******************************************************************************/
 u16 NVIC_GetCurrentPendingIRQChannel(void)
 {
-  return ((u16)((SCB->IRQControlState & (u32)0x003FF000) >> 0x0C));
+  return ((u16)((SCB->ICSR & (u32)0x003FF000) >> 0x0C));
 }
 
 /*******************************************************************************
@@ -281,11 +276,11 @@ ITStatus NVIC_GetIRQChannelPendingBitStatus(u8 NVIC_IRQChannel)
   u32 tmp = 0x00;
   
   /* Check the parameters */
-  assert(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
+  assert_param(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
   
   tmp = ((u32)0x01 << (NVIC_IRQChannel & (u32)0x1F));
 
-  if (((NVIC->Set[(NVIC_IRQChannel >> 0x05)]) & tmp) == tmp)
+  if (((NVIC->ISPR[(NVIC_IRQChannel >> 0x05)]) & tmp) == tmp)
   {
     pendingirqstatus = SET;
   }
@@ -306,7 +301,7 @@ ITStatus NVIC_GetIRQChannelPendingBitStatus(u8 NVIC_IRQChannel)
 void NVIC_SetIRQChannelPendingBit(u8 NVIC_IRQChannel)
 {
   /* Check the parameters */
-  assert(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
+  assert_param(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
   
   *(u32*)0xE000EF00 = (u32)NVIC_IRQChannel;
 }
@@ -321,9 +316,9 @@ void NVIC_SetIRQChannelPendingBit(u8 NVIC_IRQChannel)
 void NVIC_ClearIRQChannelPendingBit(u8 NVIC_IRQChannel)
 {
   /* Check the parameters */
-  assert(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
+  assert_param(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
   
-  NVIC->Clear[(NVIC_IRQChannel >> 0x05)] = (u32)0x01 << (NVIC_IRQChannel & (u32)0x1F);
+  NVIC->ICPR[(NVIC_IRQChannel >> 0x05)] = (u32)0x01 << (NVIC_IRQChannel & (u32)0x1F);
 }
 
 /*******************************************************************************
@@ -336,7 +331,7 @@ void NVIC_ClearIRQChannelPendingBit(u8 NVIC_IRQChannel)
 *******************************************************************************/
 u16 NVIC_GetCurrentActiveHandler(void)
 {
-  return ((u16)(SCB->IRQControlState & (u32)0x3FF));
+  return ((u16)(SCB->ICSR & (u32)0x3FF));
 }
 
 /*******************************************************************************
@@ -353,11 +348,11 @@ ITStatus NVIC_GetIRQChannelActiveBitStatus(u8 NVIC_IRQChannel)
   u32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
+  assert_param(IS_NVIC_IRQ_CHANNEL(NVIC_IRQChannel));
   
   tmp = ((u32)0x01 << (NVIC_IRQChannel & (u32)0x1F));
 
-  if (((NVIC->Active[(NVIC_IRQChannel >> 0x05)]) & tmp) == tmp )
+  if (((NVIC->IABR[(NVIC_IRQChannel >> 0x05)]) & tmp) == tmp )
   {
     activeirqstatus = SET;
   }
@@ -397,10 +392,10 @@ u32 NVIC_GetCPUID(void)
 void NVIC_SetVectorTable(u32 NVIC_VectTab, u32 Offset)
 { 
   /* Check the parameters */
-  assert(IS_NVIC_VECTTAB(NVIC_VectTab));
-  assert(IS_NVIC_OFFSET(Offset));  
+  assert_param(IS_NVIC_VECTTAB(NVIC_VectTab));
+  assert_param(IS_NVIC_OFFSET(Offset));  
    
-  SCB->ExceptionTableOffset = NVIC_VectTab | (Offset & (u32)0x1FFFFF80);
+  SCB->VTOR = NVIC_VectTab | (Offset & (u32)0x1FFFFF80);
 }
 
 /*******************************************************************************
@@ -412,7 +407,7 @@ void NVIC_SetVectorTable(u32 NVIC_VectTab, u32 Offset)
 *******************************************************************************/
 void NVIC_GenerateSystemReset(void)
 {
-  SCB->AIRC = AIRC_VECTKEY_MASK | (u32)0x04;
+  SCB->AIRCR = AIRCR_VECTKEY_MASK | (u32)0x04;
 }
 
 /*******************************************************************************
@@ -424,7 +419,7 @@ void NVIC_GenerateSystemReset(void)
 *******************************************************************************/
 void NVIC_GenerateCoreReset(void)
 {
-  SCB->AIRC = AIRC_VECTKEY_MASK | (u32)0x01;
+  SCB->AIRCR = AIRCR_VECTKEY_MASK | (u32)0x01;
 }
 
 /*******************************************************************************
@@ -444,16 +439,16 @@ void NVIC_GenerateCoreReset(void)
 void NVIC_SystemLPConfig(u8 LowPowerMode, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_NVIC_LP(LowPowerMode));
-  assert(IS_FUNCTIONAL_STATE(NewState));  
+  assert_param(IS_NVIC_LP(LowPowerMode));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));  
   
   if (NewState != DISABLE)
   {
-    SCB->SysCtrl |= LowPowerMode;
+    SCB->SCR |= LowPowerMode;
   }
   else
   {
-    SCB->SysCtrl &= (u32)(~(u32)LowPowerMode);
+    SCB->SCR &= (u32)(~(u32)LowPowerMode);
   }
 }
 
@@ -476,18 +471,18 @@ void NVIC_SystemHandlerConfig(u32 SystemHandler, FunctionalState NewState)
   u32 tmpreg = 0x00;
 
   /* Check the parameters */
-  assert(IS_CONFIG_SYSTEM_HANDLER(SystemHandler));
-  assert(IS_FUNCTIONAL_STATE(NewState)); 
+  assert_param(IS_CONFIG_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_FUNCTIONAL_STATE(NewState)); 
   
   tmpreg =  (u32)0x01 << (SystemHandler & (u32)0x1F);
 
   if (NewState != DISABLE)
   {
-    SCB->SysHandlerCtrl |= tmpreg;
+    SCB->SHCSR |= tmpreg;
   }
   else
   {
-    SCB->SysHandlerCtrl &= ~tmpreg;
+    SCB->SHCSR &= ~tmpreg;
   }
 }
 
@@ -518,11 +513,11 @@ void NVIC_SystemHandlerPriorityConfig(u32 SystemHandler, u8 SystemHandlerPreempt
   u32 tmppriority = 0x00;
 
   /* Check the parameters */
-  assert(IS_PRIORITY_SYSTEM_HANDLER(SystemHandler));
-  assert(IS_NVIC_PREEMPTION_PRIORITY(SystemHandlerPreemptionPriority));  
-  assert(IS_NVIC_SUB_PRIORITY(SystemHandlerSubPriority));
+  assert_param(IS_PRIORITY_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_NVIC_PREEMPTION_PRIORITY(SystemHandlerPreemptionPriority));  
+  assert_param(IS_NVIC_SUB_PRIORITY(SystemHandlerSubPriority));
     
-  tmppriority = (0x700 - (SCB->AIRC & (u32)0x700))>> 0x08;
+  tmppriority = (0x700 - (SCB->AIRCR & (u32)0x700))>> 0x08;
   tmp1 = (0x4 - tmppriority);
   tmp2 = tmp2 >> tmppriority;
     
@@ -536,8 +531,8 @@ void NVIC_SystemHandlerPriorityConfig(u32 SystemHandler, u8 SystemHandlerPreempt
   tmppriority = tmppriority << (tmp2 * 0x08);
   handlermask = (u32)0xFF << (tmp2 * 0x08);
   
-  SCB->SystemPriority[tmp1] &= ~handlermask;
-  SCB->SystemPriority[tmp1] |= tmppriority;
+  SCB->SHPR[tmp1] &= ~handlermask;
+  SCB->SHPR[tmp1] |= tmppriority;
 }
 
 /*******************************************************************************
@@ -559,14 +554,14 @@ ITStatus NVIC_GetSystemHandlerPendingBitStatus(u32 SystemHandler)
   u32 tmp = 0x00, tmppos = 0x00;
 
   /* Check the parameters */
-  assert(IS_GET_PENDING_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_GET_PENDING_SYSTEM_HANDLER(SystemHandler));
   
   tmppos = (SystemHandler >> 0x0A);
   tmppos &= (u32)0x0F;
 
   tmppos = (u32)0x01 << tmppos;
 
-  tmp = SCB->SysHandlerCtrl & tmppos;
+  tmp = SCB->SHCSR & tmppos;
 
   if (tmp == tmppos)
   {
@@ -596,12 +591,12 @@ void NVIC_SetSystemHandlerPendingBit(u32 SystemHandler)
   u32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_SET_PENDING_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_SET_PENDING_SYSTEM_HANDLER(SystemHandler));
   
   /* Get the System Handler pending bit position */
   tmp = SystemHandler & (u32)0x1F;
   /* Set the corresponding System Handler pending bit */
-  SCB->IRQControlState |= ((u32)0x01 << tmp);
+  SCB->ICSR |= ((u32)0x01 << tmp);
 }
 
 /*******************************************************************************
@@ -620,12 +615,12 @@ void NVIC_ClearSystemHandlerPendingBit(u32 SystemHandler)
   u32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_CLEAR_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_CLEAR_SYSTEM_HANDLER(SystemHandler));
   
   /* Get the System Handler pending bit position */
   tmp = SystemHandler & (u32)0x1F;
   /* Clear the corresponding System Handler pending bit */
-  SCB->IRQControlState |= ((u32)0x01 << (tmp - 0x01));
+  SCB->ICSR |= ((u32)0x01 << (tmp - 0x01));
 }
 
 /*******************************************************************************
@@ -652,13 +647,13 @@ ITStatus NVIC_GetSystemHandlerActiveBitStatus(u32 SystemHandler)
   u32 tmp = 0x00, tmppos = 0x00;
 
   /* Check the parameters */
-  assert(IS_GET_ACTIVE_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_GET_ACTIVE_SYSTEM_HANDLER(SystemHandler));
   
   tmppos = (SystemHandler >> 0x0E) & (u32)0x0F;
 
   tmppos = (u32)0x01 << tmppos;
 
-  tmp = SCB->SysHandlerCtrl & tmppos;
+  tmp = SCB->SHCSR & tmppos;
 
   if (tmp == tmppos)
   {
@@ -691,18 +686,18 @@ u32 NVIC_GetFaultHandlerSources(u32 SystemHandler)
   u32 tmpreg = 0x00, tmppos = 0x00;
 
   /* Check the parameters */
-  assert(IS_FAULT_SOURCE_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_FAULT_SOURCE_SYSTEM_HANDLER(SystemHandler));
   
   tmpreg = (SystemHandler >> 0x12) & (u32)0x03;
   tmppos = (SystemHandler >> 0x14) & (u32)0x03;
 
   if (tmpreg == 0x00)
   {
-    faultsources = SCB->HardFaultStatus;
+    faultsources = SCB->HFSR;
   }
   else if (tmpreg == 0x01)
   {
-    faultsources = SCB->ConfigFaultStatus >> (tmppos * 0x08);
+    faultsources = SCB->CFSR >> (tmppos * 0x08);
     if (tmppos != 0x02)
     {
       faultsources &= (u32)0x0F;
@@ -714,7 +709,7 @@ u32 NVIC_GetFaultHandlerSources(u32 SystemHandler)
   }
   else
   {
-    faultsources = SCB->DebugFaultStatus;
+    faultsources = SCB->DFSR;
   }
   return faultsources;
 }
@@ -737,17 +732,17 @@ u32 NVIC_GetFaultAddress(u32 SystemHandler)
   u32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_FAULT_ADDRESS_SYSTEM_HANDLER(SystemHandler));
+  assert_param(IS_FAULT_ADDRESS_SYSTEM_HANDLER(SystemHandler));
   
   tmp = (SystemHandler >> 0x16) & (u32)0x01;
 
   if (tmp == 0x00)
   {
-    faultaddress = SCB->MemoryManageFaultAddr;
+    faultaddress = SCB->MMFAR;
   }
   else
   {
-    faultaddress = SCB->BusFaultAddr;
+    faultaddress = SCB->BFAR;
   }
   return faultaddress;
 }

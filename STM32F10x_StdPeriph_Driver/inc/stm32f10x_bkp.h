@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_bkp.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the
 *                      BKP firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -28,24 +23,35 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* Tamper Pin active level*/
-#define BKP_TamperPinLevel_High    ((u16)0x0000)
-#define BKP_TamperPinLevel_Low     ((u16)0x0001)
+/* Tamper Pin active level */
+#define BKP_TamperPinLevel_High           ((u16)0x0000)
+#define BKP_TamperPinLevel_Low            ((u16)0x0001)
 
 #define IS_BKP_TAMPER_PIN_LEVEL(LEVEL) ((LEVEL == BKP_TamperPinLevel_High) || \
                                         (LEVEL == BKP_TamperPinLevel_Low))
 
+/* RTC output source to output on the Tamper pin */
+#define BKP_RTCOutputSource_None          ((u16)0x0000)
+#define BKP_RTCOutputSource_CalibClock    ((u16)0x0080)
+#define BKP_RTCOutputSource_Alarm         ((u16)0x0100)
+#define BKP_RTCOutputSource_Second        ((u16)0x0300)
+
+#define IS_BKP_RTC_OUTPUT_SOURCE(SOURCE) ((SOURCE == BKP_RTCOutputSource_None) || \
+                                          (SOURCE == BKP_RTCOutputSource_CalibClock) || \
+                                          (SOURCE == BKP_RTCOutputSource_Alarm) || \
+                                          (SOURCE == BKP_RTCOutputSource_Second))
+
 /* Data Backup Register */
-#define BKP_DR1                    ((u16)0x0004)
-#define BKP_DR2                    ((u16)0x0008)
-#define BKP_DR3                    ((u16)0x000C)
-#define BKP_DR4                    ((u16)0x0010)
-#define BKP_DR5                    ((u16)0x0014)
-#define BKP_DR6                    ((u16)0x0018)
-#define BKP_DR7                    ((u16)0x001C)
-#define BKP_DR8                    ((u16)0x0020)
-#define BKP_DR9                    ((u16)0x0024)
-#define BKP_DR10                   ((u16)0x0028)
+#define BKP_DR1                           ((u16)0x0004)
+#define BKP_DR2                           ((u16)0x0008)
+#define BKP_DR3                           ((u16)0x000C)
+#define BKP_DR4                           ((u16)0x0010)
+#define BKP_DR5                           ((u16)0x0014)
+#define BKP_DR6                           ((u16)0x0018)
+#define BKP_DR7                           ((u16)0x001C)
+#define BKP_DR8                           ((u16)0x0020)
+#define BKP_DR9                           ((u16)0x0024)
+#define BKP_DR10                          ((u16)0x0028)
 
 #define IS_BKP_DR(DR) ((DR == BKP_DR1) ||  (DR == BKP_DR2) || (DR == BKP_DR3) || \
                        (DR == BKP_DR4) ||  (DR == BKP_DR5) || (DR == BKP_DR6) || \
@@ -60,7 +66,7 @@ void BKP_DeInit(void);
 void BKP_TamperPinLevelConfig(u16 BKP_TamperPinLevel);
 void BKP_TamperPinCmd(FunctionalState NewState);
 void BKP_ITConfig(FunctionalState NewState);
-void BKP_RTCCalibrationClockOutputCmd(FunctionalState NewState);
+void BKP_RTCOutputConfig(u16 BKP_RTCOutputSource);
 void BKP_SetRTCCalibrationValue(u8 CalibrationValue);
 void BKP_WriteBackupRegister(u16 BKP_DR, u16 Data);
 u16 BKP_ReadBackupRegister(u16 BKP_DR);

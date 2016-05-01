@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_bkp.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the BKP firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -26,12 +21,6 @@
 /* Private define ------------------------------------------------------------*/
 /* ------------ BKP registers bit address in the alias region ----------- */
 #define BKP_OFFSET        (BKP_BASE - PERIPH_BASE)
-
-/* --- RTCCR Register ---*/
-/* Alias word address of CCO bit */
-#define RTCCR_OFFSET      (BKP_OFFSET + 0x2C)
-#define CCO_BitNumber     0x07
-#define RTCCR_CCO_BB      (PERIPH_BB_BASE + (RTCCR_OFFSET * 32) + (CCO_BitNumber * 4))
 
 /* --- CR Register ---*/
 /* Alias word address of TPAL bit */
@@ -61,6 +50,7 @@
 /* ---------------------- BKP registers bit mask ------------------------ */
 /* RTCCR register bit mask */
 #define RTCCR_CAL_Mask    ((u16)0xFF80)
+#define RTCCR_Mask        ((u16)0xFC7F)
 
 /* CSR register bit mask */
 #define CSR_CTE_Set       ((u16)0x0001)
@@ -98,7 +88,7 @@ void BKP_DeInit(void)
 void BKP_TamperPinLevelConfig(u16 BKP_TamperPinLevel)
 {
   /* Check the parameters */
-  assert(IS_BKP_TAMPER_PIN_LEVEL(BKP_TamperPinLevel));
+  assert_param(IS_BKP_TAMPER_PIN_LEVEL(BKP_TamperPinLevel));
 
   *(vu32 *) CR_TPAL_BB = BKP_TamperPinLevel;
 }
@@ -114,7 +104,7 @@ void BKP_TamperPinLevelConfig(u16 BKP_TamperPinLevel)
 void BKP_TamperPinCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   *(vu32 *) CR_TPE_BB = (u32)NewState;
 }
@@ -130,25 +120,43 @@ void BKP_TamperPinCmd(FunctionalState NewState)
 void BKP_ITConfig(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   *(vu32 *) CSR_TPIE_BB = (u32)NewState;
 }
 
 /*******************************************************************************
-* Function Name  : BKP_RTCCalibrationClockOutputCmd
-* Description    : Enables or disables the output of the Calibration Clock.
-* Input          : - NewState: new state of the Calibration Clock output.
-*                    This parameter can be: ENABLE or DISABLE.
+* Function Name  : BKP_RTCOutputConfig
+* Description    : Select the RTC output source to output on the Tamper pin.
+* Input          : - BKP_RTCOutputSource: specifies the RTC output source.
+*                    This parameter can be one of the following values:
+*                       - BKP_RTCOutputSource_None: no RTC output on the Tamper pin.
+*                       - BKP_RTCOutputSource_CalibClock: output the RTC clock
+*                         with frequency divided by 64 on the Tamper pin.
+*                       - BKP_RTCOutputSource_Alarm: output the RTC Alarm pulse 
+*                         signal on the Tamper pin.
+*                       - BKP_RTCOutputSource_Second: output the RTC Second pulse 
+*                         signal on the Tamper pin.  
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void BKP_RTCCalibrationClockOutputCmd(FunctionalState NewState)
+void BKP_RTCOutputConfig(u16 BKP_RTCOutputSource)
 {
-  /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  u16 tmpreg = 0;
 
-  *(vu32 *) RTCCR_CCO_BB = (u32)NewState;
+  /* Check the parameters */
+  assert_param(IS_BKP_RTC_OUTPUT_SOURCE(BKP_RTCOutputSource));
+
+  tmpreg = BKP->RTCCR;
+
+  /* Clear CCO, ASOE and ASOS bits */
+  tmpreg &= RTCCR_Mask;
+  
+  /* Set CCO, ASOE and ASOS bits according to BKP_RTCOutputSource value */
+  tmpreg |= BKP_RTCOutputSource;
+
+  /* Store the new value */
+  BKP->RTCCR = tmpreg;
 }
 
 /*******************************************************************************
@@ -164,7 +172,7 @@ void BKP_SetRTCCalibrationValue(u8 CalibrationValue)
   u16 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_BKP_CALIBRATION_VALUE(CalibrationValue));
+  assert_param(IS_BKP_CALIBRATION_VALUE(CalibrationValue));
 
   tmpreg = BKP->RTCCR;
 
@@ -190,7 +198,7 @@ void BKP_SetRTCCalibrationValue(u8 CalibrationValue)
 void BKP_WriteBackupRegister(u16 BKP_DR, u16 Data)
 {
   /* Check the parameters */
-  assert(IS_BKP_DR(BKP_DR));
+  assert_param(IS_BKP_DR(BKP_DR));
 
   *(vu16 *) (BKP_BASE + BKP_DR) = Data;
 }
@@ -206,7 +214,7 @@ void BKP_WriteBackupRegister(u16 BKP_DR, u16 Data)
 u16 BKP_ReadBackupRegister(u16 BKP_DR)
 {
   /* Check the parameters */
-  assert(IS_BKP_DR(BKP_DR));
+  assert_param(IS_BKP_DR(BKP_DR));
 
   return (*(vu16 *) (BKP_BASE + BKP_DR));
 }

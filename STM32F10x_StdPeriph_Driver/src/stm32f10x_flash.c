@@ -1,11 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_flash.c
 * Author             : MCD Application Team
-* Date First Issued  : 05/21/2007
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the FLASH firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -88,7 +86,7 @@ static void delay(void);
 void FLASH_SetLatency(u32 FLASH_Latency)
 {
   /* Check the parameters */
-  assert(IS_FLASH_LATENCY(FLASH_Latency));
+  assert_param(IS_FLASH_LATENCY(FLASH_Latency));
   
   /* Sets the Latency value */
   FLASH->ACR &= ACR_LATENCY_Mask;
@@ -108,7 +106,7 @@ void FLASH_SetLatency(u32 FLASH_Latency)
 void FLASH_HalfCycleAccessCmd(u32 FLASH_HalfCycleAccess)
 {
   /* Check the parameters */
-  assert(IS_FLASH_HALFCYCLEACCESS_STATE(FLASH_HalfCycleAccess));
+  assert_param(IS_FLASH_HALFCYCLEACCESS_STATE(FLASH_HalfCycleAccess));
   
   /* Enable or disable the Half cycle access */
   FLASH->ACR &= ACR_HLFCYA_Mask;
@@ -128,7 +126,7 @@ void FLASH_HalfCycleAccessCmd(u32 FLASH_HalfCycleAccess)
 void FLASH_PrefetchBufferCmd(u32 FLASH_PrefetchBuffer)
 {
   /* Check the parameters */
-  assert(IS_FLASH_PREFETCHBUFFER_STATE(FLASH_PrefetchBuffer));
+  assert_param(IS_FLASH_PREFETCHBUFFER_STATE(FLASH_PrefetchBuffer));
   
   /* Enable or disable the Prefetch Buffer */
   FLASH->ACR &= ACR_PRFTBE_Mask;
@@ -177,7 +175,7 @@ FLASH_Status FLASH_ErasePage(u32 Page_Address)
   FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
-  assert(IS_FLASH_ADDRESS(Page_Address));
+  assert_param(IS_FLASH_ADDRESS(Page_Address));
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(EraseTimeout);
@@ -314,7 +312,7 @@ FLASH_Status FLASH_ProgramWord(u32 Address, u32 Data)
   FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
-  assert(IS_FLASH_ADDRESS(Address));
+  assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
@@ -373,7 +371,7 @@ FLASH_Status FLASH_ProgramHalfWord(u32 Address, u16 Data)
   FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
-  assert(IS_FLASH_ADDRESS(Address));
+  assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
@@ -413,7 +411,7 @@ FLASH_Status FLASH_ProgramOptionByteData(u32 Address, u8 Data)
   FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
-  assert(IS_OB_DATA_ADDRESS(Address));
+  assert_param(IS_OB_DATA_ADDRESS(Address));
 
   status = FLASH_WaitForLastOperation(ProgramTimeout);
 
@@ -460,7 +458,7 @@ FLASH_Status FLASH_EnableWriteProtection(u32 FLASH_Pages)
   FLASH_Status status = FLASH_COMPLETE;
   
   /* Check the parameters */
-  assert(IS_FLASH_WRPROT_PAGE(FLASH_Pages));
+  assert_param(IS_FLASH_WRPROT_PAGE(FLASH_Pages));
   
   FLASH_Pages = (u32)(~FLASH_Pages);
   WRP0_Data = (vu16)(FLASH_Pages & WRP0_Mask);
@@ -521,7 +519,10 @@ FLASH_Status FLASH_EnableWriteProtection(u32 FLASH_Pages)
 
 /*******************************************************************************
 * Function Name  : FLASH_ReadOutProtection
-* Description    : Enables or disables the read out protection
+* Description    : Enables or disables the read out protection.
+*                  If the user has already programmed the other option bytes before 
+*                  calling this function, he must re-program them since this 
+*                  function erases all option bytes.
 * Input          : - Newstate: new state of the ReadOut Protection.
 *                    This parameter can be: ENABLE or DISABLE.
 * Output         : None
@@ -534,7 +535,7 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
   FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   status = FLASH_WaitForLastOperation(EraseTimeout);
 
@@ -615,9 +616,9 @@ FLASH_Status FLASH_UserOptionByteConfig(u16 OB_IWDG, u16 OB_STOP, u16 OB_STDBY)
   FLASH_Status status = FLASH_COMPLETE; 
 
   /* Check the parameters */
-  assert(IS_OB_IWDG_SOURCE(OB_IWDG));
-  assert(IS_OB_STOP_SOURCE(OB_STOP));
-  assert(IS_OB_STDBY_SOURCE(OB_STDBY));
+  assert_param(IS_OB_IWDG_SOURCE(OB_IWDG));
+  assert_param(IS_OB_STOP_SOURCE(OB_STOP));
+  assert_param(IS_OB_STDBY_SOURCE(OB_STDBY));
 
   /* Authorize the small information block programming */
   FLASH->OPTKEYR = FLASH_KEY1;
@@ -733,8 +734,8 @@ FlagStatus FLASH_GetPrefetchBufferStatus(void)
 void FLASH_ITConfig(u16 FLASH_IT, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FLASH_IT(FLASH_IT)); 
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FLASH_IT(FLASH_IT)); 
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if(NewState != DISABLE)
   {
@@ -766,7 +767,7 @@ FlagStatus FLASH_GetFlagStatus(u16 FLASH_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_FLASH_GET_FLAG(FLASH_FLAG)) ;
+  assert_param(IS_FLASH_GET_FLAG(FLASH_FLAG)) ;
 
   if(FLASH_FLAG == FLASH_FLAG_OPTERR) 
   {
@@ -809,7 +810,7 @@ FlagStatus FLASH_GetFlagStatus(u16 FLASH_FLAG)
 void FLASH_ClearFlag(u16 FLASH_FLAG)
 {
   /* Check the parameters */
-  assert(IS_FLASH_CLEAR_FLAG(FLASH_FLAG)) ;
+  assert_param(IS_FLASH_CLEAR_FLAG(FLASH_FLAG)) ;
   
   /* Clear the flags */
   FLASH->SR = FLASH_FLAG;

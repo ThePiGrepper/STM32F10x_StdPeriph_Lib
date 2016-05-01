@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_pwr.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the PWR firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -86,7 +81,7 @@ void PWR_DeInit(void)
 void PWR_BackupAccessCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   *(vu32 *) CR_DBP_BB = (u32)NewState;
 }
@@ -102,7 +97,7 @@ void PWR_BackupAccessCmd(FunctionalState NewState)
 void PWR_PVDCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   *(vu32 *) CR_PVDE_BB = (u32)NewState;
 }
@@ -129,7 +124,7 @@ void PWR_PVDLevelConfig(u32 PWR_PVDLevel)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_PWR_PVD_LEVEL(PWR_PVDLevel));
+  assert_param(IS_PWR_PVD_LEVEL(PWR_PVDLevel));
 
   tmpreg = PWR->CR;
 
@@ -154,7 +149,7 @@ void PWR_PVDLevelConfig(u32 PWR_PVDLevel)
 void PWR_WakeUpPinCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   *(vu32 *) CSR_EWUP_BB = (u32)NewState;
 }
@@ -180,8 +175,8 @@ void PWR_EnterSTOPMode(u32 PWR_Regulator, u8 PWR_STOPEntry)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_PWR_REGULATOR(PWR_Regulator));
-  assert(IS_PWR_STOP_ENTRY(PWR_STOPEntry));
+  assert_param(IS_PWR_REGULATOR(PWR_Regulator));
+  assert_param(IS_PWR_STOP_ENTRY(PWR_STOPEntry));
   
   /* Select the regulator state in STOP mode ---------------------------------*/
   tmpreg = PWR->CR;
@@ -249,7 +244,7 @@ FlagStatus PWR_GetFlagStatus(u32 PWR_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_PWR_GET_FLAG(PWR_FLAG));
+  assert_param(IS_PWR_GET_FLAG(PWR_FLAG));
   
   if ((PWR->CSR & PWR_FLAG) != (u32)RESET)
   {
@@ -277,7 +272,7 @@ FlagStatus PWR_GetFlagStatus(u32 PWR_FLAG)
 void PWR_ClearFlag(u32 PWR_FLAG)
 {
   /* Check the parameters */
-  assert(IS_PWR_CLEAR_FLAG(PWR_FLAG));
+  assert_param(IS_PWR_CLEAR_FLAG(PWR_FLAG));
          
   PWR->CR |=  PWR_FLAG << 2;
 }

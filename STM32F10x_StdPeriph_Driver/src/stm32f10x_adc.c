@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_adc.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the ADC firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -164,12 +159,12 @@ void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct)
   u8 tmpreg2 = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_MODE(ADC_InitStruct->ADC_Mode));
-  assert(IS_FUNCTIONAL_STATE(ADC_InitStruct->ADC_ScanConvMode));
-  assert(IS_FUNCTIONAL_STATE(ADC_InitStruct->ADC_ContinuousConvMode));  		    
-  assert(IS_ADC_EXT_TRIG(ADC_InitStruct->ADC_ExternalTrigConv));   
-  assert(IS_ADC_DATA_ALIGN(ADC_InitStruct->ADC_DataAlign)); 
-  assert(IS_ADC_REGULAR_LENGTH(ADC_InitStruct->ADC_NbrOfChannel));
+  assert_param(IS_ADC_MODE(ADC_InitStruct->ADC_Mode));
+  assert_param(IS_FUNCTIONAL_STATE(ADC_InitStruct->ADC_ScanConvMode));
+  assert_param(IS_FUNCTIONAL_STATE(ADC_InitStruct->ADC_ContinuousConvMode));  		    
+  assert_param(IS_ADC_EXT_TRIG(ADC_InitStruct->ADC_ExternalTrigConv));   
+  assert_param(IS_ADC_DATA_ALIGN(ADC_InitStruct->ADC_DataAlign)); 
+  assert_param(IS_ADC_REGULAR_LENGTH(ADC_InitStruct->ADC_NbrOfChannel));
 
   /*---------------------------- ADCx CR1 Configuration -----------------*/
   /* Get the ADCx CR1 value */
@@ -252,7 +247,7 @@ void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)
 void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -278,7 +273,7 @@ void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -312,8 +307,8 @@ void ADC_ITConfig(ADC_TypeDef* ADCx, u16 ADC_IT, FunctionalState NewState)
   u8 itmask = 0;
 
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
-  assert(IS_ADC_IT(ADC_IT));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_ADC_IT(ADC_IT));
 
   /* Get the ADC IT index */
   itmask = (u8)ADC_IT;
@@ -420,7 +415,7 @@ FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef* ADCx)
 void ADC_SoftwareStartConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -478,7 +473,7 @@ void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, u8 Number)
   u8 tmpreg2 = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_REGULAR_DISC_NUMBER(Number));
+  assert_param(IS_ADC_REGULAR_DISC_NUMBER(Number));
 
   /* Get the old register value */
   tmpreg1 = ADCx->CR1;
@@ -505,7 +500,7 @@ void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, u8 Number)
 void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -565,9 +560,9 @@ void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, u8 ADC_Channel, u8 Rank, u8 ADC
   u32 tmpreg1 = 0, tmpreg2 = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_CHANNEL(ADC_Channel));
-  assert(IS_ADC_REGULAR_RANK(Rank));
-  assert(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
+  assert_param(IS_ADC_CHANNEL(ADC_Channel));
+  assert_param(IS_ADC_REGULAR_RANK(Rank));
+  assert_param(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
 
   /* if ADC_Channel_10 ... ADC_Channel_17 is selected */
   if (ADC_Channel > ADC_Channel_9)
@@ -663,7 +658,7 @@ void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, u8 ADC_Channel, u8 Rank, u8 ADC
 void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -716,7 +711,7 @@ u32 ADC_GetDualModeConversionValue(void)
 void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -744,7 +739,7 @@ void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 void ADC_InjectedDiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -789,7 +784,7 @@ void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, u32 ADC_ExternalTrigI
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_EXT_INJEC_TRIG(ADC_ExternalTrigInjecConv));
+  assert_param(IS_ADC_EXT_INJEC_TRIG(ADC_ExternalTrigInjecConv));
 
   /* Get the old register value */
   tmpreg = ADCx->CR2;
@@ -815,7 +810,7 @@ void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, u32 ADC_ExternalTrigI
 void ADC_ExternalTrigInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -843,7 +838,7 @@ void ADC_ExternalTrigInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState
 void ADC_SoftwareStartInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -932,9 +927,9 @@ void ADC_InjectedChannelConfig(ADC_TypeDef* ADCx, u8 ADC_Channel, u8 Rank, u8 AD
   u8 tmpreg3 = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_CHANNEL(ADC_Channel));
-  assert(IS_ADC_INJECTED_RANK(Rank));
-  assert(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
+  assert_param(IS_ADC_CHANNEL(ADC_Channel));
+  assert_param(IS_ADC_INJECTED_RANK(Rank));
+  assert_param(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
 
   /* if ADC_Channel_10 ... ADC_Channel_17 is selected */
   if (ADC_Channel > ADC_Channel_9)
@@ -1000,7 +995,7 @@ void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, u8 Length)
   u8 tmpreg2 = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_INJECTED_LENGTH(Length));
+  assert_param(IS_ADC_INJECTED_LENGTH(Length));
   
   /* Get the old register value */
   tmpreg1 = ADCx->JSQR;
@@ -1032,8 +1027,8 @@ void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, u8 Length)
 void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, u8 ADC_InjectedChannel, u16 Offset)
 {
   /* Check the parameters */
-  assert(IS_ADC_INJECTED_CHANNEL(ADC_InjectedChannel));
-  assert(IS_ADC_OFFSET(Offset));  
+  assert_param(IS_ADC_INJECTED_CHANNEL(ADC_InjectedChannel));
+  assert_param(IS_ADC_OFFSET(Offset));  
 
   /* Set the selected injected channel data offset */
   *((u32 *)((*(u32*)&ADCx) + ADC_InjectedChannel)) = (u32)Offset;
@@ -1055,7 +1050,7 @@ void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, u8 ADC_InjectedChannel, u16 Offset
 u16 ADC_GetInjectedConversionValue(ADC_TypeDef* ADCx, u8 ADC_InjectedChannel)
 {
   /* Check the parameters */
-  assert(IS_ADC_INJECTED_CHANNEL(ADC_InjectedChannel));
+  assert_param(IS_ADC_INJECTED_CHANNEL(ADC_InjectedChannel));
 
   /* Returns the selected injected channel conversion data value */
   return (u16) (*(u32*) (((*(u32*)&ADCx) + ADC_InjectedChannel + JDR_Offset)));
@@ -1090,7 +1085,7 @@ void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, u32 ADC_AnalogWatchdog)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_ANALOG_WATCHDOG(ADC_AnalogWatchdog));
+  assert_param(IS_ADC_ANALOG_WATCHDOG(ADC_AnalogWatchdog));
 
   /* Get the old register value */
   tmpreg = ADCx->CR1;
@@ -1117,8 +1112,8 @@ void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef* ADCx, u16 HighThreshold,
                                         u16 LowThreshold)
 {
   /* Check the parameters */
-  assert(IS_ADC_THRESHOLD(HighThreshold));
-  assert(IS_ADC_THRESHOLD(LowThreshold));
+  assert_param(IS_ADC_THRESHOLD(HighThreshold));
+  assert_param(IS_ADC_THRESHOLD(LowThreshold));
 
   /* Set the ADCx high threshold */
   ADCx->HTR = HighThreshold;
@@ -1159,7 +1154,7 @@ void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, u8 ADC_Channel)
   u32 tmpreg = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_CHANNEL(ADC_Channel));
+  assert_param(IS_ADC_CHANNEL(ADC_Channel));
 
   /* Get the old register value */
   tmpreg = ADCx->CR1;
@@ -1182,7 +1177,7 @@ void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, u8 ADC_Channel)
 void ADC_TempSensorVrefintCmd(FunctionalState NewState)
 {
   /* Check the parameters */
-  assert(IS_FUNCTIONAL_STATE(NewState));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if (NewState != DISABLE)
   {
@@ -1215,7 +1210,7 @@ FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, u8 ADC_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_ADC_GET_FLAG(ADC_FLAG));
+  assert_param(IS_ADC_GET_FLAG(ADC_FLAG));
 
   /* Check the status of the specified ADC flag */
   if ((ADCx->SR & ADC_FLAG) != (u8)RESET)
@@ -1249,7 +1244,7 @@ FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, u8 ADC_FLAG)
 void ADC_ClearFlag(ADC_TypeDef* ADCx, u8 ADC_FLAG)
 {
   /* Check the parameters */
-  assert(IS_ADC_CLEAR_FLAG(ADC_FLAG));
+  assert_param(IS_ADC_CLEAR_FLAG(ADC_FLAG));
 
   /* Clear the selected ADC flags */
   ADCx->SR &= ~(u32)ADC_FLAG;
@@ -1273,7 +1268,7 @@ ITStatus ADC_GetITStatus(ADC_TypeDef* ADCx, u16 ADC_IT)
   u8 itmask = 0, enablestatus;
 
   /* Check the parameters */
-  assert(IS_ADC_GET_IT(ADC_IT));
+  assert_param(IS_ADC_GET_IT(ADC_IT));
 
   /* Get the ADC IT index */
   itmask = (u8)(ADC_IT >> 8);
@@ -1312,7 +1307,7 @@ void ADC_ClearITPendingBit(ADC_TypeDef* ADCx, u16 ADC_IT)
   u8 itmask = 0;
 
   /* Check the parameters */
-  assert(IS_ADC_IT(ADC_IT));
+  assert_param(IS_ADC_IT(ADC_IT));
 
   /* Get the ADC IT index */
   itmask = (u8)(ADC_IT >> 8);

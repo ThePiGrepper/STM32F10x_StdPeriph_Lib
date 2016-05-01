@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_tim.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the 
 *                      TIM firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -137,11 +132,11 @@ typedef struct
 /* TIM Input Capture Channel  Selection -------------------------------------*/
 #define TIM_ICSelection_DirectTI          ((u16)0x0001)
 #define TIM_ICSelection_IndirectTI        ((u16)0x0002)
-#define TIM_ICSelection_TRGI              ((u16)0x0003)
+#define TIM_ICSelection_TRC               ((u16)0x0003)
 
 #define IS_TIM_IC_SELECTION(SELECTION) ((SELECTION == TIM_ICSelection_DirectTI) || \
                                        (SELECTION == TIM_ICSelection_IndirectTI) || \
-                                       (SELECTION == TIM_ICSelection_TRGI))
+                                       (SELECTION == TIM_ICSelection_TRC))
 
 /* TIM Input Capture Prescaler ----------------------------------------------*/
 #define TIM_ICPSC_DIV1                    ((u16)0x0000)
@@ -295,9 +290,9 @@ typedef struct
                                                       (SELECTION == TIM_TS_ITR2) || \
                                                       (SELECTION == TIM_TS_ITR3))
 
-#define IS_TIM_TIX_TRIGGER_SELECTION(SELECTION) ((SELECTION == TIM_TS_TI1F_ED) || \
+/*#define IS_TIM_TIX_TRIGGER_SELECTION(SELECTION) ((SELECTION == TIM_TS_TI1F_ED) || \
                                                  (SELECTION == TIM_TS_TI1FP1) || \
-                                                 (SELECTION == TIM_TS_TI2FP2))
+                                                 (SELECTION == TIM_TS_TI2FP2))*/
 
 /* TIM External Trigger Polarity --------------------------------------------*/
 #define TIM_ExtTRGPolarity_Inverted       ((u16)0x8000)

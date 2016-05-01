@@ -1,15 +1,10 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_tim1.h
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file contains all the functions prototypes for the 
 *                      TIM1 firmware library.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* mm/dd/yyyy: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -240,11 +235,11 @@ typedef struct
 /* TIM1 Input Capture Selection ---------------------------------------------*/
 #define TIM1_ICSelection_DirectTI          ((u16)0x0001)
 #define TIM1_ICSelection_IndirectTI        ((u16)0x0002)
-#define TIM1_ICSelection_TRGI              ((u16)0x0003)
+#define TIM1_ICSelection_TRC               ((u16)0x0003)
 
 #define IS_TIM1_IC_SELECTION(SELECTION) ((SELECTION == TIM1_ICSelection_DirectTI) || \
                                          (SELECTION == TIM1_ICSelection_IndirectTI) || \
-                                         (SELECTION == TIM1_ICSelection_TRGI))
+                                         (SELECTION == TIM1_ICSelection_TRC))
 
 /* TIM1 Input Capture Prescaler ---------------------------------------------*/
 #define TIM1_ICPSC_DIV1                    ((u16)0x0000)
@@ -623,11 +618,11 @@ void TIM1_ClearOC3Ref(u16 TIM1_OCClear);
 void TIM1_ClearOC4Ref(u16 TIM1_OCClear);
 void TIM1_GenerateEvent(u16 TIM1_EventSource);
 void TIM1_OC1PolarityConfig(u16 TIM1_OCPolarity);
-void TIM1_OC1NPolarityConfig(u16 TIM1_OCPolarity);
+void TIM1_OC1NPolarityConfig(u16 TIM1_OCNPolarity);
 void TIM1_OC2PolarityConfig(u16 TIM1_OCPolarity);
-void TIM1_OC2NPolarityConfig(u16 TIM1_OCPolarity);
+void TIM1_OC2NPolarityConfig(u16 TIM1_OCNPolarity);
 void TIM1_OC3PolarityConfig(u16 TIM1_OCPolarity);
-void TIM1_OC3NPolarityConfig(u16 TIM1_OCPolarity);
+void TIM1_OC3NPolarityConfig(u16 TIM1_OCNPolarity);
 void TIM1_OC4PolarityConfig(u16 TIM1_OCPolarity);
 void TIM1_CCxCmd(u16 TIM1_Channel, FunctionalState Newstate);
 void TIM1_CCxNCmd(u16 TIM1_Channel, FunctionalState Newstate);

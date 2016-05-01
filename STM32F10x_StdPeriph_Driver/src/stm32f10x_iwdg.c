@@ -1,14 +1,9 @@
 /******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
 * File Name          : stm32f10x_iwdg.c
 * Author             : MCD Application Team
-* Date First Issued  : 09/29/2006
+* Version            : V1.0
+* Date               : 10/08/2007
 * Description        : This file provides all the IWDG firmware functions.
-********************************************************************************
-* History:
-* 05/21/2007: V0.3
-* 04/02/2007: V0.2
-* 02/05/2007: V0.1
-* 09/29/2006: V0.01
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -50,7 +45,7 @@
 void IWDG_WriteAccessCmd(u16 IWDG_WriteAccess)
 {
   /* Check the parameters */
-  assert(IS_IWDG_WRITE_ACCESS(IWDG_WriteAccess));
+  assert_param(IS_IWDG_WRITE_ACCESS(IWDG_WriteAccess));
 
   IWDG->KR = IWDG_WriteAccess;
 }
@@ -73,7 +68,7 @@ void IWDG_WriteAccessCmd(u16 IWDG_WriteAccess)
 void IWDG_SetPrescaler(u8 IWDG_Prescaler)
 {
   /* Check the parameters */
-  assert(IS_IWDG_PRESCALER(IWDG_Prescaler));
+  assert_param(IS_IWDG_PRESCALER(IWDG_Prescaler));
 
   IWDG->PR = IWDG_Prescaler;
 }
@@ -89,7 +84,7 @@ void IWDG_SetPrescaler(u8 IWDG_Prescaler)
 void IWDG_SetReload(u16 Reload)
 {
   /* Check the parameters */
-  assert(IS_IWDG_RELOAD(Reload));
+  assert_param(IS_IWDG_RELOAD(Reload));
 
   IWDG->RLR = Reload;
 }
@@ -135,7 +130,7 @@ FlagStatus IWDG_GetFlagStatus(u16 IWDG_FLAG)
   FlagStatus bitstatus = RESET;
 
   /* Check the parameters */
-  assert(IS_IWDG_FLAG(IWDG_FLAG));
+  assert_param(IS_IWDG_FLAG(IWDG_FLAG));
 
   if ((IWDG->SR & IWDG_FLAG) != (u32)RESET)
   {
