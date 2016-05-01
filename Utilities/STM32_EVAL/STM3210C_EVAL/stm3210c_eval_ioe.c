@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_ioe.c
   * @author  MCD Application Team
-  * @version V3.1.2
-  * @date    09/28/2009
+  * @version V4.1.0
+  * @date    03/01/2010
   * @brief   This file includes the IO Expander driver for STMPE811 IO Expander 
   *          devices.
   ******************************************************************************
@@ -16,7 +16,7 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2009 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
   */ 
 
   /* File Info : ---------------------------------------------------------------
@@ -36,31 +36,22 @@
 /** @addtogroup Utilities
   * @{
   */
-  
+
+/** @addtogroup STM32_EVAL
+  * @{
+  */ 
+
+/** @addtogroup STM3210C_EVAL
+  * @{
+  */
+    
 /** @defgroup STM3210C_EVAL_IOE 
-  * @brief This file includes the IO Expander driver for STMPE811 IO Expander 
-  *        devices.
+  * @brief  This file includes the IO Expander driver for STMPE811 IO Expander 
+  *         devices.
   * @{
-  */ 
+  */   
 
-/** @defgroup EVAL_IOE_Private_TypesDefinitions
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup EVAL_IOE_Private_Defines
-  * @{
-  */ 
-#define TIMEOUT_MAX    0xFFF; /*<! The value of the maximal timeout for I2C waiting loops */
-/**
-  * @}
-  */ 
-
-
-/** @defgroup EVAL_IOE_Private_Macros
+/** @defgroup STM3210C_EVAL_IOE_Private_TypesDefinitions
   * @{
   */ 
 /**
@@ -68,7 +59,24 @@
   */ 
 
 
-/** @defgroup EVAL_IOE_Private_Variables
+/** @defgroup STM3210C_EVAL_IOE_Private_Defines
+  * @{
+  */ 
+#define TIMEOUT_MAX    0x1000; /*<! The value of the maximal timeout for I2C waiting loops */
+/**
+  * @}
+  */ 
+
+
+/** @defgroup STM3210C_EVAL_IOE_Private_Macros
+  * @{
+  */ 
+/**
+  * @}
+  */ 
+
+
+/** @defgroup STM3210C_EVAL_IOE_Private_Variables
   * @{
   */ 
 TS_STATE TS_State;              /*<! The global structure holding the TS state */
@@ -79,7 +87,7 @@ uint32_t TimeOut = TIMEOUT_MAX; /*<! Value of Timeout when I2C communication fai
   */ 
 
 
-/** @defgroup EVAL_IOE_Private_FunctionPrototypes
+/** @defgroup STM3210C_EVAL_IOE_Private_FunctionPrototypes
   * @{
   */ 
 static uint16_t IOE_TS_Read_X(void);
@@ -98,7 +106,7 @@ static void delay(__IO uint32_t nCount);
   */ 
 
 
-/** @defgroup EVAL_IOE_Private_Functions
+/** @defgroup STM3210C_EVAL_IOE_Private_Functions
   * @{
   */ 
 
@@ -154,10 +162,14 @@ uint8_t IOE_Config(void)
   /* ---------------------- IO Expander 2 configuration --------------------- */
   /* Enable the GPIO, Temperature Sensor and ADC functionalities */
   IOE_FnctCmd(IOE_2_ADDR, IOE_IO_FCT | IOE_TEMPSENS_FCT | IOE_ADC_FCT, ENABLE);
+  
   /* Configure the Audio Codec Reset pin in output mode pin*/
-  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(AUDIO_RESET_PIN | MII_INT_PIN), Direction_OUT);  
+  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(AUDIO_RESET_PIN), Direction_OUT);
+  IOE_IOPinConfig(IOE_2_ADDR, (uint32_t)(MII_INT_PIN), Direction_IN);
+      
   /* ENABLE the alternate function for IN1 pin */
   IOE_IOAFConfig(IOE_2_ADDR, (uint32_t)(AUDIO_RESET_PIN | MII_INT_PIN), ENABLE);
+    
   /* Apply the default state for the out pins */
   IOE_WriteIOPin(AUDIO_RESET_PIN, BitReset);
   IOE_WriteIOPin(MII_INT_PIN, BitReset);
@@ -344,13 +356,14 @@ uint8_t IOE_ReadIOPin(uint32_t IO_Pin)
   * @param  None
   * @retval The code of the Joystick key pressed: 
   *   @arg  JOY_NONE
-  *   @arg  JOY_IO_CENTER
+  *   @arg  JOY_SEL
   *   @arg  JOY_DOWN
   *   @arg  JOY_LEFT
   *   @arg  JOY_RIGHT
   *   @arg  JOY_UP
   */
-JOY_State_TypeDef IOE_JoyStickGetState(void)
+JOYState_TypeDef
+ IOE_JoyStickGetState(void)
 {
   uint8_t tmp = 0;
   /* Read the status of all pins */
@@ -359,31 +372,31 @@ JOY_State_TypeDef IOE_JoyStickGetState(void)
   /* Check the pressed keys */
   if ((tmp & JOY_IO_NONE) == JOY_IO_NONE)
   {
-    return (JOY_State_TypeDef)JOY_NONE;
+    return (JOYState_TypeDef) JOY_NONE;
   }
-  else if (!(tmp & JOY_IO_CENTER))
+  else if (!(tmp & JOY_IO_SEL))
   {
-    return (JOY_State_TypeDef)JOY_CENTER;
+    return (JOYState_TypeDef) JOY_SEL;
   }
   else if (!(tmp & JOY_IO_DOWN))
   {
-    return (JOY_State_TypeDef)JOY_DOWN;
+    return (JOYState_TypeDef) JOY_DOWN;
   }
   else if (!(tmp & JOY_IO_LEFT))
   {
-    return (JOY_State_TypeDef)JOY_LEFT;
+    return (JOYState_TypeDef) JOY_LEFT;
   }
   else if (!(tmp & JOY_IO_RIGHT))
   {
-    return (JOY_State_TypeDef)JOY_RIGHT;
+    return (JOYState_TypeDef) JOY_RIGHT;
   }
   else if (!(tmp & JOY_IO_UP))
   {
-    return (JOY_State_TypeDef)JOY_UP;
+    return (JOYState_TypeDef) JOY_UP;
   }
   else
   { 
-    return (JOY_State_TypeDef)JOY_NONE;
+    return (JOYState_TypeDef) JOY_NONE;
   }
 }
 
@@ -970,7 +983,7 @@ uint8_t IOE_IOEdgeConfig(uint8_t DeviceAddr, uint8_t IO_Pin, uint8_t Edge)
   * @param  Polarity: could be
   *   @arg  Polarity_Low: Interrupt line is active Low/Falling edge      
   *   @arg  Polarity_High: Interrupt line is active High/Rising edge      
-  * @param Type: Interrupt line activity type, could be one of the following values
+  * @param  Type: Interrupt line activity type, could be one of the following values
   *   @arg  Type_Level: Interrupt line is active in level model         
   *   @arg  Type_Edge: Interrupt line is active in edge model           
   * @retval IOE_OK: if all initializations are OK. Other value if error.
@@ -1008,7 +1021,7 @@ uint8_t IOE_ITOutConfig(uint8_t Polarity, uint8_t Type)
 }
 
 /**
-  * @brief  Writes a value in a register of the IOE through I2C.
+  * @brief  Writes a value in a register of the device through I2C.
   * @param  DeviceAddr: The address of the IOExpander, could be : IOE_1_ADDR
   *         or IOE_2_ADDR. 
   * @param  RegisterAddr: The target register adress
@@ -1023,8 +1036,6 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   I2C_SoftwareResetCmd(IOE_I2C, ENABLE);
   I2C_SoftwareResetCmd(IOE_I2C, DISABLE);
 
-  TimeOut = TIMEOUT_MAX;
-
   /* Enable the IOE_I2C peripheral  */
   I2C_Cmd(IOE_I2C, ENABLE);
 
@@ -1035,6 +1046,7 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   I2C_GenerateSTART(IOE_I2C, ENABLE);
 
   /* Test on EV5 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_MODE_SELECT))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1044,6 +1056,7 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   I2C_Send7bitAddress(IOE_I2C, DeviceAddr, I2C_Direction_Transmitter);
   
   /* Test on EV6 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1052,9 +1065,8 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   /* Transmit the first address for r/w operations */
   I2C_SendData(IOE_I2C, RegisterAddr);
   
-  TimeOut = TIMEOUT_MAX;
-  
   /* Test on EV8 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1064,6 +1076,7 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
   I2C_SendData(IOE_I2C, RegisterValue);
   
   /* Test on EV8 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1095,8 +1108,8 @@ uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_
 }
 
 /**
-  * @brief  Reads a register of the audio Codec through I2C.
-  * @param  DeviceAddr: The address of the IOExpander, could be : IOE_1_ADDR
+  * @brief  Reads a register of the device through I2C.
+  * @param  DeviceAddr: The address of the device, could be : IOE_1_ADDR
   *         or IOE_2_ADDR. 
   * @param  RegisterAddr: The target register adress (between 00x and 0x24)
   * @retval The value of the read register (0xAA if Timout occured)   
@@ -1118,8 +1131,8 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   /* Enable the I2C peripheral */
   I2C_GenerateSTART(IOE_I2C, ENABLE);
  
-  TimeOut = TIMEOUT_MAX;
   /* Test on EV5 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_MODE_SELECT))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1130,9 +1143,8 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   /* Transmit the slave address and enable writing operation */
   I2C_Send7bitAddress(IOE_I2C, DeviceAddr, I2C_Direction_Transmitter);
   
-  TimeOut = TIMEOUT_MAX;
   /* Test on EV6 and clear it */
-  
+  TimeOut = TIMEOUT_MAX;  
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1142,6 +1154,7 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   I2C_SendData(IOE_I2C, RegisterAddr);
   
   /* Test on EV8 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1150,6 +1163,7 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   I2C_GenerateSTART(IOE_I2C, ENABLE);
   
   /* Test on EV5 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_MODE_SELECT))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1159,12 +1173,14 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   I2C_Send7bitAddress(IOE_I2C, DeviceAddr, I2C_Direction_Receiver);
   
   /* Test on EV6 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
   }
   
   /* Test on EV7 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while (!I2C_CheckEvent(IOE_I2C, I2C_EVENT_MASTER_BYTE_RECEIVED))
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1185,22 +1201,16 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
 
 
 /**
-  * @brief  Reads a buffer of 4 bytes from IO_Expander registers.
-  * @param  DeviceAddr: The address of the IOExpander, could be : IOE_1_ADDR
+  * @brief  Reads a buffer of 2 bytes from the device registers.
+  * @param  DeviceAddr: The address of the device, could be : IOE_1_ADDR
   *         or IOE_2_ADDR. 
   * @param  RegisterAddr: The target register adress (between 00x and 0x24)
-  * @retval : The value of the read register (0xAA if Timout occured)   
+  * @retval A pointer to the buffer containing the two returned bytes (in halfword).  
   */
-uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
+uint16_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
 {
-  uint8_t Buffer[4] , idx = 2;
-  
-  /* Initialize the buffer */
-  Buffer[0] = 0; 
-  Buffer[1] = 0; 
-  Buffer[2] = 0; 
-  Buffer[3] = 0;   
-  
+  uint8_t Buffer[2] = {0x00, 0x00};  
+
   /* Disable the I2C1 peripheral  */
   I2C_Cmd(I2C1, DISABLE);
 
@@ -1213,10 +1223,9 @@ uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
   
   /* Enable the I2C peripheral */
   I2C_GenerateSTART(I2C1, ENABLE);
- 
-  TimeOut = TIMEOUT_MAX;
   
   /* Test on EV5 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT)) 
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1226,6 +1235,7 @@ uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
   I2C_Send7bitAddress(I2C1, DeviceAddr, I2C_Direction_Transmitter);
   
   /* Test on EV6 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))  
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1238,6 +1248,7 @@ uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
   I2C_SendData(I2C1, RegisterAddr);  
   
   /* Test on EV8 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) 
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
@@ -1247,63 +1258,54 @@ uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
   I2C_GenerateSTART(I2C1, ENABLE);
   
   /* Test on EV5 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT)) 
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
   }
   
-  /* Send EEPROM address for read */
+  /* Send IOExpander address for read */
   I2C_Send7bitAddress(I2C1, DeviceAddr, I2C_Direction_Receiver);
   
   /* Test on EV6 and clear it */
+  TimeOut = TIMEOUT_MAX;
   while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)) 
   {
     if (TimeOut-- == 0) return IOE_TIEMOUT;
   }
-  
-  /* While there is data to be read */
-  while(idx)  
+
+  /* Test on EV7 and clear it */
+  TimeOut = TIMEOUT_MAX;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED)) 
   {
-    if(idx == 1)
-    {
-      /* Disable Acknowledgement */
-      I2C_AcknowledgeConfig(I2C1, DISABLE);
-      
-      /* Send STOP Condition */
-      I2C_GenerateSTOP(I2C1, ENABLE);
-    }
+    if (TimeOut-- == 0) return IOE_TIEMOUT;
+  }
     
-    /* Test on EV7 and clear it */
-    if(I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED))  
-    {      
-      /* Read a byte from the EEPROM */
-      Buffer[idx-1] = I2C_ReceiveData(I2C1);
-    
-      /* Decrement the read bytes counter */
-      idx--;        
-    }   
+  /* Read the first byte from the IOExpander */
+  Buffer[1] = I2C_ReceiveData(I2C1);
+
+  /* Disable Acknowledgement */
+  I2C_AcknowledgeConfig(I2C1, DISABLE);
+     
+  /* Send STOP Condition */
+  I2C_GenerateSTOP(I2C1, ENABLE);
+
+  /* Test on EV7 and clear it */
+  TimeOut = TIMEOUT_MAX;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED)) 
+  {
+    if (TimeOut-- == 0) return IOE_TIEMOUT;
   }
   
+  /* Read the second byte from the IOExpander */
+  Buffer[0] = I2C_ReceiveData(I2C1);
+
   /* Enable Acknowledgement to be ready for another reception */
   I2C_AcknowledgeConfig(I2C1, ENABLE);
   
   /* return a pointer to the buffer */
-  return *(uint32_t *)Buffer;
+  return *(uint16_t *)Buffer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
   * @brief  Return Touch Screen X position value
@@ -1373,28 +1375,33 @@ static void IOE_GPIO_Config(void)
   GPIO_InitTypeDef GPIO_InitStructure;
   
   /* Enable IOE_I2C and IOE_I2C_PORT & Alternate Function clocks */
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_IOE_I2C, ENABLE);
-  RCC_APB2PeriphClockCmd(RCC_APB_IOE_I2C_PORT | RCC_APB_GPIO_IOE_ITPORT | RCC_APB2Periph_AFIO, ENABLE);
+  RCC_APB1PeriphClockCmd(IOE_I2C_CLK, ENABLE);
+  RCC_APB2PeriphClockCmd(IOE_I2C_SCL_GPIO_CLK | IOE_I2C_SDA_GPIO_CLK | IOE_IT_GPIO_CLK
+                         | RCC_APB2Periph_AFIO, ENABLE);
   
   /* Reset IOE_I2C IP */
-  RCC_APB1PeriphResetCmd(RCC_APB1Periph_IOE_I2C, ENABLE);
+  RCC_APB1PeriphResetCmd(IOE_I2C_CLK, ENABLE);
   
   /* Release reset signal of IOE_I2C IP */
-  RCC_APB1PeriphResetCmd(RCC_APB1Periph_IOE_I2C, DISABLE);
+  RCC_APB1PeriphResetCmd(IOE_I2C_CLK, DISABLE);
   
   /* IOE_I2C SCL and SDA pins configuration */
-  GPIO_InitStructure.GPIO_Pin = IOE_SCL_PIN | IOE_SDA_PIN;
+  GPIO_InitStructure.GPIO_Pin = IOE_I2C_SCL_PIN;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-  GPIO_Init(IOE_I2C_PORT, &GPIO_InitStructure);
+  GPIO_Init(IOE_I2C_SCL_GPIO_PORT, &GPIO_InitStructure);
+
+  /* IOE_I2C SCL and SDA pins configuration */
+  GPIO_InitStructure.GPIO_Pin = IOE_I2C_SDA_PIN;
+  GPIO_Init(IOE_I2C_SDA_GPIO_PORT, &GPIO_InitStructure);  
   
   /* Set EXTI pin as Input PullUp - IO_Expander_INT */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_IOE_ITPIN;
+  GPIO_InitStructure.GPIO_Pin = IOE_IT_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-  GPIO_Init(GPIO_IOE_ITPORT, &GPIO_InitStructure);
+  GPIO_Init(IOE_IT_GPIO_PORT, &GPIO_InitStructure);
   
   /* Connect IO Expander IT line to EXTI line */
-  GPIO_EXTILineConfig(GPIO_PortSource_IOE_ITPORT, GPIO_PinSource_IOE_ITPIN);
+  GPIO_EXTILineConfig(IOE_IT_EXTI_PORT_SOURCE, IOE_IT_EXTI_PIN_SOURCE);
 }
 
 
@@ -1418,7 +1425,6 @@ static void IOE_I2C_Config(void)
   I2C_Init(IOE_I2C, &I2C_InitStructure);
 }
 
-
 /**
   * @brief  Configures the IO expander Interrupt line and GPIO in EXTI mode.
   * @param  None        
@@ -1431,18 +1437,18 @@ static void IOE_EXTI_Config(void)
   EXTI_InitTypeDef EXTI_InitStructure;
  
   /* Enable Button GPIO clock */
-  RCC_APB2PeriphClockCmd(RCC_APB_GPIO_IOE_ITPORT | RCC_APB2Periph_AFIO, ENABLE);
+  RCC_APB2PeriphClockCmd(IOE_IT_GPIO_CLK | RCC_APB2Periph_AFIO, ENABLE);
   
   /* Configure Button pin as input floating */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_IOE_ITPIN;
+  GPIO_InitStructure.GPIO_Pin = IOE_IT_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  GPIO_Init(GPIO_IOE_ITPORT, &GPIO_InitStructure);  
+  GPIO_Init(IOE_IT_GPIO_PORT, &GPIO_InitStructure);  
   
   /* Connect Button EXTI Line to Button GPIO Pin */
-  GPIO_EXTILineConfig(GPIO_PortSource_IOE_ITPORT, GPIO_PinSource_IOE_ITPIN);  
+  GPIO_EXTILineConfig(IOE_IT_EXTI_PORT_SOURCE, IOE_IT_EXTI_PIN_SOURCE);  
   
   /* Configure Button EXTI line */
-  EXTI_InitStructure.EXTI_Line = EXTI_LINE_IOE_ITLINE;
+  EXTI_InitStructure.EXTI_Line = IOE_IT_EXTI_LINE;
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;  
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
@@ -1480,5 +1486,14 @@ static void delay(__IO uint32_t nCount)
 
 /**
   * @}
-  */   
-/******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE****/
+  */  
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
+   
+/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

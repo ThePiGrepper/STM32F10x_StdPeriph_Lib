@@ -1,16 +1,17 @@
-;/******************** (C) COPYRIGHT 2009 STMicroelectronics ********************
+;/******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_hd.s
 ;* Author             : MCD Application Team
-;* Version            : V3.1.2
-;* Date               : 09/28/2009
+;* Version            : V3.2.0
+;* Date               : 03/01/2010
 ;* Description        : STM32F10x High Density Devices vector table for EWARM5.x 
 ;*                      toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
+;*                      - Configure the clock system and the external SRAM 
+;*                        mounted on STM3210E-EVAL board to be used as data 
+;*                        memory (optional, to be enabled by user)
 ;*                      - Set the initial PC == __iar_program_start,
 ;*                      - Set the vector table entries with the exceptions ISR address,
-;*                      - Configure external SRAM mounted on STM3210E-EVAL board
-;*                       to be used as data memory (optional, to be enabled by user)
 ;*                      After Reset the Cortex-M3 processor is in Thread mode,
 ;*                      priority is Privileged, and the Stack is set to Main.
 ;********************************************************************************
@@ -40,43 +41,20 @@
   
     MODULE  ?cstartup
         
-  ;; ICODE is the same segment as cstartup. By placing __low_level_init
-  ;; in the same segment, we make sure it can be reached with BL. */
-
-    SECTION	   CSTACK:DATA:NOROOT(3)
-    SECTION .icode:CODE:NOROOT(2)
-    PUBLIC  __low_level_init
-
-       PUBWEAK SystemInit_ExtMemCtl
-       SECTION .text:CODE:REORDER(2)
-        THUMB
-SystemInit_ExtMemCtl
-        BX LR 
-   
-__low_level_init:
-
-  ;;  Initialize hardware.
-                LDR  R0, = SystemInit_ExtMemCtl ; initialize external memory controller
-                MOV  R11, LR
-                BLX  R0 
-                LDR  R1, =sfe(CSTACK)        ; restore original stack pointer
-                MSR  MSP, R1   
-                MOV  R0,#1
-   ;; Return with BX to be independent of mode of caller
-                BX    R11
-
         ;; Forward declaration of sections.
+        SECTION CSTACK:DATA:NOROOT(3)
+
         SECTION .intvec:CODE:NOROOT(2)
 
         EXTERN  __iar_program_start
+        EXTERN  SystemInit        
         PUBLIC  __vector_table
 
         DATA
-__intial_sp      EQU     0x20000400        
+       
 __vector_table
-        DCD     __intial_sp
-        DCD     __iar_program_start
-
+        DCD     sfe(CSTACK)
+        DCD     Reset_Handler             ; Reset Handler
         DCD     NMI_Handler               ; NMI Handler
         DCD     HardFault_Handler         ; Hard Fault Handler
         DCD     MemManage_Handler         ; MPU Fault Handler
@@ -158,7 +136,15 @@ __vector_table
 ;; Default interrupt handlers.
 ;;
         THUMB
-       
+
+        PUBWEAK Reset_Handler
+        SECTION .text:CODE:REORDER(2)
+Reset_Handler
+        LDR     R0, =SystemInit
+        BLX     R0
+        LDR     R0, =__iar_program_start
+        BX      R0
+               
         PUBWEAK NMI_Handler
         SECTION .text:CODE:REORDER(1)
 NMI_Handler
@@ -507,4 +493,4 @@ DMA2_Channel4_5_IRQHandler
         
         END
 
-/******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

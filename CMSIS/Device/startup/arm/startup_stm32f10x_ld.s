@@ -1,14 +1,15 @@
-;******************** (C) COPYRIGHT 2009 STMicroelectronics ********************
+;******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_ld.s
 ;* Author             : MCD Application Team
-;* Version            : V3.1.2
-;* Date               : 09/28/2009
+;* Version            : V3.2.0
+;* Date               : 03/01/2010
 ;* Description        : STM32F10x Low Density Devices vector table for RVMDK 
 ;*                      toolchain. 
 ;*                      This module performs:
 ;*                      - Set the initial SP
 ;*                      - Set the initial PC == Reset_Handler
 ;*                      - Set the vector table entries with the exceptions ISR address
+;*                      - Configure the clock system
 ;*                      - Branches to __main in the C library (which eventually
 ;*                        calls main()).
 ;*                      After Reset the CortexM3 processor is in Thread mode,
@@ -57,67 +58,67 @@ __heap_limit
                 EXPORT  __Vectors_End
                 EXPORT  __Vectors_Size
 
-__Vectors       DCD     __initial_sp              ; Top of Stack
-                DCD     Reset_Handler             ; Reset Handler
-                DCD     NMI_Handler               ; NMI Handler
-                DCD     HardFault_Handler         ; Hard Fault Handler
-                DCD     MemManage_Handler         ; MPU Fault Handler
-                DCD     BusFault_Handler          ; Bus Fault Handler
-                DCD     UsageFault_Handler        ; Usage Fault Handler
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     SVC_Handler               ; SVCall Handler
-                DCD     DebugMon_Handler          ; Debug Monitor Handler
-                DCD     0                         ; Reserved
-                DCD     PendSV_Handler            ; PendSV Handler
-                DCD     SysTick_Handler           ; SysTick Handler
+__Vectors       DCD     __initial_sp               ; Top of Stack
+                DCD     Reset_Handler              ; Reset Handler
+                DCD     NMI_Handler                ; NMI Handler
+                DCD     HardFault_Handler          ; Hard Fault Handler
+                DCD     MemManage_Handler          ; MPU Fault Handler
+                DCD     BusFault_Handler           ; Bus Fault Handler
+                DCD     UsageFault_Handler         ; Usage Fault Handler
+                DCD     0                          ; Reserved
+                DCD     0                          ; Reserved
+                DCD     0                          ; Reserved
+                DCD     0                          ; Reserved
+                DCD     SVC_Handler                ; SVCall Handler
+                DCD     DebugMon_Handler           ; Debug Monitor Handler
+                DCD     0                          ; Reserved
+                DCD     PendSV_Handler             ; PendSV Handler
+                DCD     SysTick_Handler            ; SysTick Handler
 
                 ; External Interrupts
-                DCD     WWDG_IRQHandler           ; Window Watchdog
-                DCD     PVD_IRQHandler            ; PVD through EXTI Line detect
-                DCD     TAMPER_IRQHandler         ; Tamper
-                DCD     RTC_IRQHandler            ; RTC
-                DCD     FLASH_IRQHandler          ; Flash
-                DCD     RCC_IRQHandler            ; RCC
-                DCD     EXTI0_IRQHandler          ; EXTI Line 0
-                DCD     EXTI1_IRQHandler          ; EXTI Line 1
-                DCD     EXTI2_IRQHandler          ; EXTI Line 2
-                DCD     EXTI3_IRQHandler          ; EXTI Line 3
-                DCD     EXTI4_IRQHandler          ; EXTI Line 4
-                DCD     DMA1_Channel1_IRQHandler  ; DMA1 Channel 1
-                DCD     DMA1_Channel2_IRQHandler  ; DMA1 Channel 2
-                DCD     DMA1_Channel3_IRQHandler  ; DMA1 Channel 3
-                DCD     DMA1_Channel4_IRQHandler  ; DMA1 Channel 4
-                DCD     DMA1_Channel5_IRQHandler  ; DMA1 Channel 5
-                DCD     DMA1_Channel6_IRQHandler  ; DMA1 Channel 6
-                DCD     DMA1_Channel7_IRQHandler  ; DMA1 Channel 7
-                DCD     ADC1_2_IRQHandler         ; ADC1_2
+                DCD     WWDG_IRQHandler            ; Window Watchdog
+                DCD     PVD_IRQHandler             ; PVD through EXTI Line detect
+                DCD     TAMPER_IRQHandler          ; Tamper
+                DCD     RTC_IRQHandler             ; RTC
+                DCD     FLASH_IRQHandler           ; Flash
+                DCD     RCC_IRQHandler             ; RCC
+                DCD     EXTI0_IRQHandler           ; EXTI Line 0
+                DCD     EXTI1_IRQHandler           ; EXTI Line 1
+                DCD     EXTI2_IRQHandler           ; EXTI Line 2
+                DCD     EXTI3_IRQHandler           ; EXTI Line 3
+                DCD     EXTI4_IRQHandler           ; EXTI Line 4
+                DCD     DMA1_Channel1_IRQHandler   ; DMA1 Channel 1
+                DCD     DMA1_Channel2_IRQHandler   ; DMA1 Channel 2
+                DCD     DMA1_Channel3_IRQHandler   ; DMA1 Channel 3
+                DCD     DMA1_Channel4_IRQHandler   ; DMA1 Channel 4
+                DCD     DMA1_Channel5_IRQHandler   ; DMA1 Channel 5
+                DCD     DMA1_Channel6_IRQHandler   ; DMA1 Channel 6
+                DCD     DMA1_Channel7_IRQHandler   ; DMA1 Channel 7
+                DCD     ADC1_2_IRQHandler          ; ADC1_2
                 DCD     USB_HP_CAN1_TX_IRQHandler  ; USB High Priority or CAN1 TX
                 DCD     USB_LP_CAN1_RX0_IRQHandler ; USB Low  Priority or CAN1 RX0
-                DCD     CAN1_RX1_IRQHandler       ; CAN1 RX1
-                DCD     CAN1_SCE_IRQHandler       ; CAN1 SCE
-                DCD     EXTI9_5_IRQHandler        ; EXTI Line 9..5
-                DCD     TIM1_BRK_IRQHandler       ; TIM1 Break
-                DCD     TIM1_UP_IRQHandler        ; TIM1 Update
-                DCD     TIM1_TRG_COM_IRQHandler   ; TIM1 Trigger and Commutation
-                DCD     TIM1_CC_IRQHandler        ; TIM1 Capture Compare
-                DCD     TIM2_IRQHandler           ; TIM2
-                DCD     TIM3_IRQHandler           ; TIM3
-                DCD     0                         ; Reserved
-                DCD     I2C1_EV_IRQHandler        ; I2C1 Event
-                DCD     I2C1_ER_IRQHandler        ; I2C1 Error
-                DCD     0                         ; Reserved
-                DCD     0                         ; Reserved
-                DCD     SPI1_IRQHandler           ; SPI1
-                DCD     0                         ; Reserved
-                DCD     USART1_IRQHandler         ; USART1
-                DCD     USART2_IRQHandler         ; USART2
-                DCD     0                         ; Reserved
-                DCD     EXTI15_10_IRQHandler      ; EXTI Line 15..10
-                DCD     RTCAlarm_IRQHandler       ; RTC Alarm through EXTI Line
-                DCD     USBWakeUp_IRQHandler      ; USB Wakeup from suspend
+                DCD     CAN1_RX1_IRQHandler        ; CAN1 RX1
+                DCD     CAN1_SCE_IRQHandler        ; CAN1 SCE
+                DCD     EXTI9_5_IRQHandler         ; EXTI Line 9..5
+                DCD     TIM1_BRK_IRQHandler        ; TIM1 Break
+                DCD     TIM1_UP_IRQHandler         ; TIM1 Update
+                DCD     TIM1_TRG_COM_IRQHandler    ; TIM1 Trigger and Commutation
+                DCD     TIM1_CC_IRQHandler         ; TIM1 Capture Compare
+                DCD     TIM2_IRQHandler            ; TIM2
+                DCD     TIM3_IRQHandler            ; TIM3
+                DCD     0                          ; Reserved
+                DCD     I2C1_EV_IRQHandler         ; I2C1 Event
+                DCD     I2C1_ER_IRQHandler         ; I2C1 Error
+                DCD     0                          ; Reserved
+                DCD     0                          ; Reserved
+                DCD     SPI1_IRQHandler            ; SPI1
+                DCD     0                          ; Reserved
+                DCD     USART1_IRQHandler          ; USART1
+                DCD     USART2_IRQHandler          ; USART2
+                DCD     0                          ; Reserved
+                DCD     EXTI15_10_IRQHandler       ; EXTI Line 15..10
+                DCD     RTCAlarm_IRQHandler        ; RTC Alarm through EXTI Line
+                DCD     USBWakeUp_IRQHandler       ; USB Wakeup from suspend
 __Vectors_End
 
 __Vectors_Size  EQU  __Vectors_End - __Vectors
@@ -128,6 +129,9 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
      IMPORT  __main
+     IMPORT  SystemInit
+                 LDR     R0, =SystemInit
+                 BLX     R0
                  LDR     R0, =__main
                  BX      R0
                  ENDP
@@ -290,4 +294,4 @@ __user_initial_stackheap
 
                  END
 
-;******************* (C) COPYRIGHT 2009 STMicroelectronics *****END OF FILE*****
+;******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE*****
