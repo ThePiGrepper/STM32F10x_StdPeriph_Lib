@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval_fsmc_sram.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file provides a set of functions needed to drive the 
   *          IS61WV51216BLL SRAM memory mounted on STM3210E-EVAL board.
   ******************************************************************************

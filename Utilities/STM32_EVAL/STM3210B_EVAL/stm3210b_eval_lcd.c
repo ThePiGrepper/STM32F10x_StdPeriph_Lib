@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210b_eval_lcd.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file includes the LCD driver for AM-240320LTNQW00H (LCD_HX8312),
   *          AM-240320L8TNQW00H (LCD_ILI9320), AM-240320LDTNQW00H (LCD_SPFD5408B)
   *          Liquid Crystal Display Module of STM3210B-EVAL board.
@@ -100,7 +100,7 @@ static void delay(vu32 nCount);
 
 static void LCD_WriteRegHX8312(uint8_t LCD_Reg, uint8_t LCD_RegValue);
 static void LCD_WriteRegILI9320(uint8_t LCD_Reg, uint16_t LCD_RegValue);
-static void PutPixel(int16_t x, int16_t y);;
+static void PutPixel(int16_t x, int16_t y);
 static void LCD_PolyLineRelativeClosed(pPoint Points, uint16_t PointCount, uint16_t Closed);
 /**
   * @}

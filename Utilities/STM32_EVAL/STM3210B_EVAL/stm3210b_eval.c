@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210b_eval.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file provides
   *            - set of firmware functions to manage Leds, push-button and COM ports
   *            - low level initialization functions for SD card (on SPI), SPI serial

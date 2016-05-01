@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   STM32xx-EVAL abstraction layer. 
   *          This file should be added to the main application to use the provided
   *          functions that manage Leds, push-buttons, COM ports and low level 
@@ -38,8 +38,8 @@
 
 /** @defgroup STM32_EVAL_Abstraction_Layer
   * @{
-  */  
-
+  */ 
+  
 #ifdef USE_STM32100B_EVAL
  #include "stm32100b_eval/stm32100b_eval.c"
 #elif defined USE_STM3210B_EVAL
@@ -110,6 +110,6 @@
 
 /**
   * @}
-  */
+  */ 
     
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

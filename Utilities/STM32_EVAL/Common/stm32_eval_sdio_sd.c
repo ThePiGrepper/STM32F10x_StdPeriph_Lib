@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_sdio_sd.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file provides a set of functions needed to manage the SDIO SD 
   *          Card memory mounted on STM32xx-EVAL board (refer to stm32_eval.h
   *          to know about the boards supporting this memory). 
@@ -366,7 +366,7 @@ SD_Error SD_PowerON(void)
   /*!< Power ON Sequence -----------------------------------------------------*/
   /*!< Configure the SDIO peripheral */
   /*!< SDIOCLK = HCLK, SDIO_CK = HCLK/(2 + SDIO_INIT_CLK_DIV) */
-  /*!< SDIO_CK for initialization should not exceed 400 KHz */  
+  /*!< SDIO_CK for initialization should not exceed 400 KHz */    
   SDIO_InitStructure.SDIO_ClockDiv = SDIO_INIT_CLK_DIV;
   SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
   SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
@@ -846,7 +846,11 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
         SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
         SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
         SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
+#ifdef USE_STM3210E_EVAL
         SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+#else
+        SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Enable;
+#endif
         SDIO_Init(&SDIO_InitStructure);
       }
     }
@@ -862,7 +866,11 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
         SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
         SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
         SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_1b;
+#ifdef USE_STM3210E_EVAL
         SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+#else
+        SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Enable;
+#endif
         SDIO_Init(&SDIO_InitStructure);
       }
     }

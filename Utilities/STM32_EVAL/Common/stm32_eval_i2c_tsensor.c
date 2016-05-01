@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_i2c_tsensor.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file provides a set of functions needed to manage the I2C LM75 
   *          temperature sensor mounted on STM32xx-EVAL board (refer to stm32_eval.h
   *          to know about the boards supporting this sensor). 

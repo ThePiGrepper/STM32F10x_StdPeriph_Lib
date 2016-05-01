@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval_fsmc_nor.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file provides a set of functions needed to drive the M29W128FL, 
   *          M29W128GL and S29GL128P NOR memories mounted on STM3210E-EVAL board.
   ******************************************************************************
@@ -147,6 +147,11 @@ void NOR_Init(void)
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
   GPIO_Init(GPIOG, &GPIO_InitStructure);
 
+  /*!< Configure PD6 for NOR memory Ready/Busy signal */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_Init(GPIOD, &GPIO_InitStructure);
+  
   /*-- FSMC Configuration ----------------------------------------------------*/
   p.FSMC_AddressSetupTime = 0x02;
   p.FSMC_AddressHoldTime = 0x00;

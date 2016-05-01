@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_ioe.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file contains all the functions prototypes for the IO Expander
   *   firmware driver.
   ******************************************************************************
@@ -179,6 +179,7 @@ typedef enum
 #define MEMS_INT1_PIN               IO_Pin_3 /* IO_Exapnader_1 */ /* Input */
 #define MEMS_INT2_PIN               IO_Pin_2 /* IO_Exapnader_1 */ /* Input */
 
+ 
 /**
   * @brief Eval Board both IO Exapanders Pins definition 
   */ 
@@ -198,7 +199,6 @@ typedef enum
 /*------------------------------------------------------------------------------
     Functional and Interrupt Management
 ------------------------------------------------------------------------------*/
-
 /** 
   * @brief  IO Expander Functionalities definitions  
   */ 
@@ -324,7 +324,7 @@ typedef enum
 #define TOUCH_IO_ALL                (uint32_t)(IO_Pin_1 | IO_Pin_2 | IO_Pin_3 | IO_Pin_4)
 
 /**
-  * @brief JOYSTICK Pins definition 
+  * @brief  JOYSTICK Pins definition 
   */ 
 #define JOY_IO_SEL                   IO_Pin_7
 #define JOY_IO_DOWN                  IO_Pin_6

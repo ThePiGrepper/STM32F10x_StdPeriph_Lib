@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210b_eval.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file contains definitions for STM3210B_EVAL's Leds, push-buttons
   *          COM ports, SD Card (on SPI), sFLASH (on SPI) and Temperature sensor 
   *          LM75 (on I2C) hardware resources.
@@ -189,7 +189,7 @@
 #define EVAL_COM1_RX_PIN                 GPIO_Pin_10
 #define EVAL_COM1_RX_GPIO_PORT           GPIOA
 #define EVAL_COM1_RX_GPIO_CLK            RCC_APB2Periph_GPIOA
-
+#define EVAL_COM1_IRQn                   USART1_IRQn
 
 /**
  * @brief Definition for COM port2, connected to USART2 (USART2 pins remapped on GPIOD)
@@ -202,7 +202,7 @@
 #define EVAL_COM2_RX_PIN                 GPIO_Pin_6
 #define EVAL_COM2_RX_GPIO_PORT           GPIOD
 #define EVAL_COM2_RX_GPIO_CLK            RCC_APB2Periph_GPIOD
-
+#define EVAL_COM2_IRQn                   USART2_IRQn
 
 /**
   * @}

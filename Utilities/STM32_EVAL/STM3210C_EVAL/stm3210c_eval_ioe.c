@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_ioe.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file includes the IO Expander driver for STMPE811 IO Expander 
   *          devices.
   ******************************************************************************
@@ -62,7 +62,12 @@
 /** @defgroup STM3210C_EVAL_IOE_Private_Defines
   * @{
   */ 
-#define TIMEOUT_MAX    0x1000; /*<! The value of the maximal timeout for I2C waiting loops */
+#define TIMEOUT_MAX              0x1000  /*<! The value of the maximal timeout for I2C waiting loops */
+
+#define TS_CONVERSION_DELAY     0x10000  /*<! The application should wait before ADC end of conversion. 
+                                              This delay depends on the system clock frequency, the value 0x10000
+                                              is selected for system clock equal to 72 MHz. For lower frequencies
+                                              please modify the delay accordingly. */
 /**
   * @}
   */ 
@@ -407,11 +412,15 @@ JOYState_TypeDef
   */
 TS_STATE* IOE_TS_GetState(void)
 {
-  uint32_t xDiff, yDiff , x , y;
+  uint32_t xDiff, yDiff , x , y, count;
   static uint32_t _x = 0, _y = 0;
   
   /* Check if the Touch detect event happenned */
   TS_State.TouchDetected = (I2C_ReadDeviceRegister(IOE_1_ADDR, IOE_REG_TSC_CTRL) & 0x80);
+
+  /* Wait till end of ADC conversion */
+  for (count = TS_CONVERSION_DELAY; count > 0; count--);
+
   if(TS_State.TouchDetected) 
   {
     x = IOE_TS_Read_X();
@@ -429,6 +438,7 @@ TS_STATE* IOE_TS_GetState(void)
     
   /* Update the Y position */  
   TS_State.Y = _y;
+
   /* Update the Z Pression index */  
   TS_State.Z = IOE_TS_Read_Z();  
   

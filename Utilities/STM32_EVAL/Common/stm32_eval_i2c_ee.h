@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_i2c_ee.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file contains all the functions prototypes for the stm32_eval_i2c_ee
   *          firmware driver.
   ******************************************************************************
@@ -91,6 +91,14 @@
  #define sEE_PAGESIZE    32
 #endif
  
+/* Defintions for the state of the DMA transfer */   
+#define sEE_STATE_READY         0
+#define sEE_STATE_BUSY          1
+   
+/* Maximum timeout value for counting before exiting waiting loop on DMA 
+   Trasnfer Complete. This value depends directly on the maximum page size and
+   the sytem clock frequency. */
+#define sEE_TIMEOUT_MAX         0x10000;
 /**
   * @}
   */ 
@@ -108,9 +116,9 @@
 void sEE_DeInit(void);
 void sEE_Init(void);
 void sEE_WriteByte(uint8_t* pBuffer, uint16_t WriteAddr);
-void sEE_WritePage(uint8_t* pBuffer, uint16_t WriteAddr, uint8_t NumByteToWrite);
+void sEE_WritePage(uint8_t* pBuffer, uint16_t WriteAddr, uint8_t* NumByteToWrite);
 void sEE_WriteBuffer(uint8_t* pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite);
-void sEE_ReadBuffer(uint8_t* pBuffer, uint16_t ReadAddr, uint16_t NumByteToRead);
+void sEE_ReadBuffer(uint8_t* pBuffer, uint16_t ReadAddr, uint16_t* NumByteToRead);
 void sEE_WaitEepromStandbyState(void);
 
 #ifdef __cplusplus

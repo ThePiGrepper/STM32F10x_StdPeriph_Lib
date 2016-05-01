@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   Header file for stm32_eval.c module.
   ******************************************************************************
   * @copy
@@ -38,8 +38,8 @@
 
 /** @defgroup STM32_EVAL_Abstraction_Layer
   * @{
-  */  
-
+  */
+  
 /** @defgroup STM32_EVAL_HARDWARE_RESOURCES
   * @{
   */
@@ -344,10 +344,10 @@ typedef enum
 
 /**
   * @}
-  */  
+  */ 
 
 /**
   * @}
-  */
-  
+  */   
+
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

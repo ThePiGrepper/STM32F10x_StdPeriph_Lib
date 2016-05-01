@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file contains definitions for STM3210C_EVAL's Leds, push-buttons
   *          COM ports, SD Card on SPI and sEE on I2C hardware resources.
   ******************************************************************************
@@ -142,6 +142,7 @@
 #define EVAL_COM1_RX_PIN                 GPIO_Pin_6
 #define EVAL_COM1_RX_GPIO_PORT           GPIOD
 #define EVAL_COM1_RX_GPIO_CLK            RCC_APB2Periph_GPIOD
+#define EVAL_COM1_IRQn                   USART2_IRQn
 
 /**
   * @}
@@ -191,6 +192,27 @@
 #define sEE_I2C_SDA_GPIO_CLK             RCC_APB2Periph_GPIOB
 #define sEE_M24C64_32
 
+#define sEE_I2C_DMA                      DMA1   
+#define sEE_I2C_DMA_CHANNEL_TX           DMA1_Channel6
+#define sEE_I2C_DMA_CHANNEL_RX           DMA1_Channel7 
+#define sEE_I2C_DMA_FLAG_TX_TC           DMA1_IT_TC6   
+#define sEE_I2C_DMA_FLAG_TX_GL           DMA1_IT_GL6 
+#define sEE_I2C_DMA_FLAG_RX_TC           DMA1_IT_TC7 
+#define sEE_I2C_DMA_FLAG_RX_GL           DMA1_IT_GL7    
+#define sEE_I2C_DMA_CLK                  RCC_AHBPeriph_DMA1
+#define sEE_I2C_DR_Address               ((uint32_t)0x40005410)
+#define sEE_USE_DMA
+   
+#define sEE_I2C_DMA_TX_IRQn              DMA1_Channel6_IRQn
+#define sEE_I2C_DMA_RX_IRQn              DMA1_Channel7_IRQn
+#define sEE_I2C_DMA_TX_IRQHandler        DMA1_Channel6_IRQHandler
+#define sEE_I2C_DMA_RX_IRQHandler        DMA1_Channel7_IRQHandler   
+#define sEE_I2C_DMA_PREPRIO              0
+#define sEE_I2C_DMA_SUBPRIO              0   
+   
+#define sEE_DIRECTION_TX                 0
+#define sEE_DIRECTION_RX                 1   
+   
 /**
   * @}
   */
@@ -221,6 +243,7 @@ void SD_LowLevel_DeInit(void);
 void SD_LowLevel_Init(void); 
 void sEE_LowLevel_DeInit(void);
 void sEE_LowLevel_Init(void); 
+void sEE_LowLevel_DMAConfig(uint32_t pBuffer, uint32_t BufferSize, uint32_t Direction);
 /**
   * @}
   */

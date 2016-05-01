@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_spi_sd.h
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file contains all the functions prototypes for the stm32_eval_spi_sd
   *          firmware driver.
   ******************************************************************************

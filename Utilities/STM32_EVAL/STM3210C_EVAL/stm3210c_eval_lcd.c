@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_lcd.c
   * @author  MCD Application Team
-  * @version V4.1.0
-  * @date    03/01/2010
+  * @version V4.2.0
+  * @date    04/16/2010
   * @brief   This file includes the LCD driver for AM-240320L8TNQW00H (LCD_ILI9320)
   *          Liquid Crystal Display Module of STM3210C-EVAL board.
   ******************************************************************************
