@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm3210c_eval.h
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file contains definitions for STM3210C_EVAL's Leds, push-buttons
   *          COM ports, SD Card on SPI and sEE on I2C hardware resources.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -274,4 +274,4 @@ void sEE_LowLevel_DMAConfig(uint32_t pBuffer, uint32_t BufferSize, uint32_t Dire
   * @}
   */
     
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

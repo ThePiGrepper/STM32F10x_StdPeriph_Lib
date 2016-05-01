@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32100e_eval.h
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file contains definitions for STM32100E_EVAL's Leds, push-buttons
   *          COM ports, sFLASH (on SPI) and Temperature Sensor LM75 (on I2C)
   *          hardware resources.  
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -17,7 +17,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
   
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -297,9 +298,9 @@
 #define sFLASH_SPI_MOSI_PIN              GPIO_Pin_7                  /* PA.07 */
 #define sFLASH_SPI_MOSI_GPIO_PORT        GPIOA                       /* GPIOA */
 #define sFLASH_SPI_MOSI_GPIO_CLK         RCC_APB2Periph_GPIOA
-#define sFLASH_CS_PIN                    GPIO_Pin_2                  /* PB.02 */
-#define sFLASH_CS_GPIO_PORT              GPIOB                       /* GPIOB */
-#define sFLASH_CS_GPIO_CLK               RCC_APB2Periph_GPIOB
+#define sFLASH_CS_PIN                    GPIO_Pin_6                  /* PE.06 */
+#define sFLASH_CS_GPIO_PORT              GPIOE                       /* GPIOE */
+#define sFLASH_CS_GPIO_CLK               RCC_APB2Periph_GPIOE
 
 /**
   * @}
@@ -389,4 +390,4 @@ void LM75_LowLevel_Init(void);
   * @}
   */
   
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

@@ -2,12 +2,12 @@
   ******************************************************************************
   * @file    stm32100e_eval_fsmc_onenand.h
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file contains all the functions prototypes for the 
   *          stm32100e_eval_fsmc_onenand firmware driver.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -16,7 +16,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */
    
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -49,7 +50,7 @@
 /** @defgroup STM32100E_EVAL_FSMC_ONENAND_Exported_Types
   * @{
   */
-  typedef struct
+typedef struct
 {
   uint16_t Manufacturer_ID;
   uint16_t Device_ID;
@@ -63,7 +64,12 @@ typedef enum
   OneNAND_ERROR,
   OneNAND_TIMEOUT
 }OneNAND_Status;
- 
+
+typedef struct 
+{
+  uint16_t Block;
+  uint16_t Page;
+} OneNAND_ADDRESS; 
 /**
   * @}
   */
@@ -74,12 +80,12 @@ typedef enum
 /** 
   * @brief  OneNAND memory command  
   */  
-#define OneNAND_CMD_ERASE                            0x0094
-#define OneNAND_CMD_MULTIPLE_ERASE                   0x0095
-#define OneNAND_CMD_ERASE_MULTI_BLOCK_VERIFY_READ    0x0071
-#define OneNAND_CMD_PROGRAM                          0x001A
-#define OneNAND_CMD_RESET                            0x00F0
-#define OneNAND_CMD_READ_ID                          0x0090
+#define OneNAND_CMD_ERASE                    ((uint16_t)0x0094)
+#define OneNAND_CMD_PROGRAM                  ((uint16_t)0x0080)
+#define OneNAND_CMD_RESET                    ((uint16_t)0x00F0)
+#define OneNAND_CMD_READ_ID                  ((uint16_t)0x0090)
+#define OneNAND_CMD_UNLOCK                   ((uint16_t)0x0023)
+#define OneNAND_CMD_LOAD                     ((uint16_t)0x0000)
 
 /** 
   * @brief OneNand Register description  
@@ -102,23 +108,33 @@ typedef enum
 #define OneNAND_REG_INTERRUPT                ((uint32_t)0x1E482) /* Memory Command Completion Interrupt Status */
 #define OneNAND_REG_STARTBLOCKADDRESS        ((uint32_t)0x1E498) /* Start memory block address in Write Protection mode */
 #define OneNAND_REG_WRITEPROTECTIONSTATUS    ((uint32_t)0x1E49C) /* Current memory Write Protection status */
-#define OneNAND_REG_ECCSTATUS                ((uint32_t)0x1FE00) /* ECC status of sector */
-#define OneNAND_REG_ECCMAINAREA1             ((uint32_t)0x1FE02) /* ECC error position of Main area data  error 
-                                                                     for first selected sector */
-#define OneNAND_REG_ECCSPAREAREA1            ((uint32_t)0x1FE04) /* ECC error position of Spare area data error 
-                                                                     for first selected Sector */
-#define OneNAND_REG_ECCMAINAREA2             ((uint32_t)0x1FE06) /* ECC error position of Main area data  error 
-                                                                     for second selected sector */
-#define OneNAND_REG_ECCSPAREAREA2            ((uint32_t)0x1FE08) /* ECC error position of Spare area data error 
-                                                                     for second selected Sector */
-#define OneNAND_REG_ECCMAINAREA3             ((uint32_t)0x1FE0A) /* ECC error position of Main area data  error 
-                                                                     for third selected sector */
-#define OneNAND_REG_ECCSPAREAREA3            ((uint32_t)0x1FE0C) /* ECC error position of Spare area data error 
-                                                                     for third selected Sector */
-#define OneNAND_REG_ECCMAINAREA4             ((uint32_t)0x1FE0E) /* ECC error position of Main area data  error 
-                                                                     for fourth selected sector */
-#define OneNAND_REG_ECCSPAREAREA4            ((uint32_t)0x1FE10) /* ECC error position of Spare area data error 
-                                                                     for fourth selected Sector */
+
+/** 
+  * @brief OneNand Memory partition description  
+  */
+#define OneNAND_DATA_RAM_0_0_ADD            ((uint32_t)0x0400) /* DataRAM Main page0/sector0 */
+#define OneNAND_DATA_RAM_0_0_REG            ((uint32_t)0x0800) /* DataRAM 0_0 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_0_1_ADD            ((uint32_t)0x0600) /* DataRAM Main page0/sector1 */
+#define OneNAND_DATA_RAM_0_1_REG            ((uint32_t)0x0900) /* DataRAM 0_1 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_0_2_ADD            ((uint32_t)0x0800) /* DataRAM Main page0/sector2 */
+#define OneNAND_DATA_RAM_0_2_REG            ((uint32_t)0x0A00) /* DataRAM 0_2 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_0_3_ADD            ((uint32_t)0x0A00) /* DataRAM Main page0/sector3 */
+#define OneNAND_DATA_RAM_0_3_REG            ((uint32_t)0x0B00) /* DataRAM 0_3 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_1_0_ADD            ((uint32_t)0x0C00) /* DataRAM Main page1/sector0 */
+#define OneNAND_DATA_RAM_1_0_REG            ((uint32_t)0x0C00) /* DataRAM 1_0 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_1_1_ADD            ((uint32_t)0x0E00) /* DataRAM Main page1/sector1 */
+#define OneNAND_DATA_RAM_1_1_REG            ((uint32_t)0x0D00) /* DataRAM 1_1 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_1_2_ADD            ((uint32_t)0x1000) /* DataRAM Main page1/sector2 */
+#define OneNAND_DATA_RAM_1_2_REG            ((uint32_t)0x0E00) /* DataRAM 1_2 is selected with 4 sector */
+
+#define OneNAND_DATA_RAM_1_3_ADD            ((uint32_t)0x1200) /* DataRAM Main page1/sector3 */
+#define OneNAND_DATA_RAM_1_3_REG            ((uint32_t)0x0F00) /* DataRAM 1_3 is selected with 4 sector */
 
 /**
   * @}
@@ -135,15 +151,15 @@ typedef enum
   * @{
   */ 
 void OneNAND_Init(void);
+void OneNAND_Reset(void);
 void OneNAND_ReadID(OneNAND_IDTypeDef* OneNAND_ID);
+uint16_t OneNAND_UnlockBlock(uint32_t BlockNumber);
+uint16_t OneNAND_EraseBlock(uint32_t BlockNumber);
+uint16_t OneNAND_WriteBuffer(uint16_t* pBuffer, OneNAND_ADDRESS Address, uint32_t NumHalfwordToWrite);
+void OneNAND_AsynchronousRead(uint16_t* pBuffer, OneNAND_ADDRESS Address, uint32_t NumHalfwordToRead);
+void OneNAND_SynchronousRead(uint16_t* pBuffer, OneNAND_ADDRESS Address, uint32_t NumHalfwordToRead);
 uint16_t OneNAND_ReadStatus(void);
 uint16_t OneNAND_ReadControllerStatus(void);
-uint16_t OneNAND_EraseBlock(uint32_t BlockAddr);
-void OneNAND_Reset(void);
-uint16_t OneNAND_Unlock(void);
-uint16_t OneNAND_WriteBuffer(uint16_t* pBuffer, uint32_t WriteAddr, uint32_t NumHalfwordToWrite);
-void OneNAND_AsynchronousRead(uint16_t* pBuffer, uint32_t ReadAddr, uint32_t NumHalfwordToRead);
-void OneNAND_SynchronousRead(uint16_t* pBuffer, uint32_t ReadAddr, uint32_t NumHalfwordToRead);
 
 #ifdef __cplusplus
 }
@@ -170,4 +186,4 @@ void OneNAND_SynchronousRead(uint16_t* pBuffer, uint32_t ReadAddr, uint32_t NumH
   * @}
   */ 
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

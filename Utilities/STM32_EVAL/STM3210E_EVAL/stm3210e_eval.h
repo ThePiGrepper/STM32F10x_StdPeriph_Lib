@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm3210e_eval.h
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file contains definitions for STM3210E_EVAL's Leds, push-buttons
   *          COM ports, sFLASH (on SPI) and Temperature Sensor LM75 (on I2C)
   *          hardware resources.  
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -17,7 +17,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
   
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -225,7 +226,7 @@
 /** 
   * @brief  SDIO Data Transfer Frequency (25MHz max) 
   */
-#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 
+#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x00) 
 
 /**
   * @}
@@ -338,4 +339,4 @@ void LM75_LowLevel_Init(void);
   * @}
   */
   
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

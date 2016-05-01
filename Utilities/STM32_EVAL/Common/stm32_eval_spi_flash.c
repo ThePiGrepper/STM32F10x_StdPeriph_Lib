@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_eval_spi_flash.c
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file provides a set of functions needed to manage the SPI M25Pxxx
   *          FLASH memory mounted on STM32xx-EVAL board (refer to stm32_eval.h
   *          to know about the boards supporting this memory). 
@@ -31,7 +31,7 @@
   *          |                             |    VCC        |    8 (3.3 V)|  
   *          +-----------------------------+---------------+-------------+  
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -40,7 +40,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
 
 /* Includes ------------------------------------------------------------------*/
@@ -537,4 +538,4 @@ void sFLASH_WaitForWriteEnd(void)
   * @}
   */  
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

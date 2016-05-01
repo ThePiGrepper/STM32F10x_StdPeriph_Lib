@@ -2,11 +2,11 @@
   ******************************************************************************
   * @file    stm32_eval.h
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   Header file for stm32_eval.c module.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -15,7 +15,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
   
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -65,7 +66,9 @@
   -----------------------------------------------------------------------------------------------------------------+
    STM32100B-EVAL  |  4  |    8     |     2     | YES (SPI) | NO   |  YES   | NO  |   YES   |    YES   |    NO     |
   -----------------------------------------------------------------------------------------------------------------+
-   STM32100E-EVAL  |  4  |    8     |     2     | YES (FSMC)| YES  |  YES   | YES |   YES   |    YES   |    NO     |      
+   STM32L152-EVAL  |  4  |    8     |     2     | YES (SPI) | NO   |  NO    | NO  |   YES   |    YES   |    NO     |
+  -----------------------------------------------------------------------------------------------------------------+
+   STM32100E-EVAL  |  4  |    8     |     2     | YES (FSMC)| YES  |  YES   | YES |   YES   |    YES   |    NO     |
   =================================================================================================================+
 @endcode
 */
@@ -125,7 +128,7 @@ typedef enum
   
 /** @defgroup STM32_EVAL_Exported_Constants
   * @{
-  */ 
+  */
 
 /** 
   * @brief  Uncomment the line corresponding to the STMicroelectronics evaluation
@@ -135,11 +138,12 @@ typedef enum
   *       boards, you can define the board in your toolchain compiler preprocessor.    
   */ 
 #if !defined (USE_STM32100B_EVAL) && !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL)\
-   &&  !defined (USE_STM3210C_EVAL) &&  !defined (USE_STM32100E_EVAL)
+   &&  !defined (USE_STM3210C_EVAL) &&  !defined (USE_STM32L152_EVAL) &&  !defined (USE_STM32100E_EVAL)
  //#define USE_STM32100B_EVAL
  //#define USE_STM3210B_EVAL
  //#define USE_STM3210E_EVAL
  //#define USE_STM3210C_EVAL
+ //#define USE_STM32L152_EVAL
  //#define USE_STM32100E_EVAL
 #endif
 
@@ -155,6 +159,9 @@ typedef enum
 #elif defined USE_STM3210C_EVAL
  #include "stm32f10x.h"
  #include "stm3210c_eval/stm3210c_eval.h"
+#elif defined USE_STM32L152_EVAL
+ #include "stm32l1xx.h"
+ #include "stm32l152_eval/stm32l152_eval.h" 
 #elif defined USE_STM32100E_EVAL
  #include "stm32f10x.h"
  #include "stm32100e_eval/stm32100e_eval.h"
@@ -320,6 +327,7 @@ typedef enum
 #define Horizontal          LCD_DIR_HORIZONTAL
 #define Vertical            LCD_DIR_VERTICAL
 
+
 /**
   * @}
   */ 
@@ -357,4 +365,4 @@ typedef enum
   * @}
   */   
 
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

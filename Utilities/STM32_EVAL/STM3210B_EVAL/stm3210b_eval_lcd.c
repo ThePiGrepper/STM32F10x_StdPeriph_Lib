@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm3210b_eval_lcd.c
   * @author  MCD Application Team
-  * @version V4.3.0
-  * @date    10/15/2010
+  * @version V4.5.0
+  * @date    07-March-2011
   * @brief   This file includes the LCD driver for AM-240320LTNQW00H (LCD_HX8312),
   *          AM-240320L8TNQW00H (LCD_ILI9320), AM-240320LDTNQW00H (LCD_SPFD5408B)
   *          Liquid Crystal Display Module of STM3210B-EVAL board.
   ******************************************************************************
-  * @copy
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -17,7 +17,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************  
   */ 
 
 /* Includes ------------------------------------------------------------------*/
@@ -1321,7 +1322,7 @@ void LCD_FillPolyLine(pPoint Points, uint16_t PointCount)
       j = i; 
     }
   
-    /* Sort the nodes, via a simple “Bubble” sort. */
+    /* Sort the nodes, via a simple "Bubble" sort. */
     i = 0;
     while (i < nodes-1) 
     {
@@ -1874,4 +1875,4 @@ static void delay(vu32 nCount)
   * @}
   */
   
-/******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
