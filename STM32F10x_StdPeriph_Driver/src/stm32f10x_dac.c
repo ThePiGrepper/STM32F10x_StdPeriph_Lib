@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_dac.c
+  * @file    stm32f10x_dac.c
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file provides all the DAC firmware functions.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file provides all the DAC firmware functions.
   ******************************************************************************
   * @copy
   *
@@ -22,7 +22,7 @@
 #include "stm32f10x_dac.h"
 #include "stm32f10x_rcc.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -99,10 +99,9 @@
   */
 
 /**
-  * @brief  Deinitializes the DAC peripheral registers to their default
-  *   reset values.
+  * @brief  Deinitializes the DAC peripheral registers to their default reset values.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void DAC_DeInit(void)
 {
@@ -115,14 +114,13 @@ void DAC_DeInit(void)
 /**
   * @brief  Initializes the DAC peripheral according to the specified 
   *   parameters in the DAC_InitStruct.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @param DAC_InitStruct: pointer to a DAC_InitTypeDef structure that
-  *   contains the configuration information for the specified
-  *   DAC channel.
-  * @retval : None
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @param  DAC_InitStruct: pointer to a DAC_InitTypeDef structure that
+  *   contains the configuration information for the specified DAC channel.
+  * @retval None
   */
 void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct)
 {
@@ -153,9 +151,9 @@ void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct)
 
 /**
   * @brief  Fills each DAC_InitStruct member with its default value.
-  * @param DAC_InitStruct : pointer to a DAC_InitTypeDef structure
-  *   which will be initialized.
-  * @retval : None
+  * @param  DAC_InitStruct : pointer to a DAC_InitTypeDef structure which will
+  *   be initialized.
+  * @retval None
   */
 void DAC_StructInit(DAC_InitTypeDef* DAC_InitStruct)
 {
@@ -172,13 +170,13 @@ void DAC_StructInit(DAC_InitTypeDef* DAC_InitStruct)
 
 /**
   * @brief  Enables or disables the specified DAC channel.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @param NewState: new state of the DAC channel. 
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @param  NewState: new state of the DAC channel. 
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState)
 {
@@ -199,13 +197,13 @@ void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the specified DAC channel DMA request.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @param NewState: new state of the selected DAC channel DMA request.
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @param  NewState: new state of the selected DAC channel DMA request.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState)
 {
@@ -226,13 +224,13 @@ void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the selected DAC channel software trigger.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @param NewState: new state of the selected DAC channel software trigger.
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @param  NewState: new state of the selected DAC channel software trigger.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void DAC_SoftwareTriggerCmd(uint32_t DAC_Channel, FunctionalState NewState)
 {
@@ -254,9 +252,9 @@ void DAC_SoftwareTriggerCmd(uint32_t DAC_Channel, FunctionalState NewState)
 /**
   * @brief  Enables or disables simultaneously the two DAC channels software
   *   triggers.
-  * @param NewState: new state of the DAC channels software triggers.
+  * @param  NewState: new state of the DAC channels software triggers.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void DAC_DualSoftwareTriggerCmd(FunctionalState NewState)
 {
@@ -276,17 +274,17 @@ void DAC_DualSoftwareTriggerCmd(FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the selected DAC channel wave generation.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @param DAC_Wave: Specifies the wave type to enable or disable.
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @param  DAC_Wave: Specifies the wave type to enable or disable.
   *   This parameter can be one of the following values:
-  * @arg DAC_Wave_Noise: noise wave generation
-  * @arg DAC_Wave_Triangle: triangle wave generation
-  * @param NewState: new state of the selected DAC channel wave generation.
+  *     @arg DAC_Wave_Noise: noise wave generation
+  *     @arg DAC_Wave_Triangle: triangle wave generation
+  * @param  NewState: new state of the selected DAC channel wave generation.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void DAC_WaveGenerationCmd(uint32_t DAC_Channel, uint32_t DAC_Wave, FunctionalState NewState)
 {
@@ -308,61 +306,72 @@ void DAC_WaveGenerationCmd(uint32_t DAC_Channel, uint32_t DAC_Wave, FunctionalSt
 
 /**
   * @brief  Set the specified data holding register value for DAC channel1.
-  * @param DAC_Align: Specifies the data alignement for DAC channel1.
+  * @param  DAC_Align: Specifies the data alignement for DAC channel1.
   *   This parameter can be one of the following values:
-  * @arg DAC_Align_8b_R: 8bit right data alignement selected
-  * @arg DAC_Align_12b_L: 12bit left data alignement selected
-  * @arg DAC_Align_12b_R: 12bit right data alignement selected
-  * @param Data : Data to be loaded in the selected data holding 
-  *   register.
-  * @retval : None
+  *     @arg DAC_Align_8b_R: 8bit right data alignement selected
+  *     @arg DAC_Align_12b_L: 12bit left data alignement selected
+  *     @arg DAC_Align_12b_R: 12bit right data alignement selected
+  * @param  Data : Data to be loaded in the selected data holding register.
+  * @retval None
   */
 void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data)
-{
+{  
+  __IO uint32_t tmp = 0;
+  
   /* Check the parameters */
   assert_param(IS_DAC_ALIGN(DAC_Align));
   assert_param(IS_DAC_DATA(Data));
+  
+  tmp = (uint32_t)DAC_BASE; 
+  tmp += DHR12R1_Offset + DAC_Align;
+
   /* Set the DAC channel1 selected data holding register */
-  *((__IO uint32_t *)(DAC_BASE + DHR12R1_Offset + DAC_Align)) = (uint32_t)Data;
+  *(__IO uint32_t *) tmp = Data;
 }
 
 /**
   * @brief  Set the specified data holding register value for DAC channel2.
-  * @param DAC_Align: Specifies the data alignement for DAC channel2.
+  * @param  DAC_Align: Specifies the data alignement for DAC channel2.
   *   This parameter can be one of the following values:
-  * @arg DAC_Align_8b_R: 8bit right data alignement selected
-  * @arg DAC_Align_12b_L: 12bit left data alignement selected
-  * @arg DAC_Align_12b_R: 12bit right data alignement selected
-  * @param Data : Data to be loaded in the selected data holding 
-  *   register.
-  * @retval : None
+  *     @arg DAC_Align_8b_R: 8bit right data alignement selected
+  *     @arg DAC_Align_12b_L: 12bit left data alignement selected
+  *     @arg DAC_Align_12b_R: 12bit right data alignement selected
+  * @param  Data : Data to be loaded in the selected data holding register.
+  * @retval None
   */
 void DAC_SetChannel2Data(uint32_t DAC_Align, uint16_t Data)
 {
+  __IO uint32_t tmp = 0;
+
   /* Check the parameters */
   assert_param(IS_DAC_ALIGN(DAC_Align));
   assert_param(IS_DAC_DATA(Data));
+  
+  tmp = (uint32_t)DAC_BASE;
+  tmp += DHR12R2_Offset + DAC_Align;
+
   /* Set the DAC channel2 selected data holding register */
-  *((__IO uint32_t *)(DAC_BASE + DHR12R2_Offset + DAC_Align)) = (uint32_t)Data;
+  *(__IO uint32_t *)tmp = Data;
 }
 
 /**
   * @brief  Set the specified data holding register value for dual channel
   *   DAC.
-  * @param DAC_Align: Specifies the data alignement for dual channel DAC.
+  * @param  DAC_Align: Specifies the data alignement for dual channel DAC.
   *   This parameter can be one of the following values:
-  * @arg DAC_Align_8b_R: 8bit right data alignement selected
-  * @arg DAC_Align_12b_L: 12bit left data alignement selected
-  * @arg DAC_Align_12b_R: 12bit right data alignement selected
-  * @param Data2: Data for DAC Channel2 to be loaded in the selected data 
+  *     @arg DAC_Align_8b_R: 8bit right data alignement selected
+  *     @arg DAC_Align_12b_L: 12bit left data alignement selected
+  *     @arg DAC_Align_12b_R: 12bit right data alignement selected
+  * @param  Data2: Data for DAC Channel2 to be loaded in the selected data 
   *   holding register.
-  * @param Data1: Data for DAC Channel1 to be loaded in the selected data 
+  * @param  Data1: Data for DAC Channel1 to be loaded in the selected data 
   *   holding register.
-  * @retval : None
+  * @retval None
   */
 void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1)
 {
-  uint32_t data = 0;
+  uint32_t data = 0, tmp = 0;
+  
   /* Check the parameters */
   assert_param(IS_DAC_ALIGN(DAC_Align));
   assert_param(IS_DAC_DATA(Data1));
@@ -377,24 +386,34 @@ void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1)
   {
     data = ((uint32_t)Data2 << 16) | Data1;
   }
+  
+  tmp = (uint32_t)DAC_BASE;
+  tmp += DHR12RD_Offset + DAC_Align;
+
   /* Set the dual DAC selected data holding register */
-  *((__IO uint32_t *)(DAC_BASE + DHR12RD_Offset + DAC_Align)) = data;
+  *(__IO uint32_t *)tmp = data;
 }
 
 /**
   * @brief  Returns the last data output value of the selected DAC cahnnel.
-  * @param DAC_Channel: the selected DAC channel. 
+  * @param  DAC_Channel: the selected DAC channel. 
   *   This parameter can be one of the following values:
-  * @arg DAC_Channel_1: DAC Channel1 selected
-  * @arg DAC_Channel_2: DAC Channel2 selected
-  * @retval : The selected DAC channel data output value.
+  *     @arg DAC_Channel_1: DAC Channel1 selected
+  *     @arg DAC_Channel_2: DAC Channel2 selected
+  * @retval The selected DAC channel data output value.
   */
 uint16_t DAC_GetDataOutputValue(uint32_t DAC_Channel)
 {
+  __IO uint32_t tmp = 0;
+  
   /* Check the parameters */
   assert_param(IS_DAC_CHANNEL(DAC_Channel));
+  
+  tmp = (uint32_t) DAC_BASE ;
+  tmp += DOR_Offset + ((uint32_t)DAC_Channel >> 2);
+  
   /* Returns the DAC channel data output register value */
-  return (uint16_t) (*(__IO uint32_t*)(DAC_BASE + DOR_Offset + ((uint32_t)DAC_Channel >> 2)));
+  return (uint16_t) (*(__IO uint32_t*) tmp);
 }
 
 /**

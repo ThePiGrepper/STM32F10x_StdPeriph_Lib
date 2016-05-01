@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_pwr.c
+  * @file    stm32f10x_pwr.c
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file provides all the PWR firmware functions.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file provides all the PWR firmware functions.
   ******************************************************************************
   * @copy
   *
@@ -22,7 +22,7 @@
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rcc.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -112,10 +112,9 @@
   */
 
 /**
-  * @brief  Deinitializes the PWR peripheral registers to their default
-  *   reset values.
+  * @brief  Deinitializes the PWR peripheral registers to their default reset values.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void PWR_DeInit(void)
 {
@@ -125,9 +124,9 @@ void PWR_DeInit(void)
 
 /**
   * @brief  Enables or disables access to the RTC and backup registers.
-  * @param NewState: new state of the access to the RTC and backup
-  *   registers. This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @param  NewState: new state of the access to the RTC and backup registers.
+  *   This parameter can be: ENABLE or DISABLE.
+  * @retval None
   */
 void PWR_BackupAccessCmd(FunctionalState NewState)
 {
@@ -138,9 +137,9 @@ void PWR_BackupAccessCmd(FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the Power Voltage Detector(PVD).
-  * @param NewState: new state of the PVD.
+  * @param  NewState: new state of the PVD.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void PWR_PVDCmd(FunctionalState NewState)
 {
@@ -150,19 +149,18 @@ void PWR_PVDCmd(FunctionalState NewState)
 }
 
 /**
-  * @brief  Configures the voltage threshold detected by the Power Voltage
-  *   Detector(PVD).
-  * @param PWR_PVDLevel: specifies the PVD detection level
+  * @brief  Configures the voltage threshold detected by the Power Voltage Detector(PVD).
+  * @param  PWR_PVDLevel: specifies the PVD detection level
   *   This parameter can be one of the following values:
-  * @arg PWR_PVDLevel_2V2: PVD detection level set to 2.2V
-  * @arg PWR_PVDLevel_2V3: PVD detection level set to 2.3V
-  * @arg PWR_PVDLevel_2V4: PVD detection level set to 2.4V
-  * @arg PWR_PVDLevel_2V5: PVD detection level set to 2.5V
-  * @arg PWR_PVDLevel_2V6: PVD detection level set to 2.6V
-  * @arg PWR_PVDLevel_2V7: PVD detection level set to 2.7V
-  * @arg PWR_PVDLevel_2V8: PVD detection level set to 2.8V
-  * @arg PWR_PVDLevel_2V9: PVD detection level set to 2.9V
-  * @retval : None
+  *     @arg PWR_PVDLevel_2V2: PVD detection level set to 2.2V
+  *     @arg PWR_PVDLevel_2V3: PVD detection level set to 2.3V
+  *     @arg PWR_PVDLevel_2V4: PVD detection level set to 2.4V
+  *     @arg PWR_PVDLevel_2V5: PVD detection level set to 2.5V
+  *     @arg PWR_PVDLevel_2V6: PVD detection level set to 2.6V
+  *     @arg PWR_PVDLevel_2V7: PVD detection level set to 2.7V
+  *     @arg PWR_PVDLevel_2V8: PVD detection level set to 2.8V
+  *     @arg PWR_PVDLevel_2V9: PVD detection level set to 2.9V
+  * @retval None
   */
 void PWR_PVDLevelConfig(uint32_t PWR_PVDLevel)
 {
@@ -180,9 +178,9 @@ void PWR_PVDLevelConfig(uint32_t PWR_PVDLevel)
 
 /**
   * @brief  Enables or disables the WakeUp Pin functionality.
-  * @param NewState: new state of the WakeUp Pin functionality.
+  * @param  NewState: new state of the WakeUp Pin functionality.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void PWR_WakeUpPinCmd(FunctionalState NewState)
 {
@@ -193,17 +191,15 @@ void PWR_WakeUpPinCmd(FunctionalState NewState)
 
 /**
   * @brief  Enters STOP mode.
-  * @param PWR_Regulator: specifies the regulator state in STOP mode.
+  * @param  PWR_Regulator: specifies the regulator state in STOP mode.
   *   This parameter can be one of the following values:
-  * @arg PWR_Regulator_ON: STOP mode with regulator ON
-  * @arg PWR_Regulator_LowPower: STOP mode with
-  *   regulator in low power mode
-  * @param PWR_STOPEntry: specifies if STOP mode in entered with WFI or 
-  *   WFE instruction.
+  *     @arg PWR_Regulator_ON: STOP mode with regulator ON
+  *     @arg PWR_Regulator_LowPower: STOP mode with regulator in low power mode
+  * @param  PWR_STOPEntry: specifies if STOP mode in entered with WFI or WFE instruction.
   *   This parameter can be one of the following values:
-  * @arg PWR_STOPEntry_WFI: enter STOP mode with WFI instruction
-  * @arg PWR_STOPEntry_WFE: enter STOP mode with WFE instruction
-  * @retval : None
+  *     @arg PWR_STOPEntry_WFI: enter STOP mode with WFI instruction
+  *     @arg PWR_STOPEntry_WFE: enter STOP mode with WFE instruction
+  * @retval None
   */
 void PWR_EnterSTOPMode(uint32_t PWR_Regulator, uint8_t PWR_STOPEntry)
 {
@@ -239,7 +235,7 @@ void PWR_EnterSTOPMode(uint32_t PWR_Regulator, uint8_t PWR_STOPEntry)
 /**
   * @brief  Enters STANDBY mode.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void PWR_EnterSTANDBYMode(void)
 {
@@ -259,12 +255,12 @@ void PWR_EnterSTANDBYMode(void)
 
 /**
   * @brief  Checks whether the specified PWR flag is set or not.
-  * @param PWR_FLAG: specifies the flag to check.
+  * @param  PWR_FLAG: specifies the flag to check.
   *   This parameter can be one of the following values:
-  * @arg PWR_FLAG_WU: Wake Up flag
-  * @arg PWR_FLAG_SB: StandBy flag
-  * @arg PWR_FLAG_PVDO: PVD Output
-  * @retval : The new state of PWR_FLAG (SET or RESET).
+  *     @arg PWR_FLAG_WU: Wake Up flag
+  *     @arg PWR_FLAG_SB: StandBy flag
+  *     @arg PWR_FLAG_PVDO: PVD Output
+  * @retval The new state of PWR_FLAG (SET or RESET).
   */
 FlagStatus PWR_GetFlagStatus(uint32_t PWR_FLAG)
 {
@@ -286,11 +282,11 @@ FlagStatus PWR_GetFlagStatus(uint32_t PWR_FLAG)
 
 /**
   * @brief  Clears the PWR's pending flags.
-  * @param PWR_FLAG: specifies the flag to clear.
+  * @param  PWR_FLAG: specifies the flag to clear.
   *   This parameter can be one of the following values:
-  * @arg PWR_FLAG_WU: Wake Up flag
-  * @arg PWR_FLAG_SB: StandBy flag
-  * @retval : None
+  *     @arg PWR_FLAG_WU: Wake Up flag
+  *     @arg PWR_FLAG_SB: StandBy flag
+  * @retval None
   */
 void PWR_ClearFlag(uint32_t PWR_FLAG)
 {

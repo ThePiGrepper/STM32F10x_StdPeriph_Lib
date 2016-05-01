@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_rtc.h
+  * @file    stm32f10x_rtc.h
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file contains all the functions prototypes for the RTC firmware 
-  *         library.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file contains all the functions prototypes for the RTC firmware 
+  *          library.
   ******************************************************************************
   * @copy
   *
@@ -23,10 +23,14 @@
 #ifndef __STM32F10x_RTC_H
 #define __STM32F10x_RTC_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -50,9 +54,9 @@
   * @{
   */
 
-#define RTC_IT_OW            ((uint16_t)0x0004)  /* Overflow interrupt */
-#define RTC_IT_ALR           ((uint16_t)0x0002)  /* Alarm interrupt */
-#define RTC_IT_SEC           ((uint16_t)0x0001)  /* Second interrupt */
+#define RTC_IT_OW            ((uint16_t)0x0004)  /*!< Overflow interrupt */
+#define RTC_IT_ALR           ((uint16_t)0x0002)  /*!< Alarm interrupt */
+#define RTC_IT_SEC           ((uint16_t)0x0001)  /*!< Second interrupt */
 #define IS_RTC_IT(IT) ((((IT) & (uint16_t)0xFFF8) == 0x00) && ((IT) != 0x00))
 #define IS_RTC_GET_IT(IT) (((IT) == RTC_IT_OW) || ((IT) == RTC_IT_ALR) || \
                            ((IT) == RTC_IT_SEC))
@@ -64,11 +68,11 @@
   * @{
   */
 
-#define RTC_FLAG_RTOFF       ((uint16_t)0x0020)  /* RTC Operation OFF flag */
-#define RTC_FLAG_RSF         ((uint16_t)0x0008)  /* Registers Synchronized flag */
-#define RTC_FLAG_OW          ((uint16_t)0x0004)  /* Overflow flag */
-#define RTC_FLAG_ALR         ((uint16_t)0x0002)  /* Alarm flag */
-#define RTC_FLAG_SEC         ((uint16_t)0x0001)  /* Second flag */
+#define RTC_FLAG_RTOFF       ((uint16_t)0x0020)  /*!< RTC Operation OFF flag */
+#define RTC_FLAG_RSF         ((uint16_t)0x0008)  /*!< Registers Synchronized flag */
+#define RTC_FLAG_OW          ((uint16_t)0x0004)  /*!< Overflow flag */
+#define RTC_FLAG_ALR         ((uint16_t)0x0002)  /*!< Alarm flag */
+#define RTC_FLAG_SEC         ((uint16_t)0x0001)  /*!< Second flag */
 #define IS_RTC_CLEAR_FLAG(FLAG) ((((FLAG) & (uint16_t)0xFFF0) == 0x00) && ((FLAG) != 0x00))
 #define IS_RTC_GET_FLAG(FLAG) (((FLAG) == RTC_FLAG_RTOFF) || ((FLAG) == RTC_FLAG_RSF) || \
                                ((FLAG) == RTC_FLAG_OW) || ((FLAG) == RTC_FLAG_ALR) || \
@@ -109,6 +113,10 @@ FlagStatus RTC_GetFlagStatus(uint16_t RTC_FLAG);
 void RTC_ClearFlag(uint16_t RTC_FLAG);
 ITStatus RTC_GetITStatus(uint16_t RTC_IT);
 void RTC_ClearITPendingBit(uint16_t RTC_IT);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __STM32F10x_RTC_H */
 /**

@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_rtc.c
+  * @file    stm32f10x_rtc.c
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file provides all the RTC firmware functions.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file provides all the RTC firmware functions.
   ******************************************************************************
   * @copy
   *
@@ -21,7 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_rtc.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -41,10 +41,10 @@
   * @{
   */
 
-#define CRL_CNF_Set      ((uint16_t)0x0010)      /* Configuration Flag Enable Mask */
-#define CRL_CNF_Reset    ((uint16_t)0xFFEF)      /* Configuration Flag Disable Mask */
-#define RTC_LSB_Mask     ((uint32_t)0x0000FFFF)  /* RTC LSB Mask */
-#define PRLH_MSB_Mask    ((uint32_t)0x000F0000)  /* RTC Prescaler MSB Mask */
+#define CRL_CNF_Set      ((uint16_t)0x0010)      /*!< Configuration Flag Enable Mask */
+#define CRL_CNF_Reset    ((uint16_t)0xFFEF)      /*!< Configuration Flag Disable Mask */
+#define RTC_LSB_Mask     ((uint32_t)0x0000FFFF)  /*!< RTC LSB Mask */
+#define PRLH_MSB_Mask    ((uint32_t)0x000F0000)  /*!< RTC Prescaler MSB Mask */
 
 /**
   * @}
@@ -80,15 +80,14 @@
 
 /**
   * @brief  Enables or disables the specified RTC interrupts.
-  * @param RTC_IT: specifies the RTC interrupts sources to be enabled or 
-  *                disabled.
+  * @param  RTC_IT: specifies the RTC interrupts sources to be enabled or disabled.
   *   This parameter can be any combination of the following values:
-  * @arg RTC_IT_OW: Overflow interrupt
-  * @arg RTC_IT_ALR: Alarm interrupt
-  * @arg RTC_IT_SEC: Second interrupt
-  * @param NewState: new state of the specified RTC interrupts.
+  *     @arg RTC_IT_OW: Overflow interrupt
+  *     @arg RTC_IT_ALR: Alarm interrupt
+  *     @arg RTC_IT_SEC: Second interrupt
+  * @param  NewState: new state of the specified RTC interrupts.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void RTC_ITConfig(uint16_t RTC_IT, FunctionalState NewState)
 {
@@ -109,7 +108,7 @@ void RTC_ITConfig(uint16_t RTC_IT, FunctionalState NewState)
 /**
   * @brief  Enters the RTC configuration mode.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void RTC_EnterConfigMode(void)
 {
@@ -120,7 +119,7 @@ void RTC_EnterConfigMode(void)
 /**
   * @brief  Exits from the RTC configuration mode.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void RTC_ExitConfigMode(void)
 {
@@ -131,7 +130,7 @@ void RTC_ExitConfigMode(void)
 /**
   * @brief  Gets the RTC counter value.
   * @param  None
-  * @retval : RTC counter value.
+  * @retval RTC counter value.
   */
 uint32_t RTC_GetCounter(void)
 {
@@ -142,8 +141,8 @@ uint32_t RTC_GetCounter(void)
 
 /**
   * @brief  Sets the RTC counter value.
-  * @param CounterValue: RTC counter new value.
-  * @retval : None
+  * @param  CounterValue: RTC counter new value.
+  * @retval None
   */
 void RTC_SetCounter(uint32_t CounterValue)
 { 
@@ -157,8 +156,8 @@ void RTC_SetCounter(uint32_t CounterValue)
 
 /**
   * @brief  Sets the RTC prescaler value.
-  * @param PrescalerValue: RTC prescaler new value.
-  * @retval : None
+  * @param  PrescalerValue: RTC prescaler new value.
+  * @retval None
   */
 void RTC_SetPrescaler(uint32_t PrescalerValue)
 {
@@ -175,8 +174,8 @@ void RTC_SetPrescaler(uint32_t PrescalerValue)
 
 /**
   * @brief  Sets the RTC alarm value.
-  * @param AlarmValue: RTC alarm new value.
-  * @retval : None
+  * @param  AlarmValue: RTC alarm new value.
+  * @retval None
   */
 void RTC_SetAlarm(uint32_t AlarmValue)
 {  
@@ -191,7 +190,7 @@ void RTC_SetAlarm(uint32_t AlarmValue)
 /**
   * @brief  Gets the RTC divider value.
   * @param  None
-  * @retval : RTC Divider value.
+  * @retval RTC Divider value.
   */
 uint32_t RTC_GetDivider(void)
 {
@@ -203,9 +202,9 @@ uint32_t RTC_GetDivider(void)
 
 /**
   * @brief  Waits until last write operation on RTC registers has finished.
-  *   This function must be called before any write to RTC registers.
+  * @note   This function must be called before any write to RTC registers.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void RTC_WaitForLastTask(void)
 {
@@ -218,10 +217,10 @@ void RTC_WaitForLastTask(void)
 /**
   * @brief  Waits until the RTC registers (RTC_CNT, RTC_ALR and RTC_PRL)
   *   are synchronized with RTC APB clock.
-  *   This function must be called before any read operation after
-  *   an APB reset or an APB clock stop.
+  * @note   This function must be called before any read operation after an APB reset
+  *   or an APB clock stop.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void RTC_WaitForSynchro(void)
 {
@@ -235,14 +234,14 @@ void RTC_WaitForSynchro(void)
 
 /**
   * @brief  Checks whether the specified RTC flag is set or not.
-  * @param RTC_FLAG: specifies the flag to check.
+  * @param  RTC_FLAG: specifies the flag to check.
   *   This parameter can be one the following values:
-  * @arg RTC_FLAG_RTOFF: RTC Operation OFF flag
-  * @arg RTC_FLAG_RSF: Registers Synchronized flag
-  * @arg RTC_FLAG_OW: Overflow flag
-  * @arg RTC_FLAG_ALR: Alarm flag
-  * @arg RTC_FLAG_SEC: Second flag
-  * @retval : The new state of RTC_FLAG (SET or RESET).
+  *     @arg RTC_FLAG_RTOFF: RTC Operation OFF flag
+  *     @arg RTC_FLAG_RSF: Registers Synchronized flag
+  *     @arg RTC_FLAG_OW: Overflow flag
+  *     @arg RTC_FLAG_ALR: Alarm flag
+  *     @arg RTC_FLAG_SEC: Second flag
+  * @retval The new state of RTC_FLAG (SET or RESET).
   */
 FlagStatus RTC_GetFlagStatus(uint16_t RTC_FLAG)
 {
@@ -264,14 +263,14 @@ FlagStatus RTC_GetFlagStatus(uint16_t RTC_FLAG)
 
 /**
   * @brief  Clears the RTC’s pending flags.
-  * @param RTC_FLAG: specifies the flag to clear.
+  * @param  RTC_FLAG: specifies the flag to clear.
   *   This parameter can be any combination of the following values:
-  * @arg RTC_FLAG_RSF: Registers Synchronized flag. This flag
-  *   is cleared only after an APB reset or an APB Clock stop.
-  * @arg RTC_FLAG_OW: Overflow flag
-  * @arg RTC_FLAG_ALR: Alarm flag
-  * @arg RTC_FLAG_SEC: Second flag
-  * @retval : None
+  *     @arg RTC_FLAG_RSF: Registers Synchronized flag. This flag is cleared only after
+  *                        an APB reset or an APB Clock stop.
+  *     @arg RTC_FLAG_OW: Overflow flag
+  *     @arg RTC_FLAG_ALR: Alarm flag
+  *     @arg RTC_FLAG_SEC: Second flag
+  * @retval None
   */
 void RTC_ClearFlag(uint16_t RTC_FLAG)
 {
@@ -284,12 +283,12 @@ void RTC_ClearFlag(uint16_t RTC_FLAG)
 
 /**
   * @brief  Checks whether the specified RTC interrupt has occured or not.
-  * @param RTC_IT: specifies the RTC interrupts sources to check.
+  * @param  RTC_IT: specifies the RTC interrupts sources to check.
   *   This parameter can be one of the following values:
-  * @arg RTC_IT_OW: Overflow interrupt
-  * @arg RTC_IT_ALR: Alarm interrupt
-  * @arg RTC_IT_SEC: Second interrupt
-  * @retval : The new state of the RTC_IT (SET or RESET).
+  *     @arg RTC_IT_OW: Overflow interrupt
+  *     @arg RTC_IT_ALR: Alarm interrupt
+  *     @arg RTC_IT_SEC: Second interrupt
+  * @retval The new state of the RTC_IT (SET or RESET).
   */
 ITStatus RTC_GetITStatus(uint16_t RTC_IT)
 {
@@ -311,12 +310,12 @@ ITStatus RTC_GetITStatus(uint16_t RTC_IT)
 
 /**
   * @brief  Clears the RTC’s interrupt pending bits.
-  * @param RTC_IT: specifies the interrupt pending bit to clear.
+  * @param  RTC_IT: specifies the interrupt pending bit to clear.
   *   This parameter can be any combination of the following values:
-  * @arg RTC_IT_OW: Overflow interrupt
-  * @arg RTC_IT_ALR: Alarm interrupt
-  * @arg RTC_IT_SEC: Second interrupt
-  * @retval : None
+  *     @arg RTC_IT_OW: Overflow interrupt
+  *     @arg RTC_IT_ALR: Alarm interrupt
+  *     @arg RTC_IT_SEC: Second interrupt
+  * @retval None
   */
 void RTC_ClearITPendingBit(uint16_t RTC_IT)
 {

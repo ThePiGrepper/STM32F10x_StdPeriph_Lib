@@ -1,8 +1,8 @@
 ;******************** (C) COPYRIGHT 2009 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_hd.s
 ;* Author             : MCD Application Team
-;* Version            : V3.0.0
-;* Date               : 04/06/2009
+;* Version            : V3.1.0
+;* Date               : 06/19/2009
 ;* Description        : STM32F10x High Density Devices vector table for RVMDK 
 ;*                      toolchain. 
 ;*                      This module performs:
@@ -31,7 +31,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000200
+Stack_Size      EQU     0x00000400
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -44,7 +44,7 @@ __initial_spTop EQU    0x20000400                 ; stack used for SystemInit_Ex
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size       EQU     0x00000000
+Heap_Size       EQU     0x00000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base

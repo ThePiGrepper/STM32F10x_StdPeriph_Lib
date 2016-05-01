@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_bkp.c
+  * @file    stm32f10x_bkp.c
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file provides all the BKP firmware functions.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file provides all the BKP firmware functions.
   ******************************************************************************
   * @copy
   *
@@ -22,7 +22,7 @@
 #include "stm32f10x_bkp.h"
 #include "stm32f10x_rcc.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -116,10 +116,9 @@
   */
 
 /**
-  * @brief  Deinitializes the BKP peripheral registers to their default
-  *   reset values.
+  * @brief  Deinitializes the BKP peripheral registers to their default reset values.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void BKP_DeInit(void)
 {
@@ -129,11 +128,11 @@ void BKP_DeInit(void)
 
 /**
   * @brief  Configures the Tamper Pin active level.
-  * @param BKP_TamperPinLevel: specifies the Tamper Pin active level.
+  * @param  BKP_TamperPinLevel: specifies the Tamper Pin active level.
   *   This parameter can be one of the following values:
-  * @arg BKP_TamperPinLevel_High: Tamper pin active on high level
-  * @arg BKP_TamperPinLevel_Low: Tamper pin active on low level
-  * @retval : None
+  *     @arg BKP_TamperPinLevel_High: Tamper pin active on high level
+  *     @arg BKP_TamperPinLevel_Low: Tamper pin active on low level
+  * @retval None
   */
 void BKP_TamperPinLevelConfig(uint16_t BKP_TamperPinLevel)
 {
@@ -144,9 +143,9 @@ void BKP_TamperPinLevelConfig(uint16_t BKP_TamperPinLevel)
 
 /**
   * @brief  Enables or disables the Tamper Pin activation.
-  * @param NewState: new state of the Tamper Pin activation.
+  * @param  NewState: new state of the Tamper Pin activation.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void BKP_TamperPinCmd(FunctionalState NewState)
 {
@@ -157,9 +156,9 @@ void BKP_TamperPinCmd(FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the Tamper Pin Interrupt.
-  * @param NewState: new state of the Tamper Pin Interrupt.
+  * @param  NewState: new state of the Tamper Pin Interrupt.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void BKP_ITConfig(FunctionalState NewState)
 {
@@ -170,16 +169,16 @@ void BKP_ITConfig(FunctionalState NewState)
 
 /**
   * @brief  Select the RTC output source to output on the Tamper pin.
-  * @param BKP_RTCOutputSource: specifies the RTC output source.
+  * @param  BKP_RTCOutputSource: specifies the RTC output source.
   *   This parameter can be one of the following values:
-  * @arg BKP_RTCOutputSource_None: no RTC output on the Tamper pin.
-  * @arg BKP_RTCOutputSource_CalibClock: output the RTC clock
-  *   with frequency divided by 64 on the Tamper pin.
-  * @arg BKP_RTCOutputSource_Alarm: output the RTC Alarm pulse 
-  *   signal on the Tamper pin.
-  * @arg BKP_RTCOutputSource_Second: output the RTC Second pulse 
-  *   signal on the Tamper pin.  
-  * @retval : None
+  *     @arg BKP_RTCOutputSource_None: no RTC output on the Tamper pin.
+  *     @arg BKP_RTCOutputSource_CalibClock: output the RTC clock with frequency
+  *                                          divided by 64 on the Tamper pin.
+  *     @arg BKP_RTCOutputSource_Alarm: output the RTC Alarm pulse signal on
+  *                                     the Tamper pin.
+  *     @arg BKP_RTCOutputSource_Second: output the RTC Second pulse signal on
+  *                                      the Tamper pin.  
+  * @retval None
   */
 void BKP_RTCOutputConfig(uint16_t BKP_RTCOutputSource)
 {
@@ -198,9 +197,9 @@ void BKP_RTCOutputConfig(uint16_t BKP_RTCOutputSource)
 
 /**
   * @brief  Sets RTC Clock Calibration value.
-  * @param CalibrationValue: specifies the RTC Clock Calibration value.
+  * @param  CalibrationValue: specifies the RTC Clock Calibration value.
   *   This parameter must be a number between 0 and 0x7F.
-  * @retval : None
+  * @retval None
   */
 void BKP_SetRTCCalibrationValue(uint8_t CalibrationValue)
 {
@@ -218,35 +217,47 @@ void BKP_SetRTCCalibrationValue(uint8_t CalibrationValue)
 
 /**
   * @brief  Writes user data to the specified Data Backup Register.
-  * @param BKP_DR: specifies the Data Backup Register.
+  * @param  BKP_DR: specifies the Data Backup Register.
   *   This parameter can be BKP_DRx where x:[1, 42]
-  * @param Data: data to write
-  * @retval : None
+  * @param  Data: data to write
+  * @retval None
   */
 void BKP_WriteBackupRegister(uint16_t BKP_DR, uint16_t Data)
 {
+  __IO uint32_t tmp = 0;
+
   /* Check the parameters */
   assert_param(IS_BKP_DR(BKP_DR));
-  *(__IO uint16_t *) (BKP_BASE + BKP_DR) = Data;
+
+  tmp = (uint32_t)BKP_BASE; 
+  tmp += BKP_DR;
+
+  *(__IO uint32_t *) tmp = Data;
 }
 
 /**
   * @brief  Reads data from the specified Data Backup Register.
-  * @param BKP_DR: specifies the Data Backup Register.
+  * @param  BKP_DR: specifies the Data Backup Register.
   *   This parameter can be BKP_DRx where x:[1, 42]
-  * @retval : The content of the specified Data Backup Register
+  * @retval The content of the specified Data Backup Register
   */
 uint16_t BKP_ReadBackupRegister(uint16_t BKP_DR)
 {
+  __IO uint32_t tmp = 0;
+
   /* Check the parameters */
   assert_param(IS_BKP_DR(BKP_DR));
-  return (*(__IO uint16_t *) (BKP_BASE + BKP_DR));
+
+  tmp = (uint32_t)BKP_BASE; 
+  tmp += BKP_DR;
+
+  return (*(__IO uint16_t *) tmp);
 }
 
 /**
   * @brief  Checks whether the Tamper Pin Event flag is set or not.
   * @param  None
-  * @retval : The new state of the Tamper Pin Event flag (SET or RESET).
+  * @retval The new state of the Tamper Pin Event flag (SET or RESET).
   */
 FlagStatus BKP_GetFlagStatus(void)
 {
@@ -256,7 +267,7 @@ FlagStatus BKP_GetFlagStatus(void)
 /**
   * @brief  Clears Tamper Pin Event pending flag.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void BKP_ClearFlag(void)
 {
@@ -267,7 +278,7 @@ void BKP_ClearFlag(void)
 /**
   * @brief  Checks whether the Tamper Pin Interrupt has occurred or not.
   * @param  None
-  * @retval : The new state of the Tamper Pin Interrupt (SET or RESET).
+  * @retval The new state of the Tamper Pin Interrupt (SET or RESET).
   */
 ITStatus BKP_GetITStatus(void)
 {
@@ -277,7 +288,7 @@ ITStatus BKP_GetITStatus(void)
 /**
   * @brief  Clears Tamper Pin Interrupt pending bit.
   * @param  None
-  * @retval : None
+  * @retval None
   */
 void BKP_ClearITPendingBit(void)
 {

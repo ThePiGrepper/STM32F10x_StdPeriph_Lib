@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_dbgmcu.h
+  * @file    stm32f10x_dbgmcu.h
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file contains all the functions prototypes for the DBGMCU 
-  *         firmware library.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file contains all the functions prototypes for the DBGMCU 
+  *          firmware library.
   ******************************************************************************
   * @copy
   *
@@ -23,10 +23,14 @@
 #ifndef __STM32F10x_DBGMCU_H
 #define __STM32F10x_DBGMCU_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -62,8 +66,9 @@
 #define DBGMCU_TIM5_STOP             ((uint32_t)0x00040000)
 #define DBGMCU_TIM6_STOP             ((uint32_t)0x00080000)
 #define DBGMCU_TIM7_STOP             ((uint32_t)0x00100000)
+#define DBGMCU_CAN2_STOP             ((uint32_t)0x00200000)
 
-#define IS_DBGMCU_PERIPH(PERIPH) ((((PERIPH) & 0xFFE000F8) == 0x00) && ((PERIPH) != 0x00))
+#define IS_DBGMCU_PERIPH(PERIPH) ((((PERIPH) & 0xFFC000F8) == 0x00) && ((PERIPH) != 0x00))
 /**
   * @}
   */ 
@@ -83,6 +88,10 @@
 uint32_t DBGMCU_GetREVID(void);
 uint32_t DBGMCU_GetDEVID(void);
 void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __STM32F10x_DBGMCU_H */
 /**

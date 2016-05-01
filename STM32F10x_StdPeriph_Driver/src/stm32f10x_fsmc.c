@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_fsmc.c
+  * @file    stm32f10x_fsmc.c
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file provides all the FSMC firmware functions.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file provides all the FSMC firmware functions.
   ******************************************************************************
   * @copy
   *
@@ -22,7 +22,7 @@
 #include "stm32f10x_fsmc.h"
 #include "stm32f10x_rcc.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -90,13 +90,13 @@
 /**
   * @brief  Deinitializes the FSMC NOR/SRAM Banks registers to their default 
   *   reset values.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank1_NORSRAM1: FSMC Bank1 NOR/SRAM1  
-  * @arg FSMC_Bank1_NORSRAM2: FSMC Bank1 NOR/SRAM2 
-  * @arg FSMC_Bank1_NORSRAM3: FSMC Bank1 NOR/SRAM3 
-  * @arg FSMC_Bank1_NORSRAM4: FSMC Bank1 NOR/SRAM4 
-  * @retval : None
+  *     @arg FSMC_Bank1_NORSRAM1: FSMC Bank1 NOR/SRAM1  
+  *     @arg FSMC_Bank1_NORSRAM2: FSMC Bank1 NOR/SRAM2 
+  *     @arg FSMC_Bank1_NORSRAM3: FSMC Bank1 NOR/SRAM3 
+  *     @arg FSMC_Bank1_NORSRAM4: FSMC Bank1 NOR/SRAM4 
+  * @retval None
   */
 void FSMC_NORSRAMDeInit(uint32_t FSMC_Bank)
 {
@@ -118,13 +118,12 @@ void FSMC_NORSRAMDeInit(uint32_t FSMC_Bank)
 }
 
 /**
-  * @brief  Deinitializes the FSMC NAND Banks registers to their default 
-  *   reset values.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @brief  Deinitializes the FSMC NAND Banks registers to their default reset values.
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND 
-  * @retval : None
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND 
+  * @retval None
   */
 void FSMC_NANDDeInit(uint32_t FSMC_Bank)
 {
@@ -151,10 +150,9 @@ void FSMC_NANDDeInit(uint32_t FSMC_Bank)
 }
 
 /**
-  * @brief  Deinitializes the FSMC PCCARD Bank registers to their default 
-  *   reset values.
+  * @brief  Deinitializes the FSMC PCCARD Bank registers to their default reset values.
   * @param  None                       
-  * @retval : None
+  * @retval None
   */
 void FSMC_PCCARDDeInit(void)
 {
@@ -167,12 +165,12 @@ void FSMC_PCCARDDeInit(void)
 }
 
 /**
-  * @brief  Initializes the FSMC NOR/SRAM Banks according to the 
-  *   specified parameters in the FSMC_NORSRAMInitStruct.
-  * @param FSMC_NORSRAMInitStruct : pointer to a FSMC_NORSRAMInitTypeDef
+  * @brief  Initializes the FSMC NOR/SRAM Banks according to the specified
+  *   parameters in the FSMC_NORSRAMInitStruct.
+  * @param  FSMC_NORSRAMInitStruct : pointer to a FSMC_NORSRAMInitTypeDef
   *   structure that contains the configuration information for 
   *   the FSMC NOR/SRAM specified Banks.                       
-  * @retval : None
+  * @retval None
   */
 void FSMC_NORSRAMInit(FSMC_NORSRAMInitTypeDef* FSMC_NORSRAMInitStruct)
 { 
@@ -251,10 +249,9 @@ void FSMC_NORSRAMInit(FSMC_NORSRAMInitTypeDef* FSMC_NORSRAMInitStruct)
 /**
   * @brief  Initializes the FSMC NAND Banks according to the specified 
   *   parameters in the FSMC_NANDInitStruct.
-  * @param FSMC_NANDInitStruct : pointer to a FSMC_NANDInitTypeDef 
-  *   structure that contains the configuration information for 
-  *   the FSMC NAND specified Banks.                       
-  * @retval : None
+  * @param  FSMC_NANDInitStruct : pointer to a FSMC_NANDInitTypeDef 
+  *   structure that contains the configuration information for the FSMC NAND specified Banks.                       
+  * @retval None
   */
 void FSMC_NANDInit(FSMC_NANDInitTypeDef* FSMC_NANDInitStruct)
 {
@@ -263,7 +260,7 @@ void FSMC_NANDInit(FSMC_NANDInitTypeDef* FSMC_NANDInitStruct)
   /* Check the parameters */
   assert_param( IS_FSMC_NAND_BANK(FSMC_NANDInitStruct->FSMC_Bank));
   assert_param( IS_FSMC_WAIT_FEATURE(FSMC_NANDInitStruct->FSMC_Waitfeature));
-  assert_param( IS_FSMC_DATA_WIDTH(FSMC_NANDInitStruct->FSMC_MemoryDataWidth));
+  assert_param( IS_FSMC_MEMORY_WIDTH(FSMC_NANDInitStruct->FSMC_MemoryDataWidth));
   assert_param( IS_FSMC_ECC_STATE(FSMC_NANDInitStruct->FSMC_ECC));
   assert_param( IS_FSMC_ECCPAGE_SIZE(FSMC_NANDInitStruct->FSMC_ECCPageSize));
   assert_param( IS_FSMC_TCLR_TIME(FSMC_NANDInitStruct->FSMC_TCLRSetupTime));
@@ -317,10 +314,9 @@ void FSMC_NANDInit(FSMC_NANDInitTypeDef* FSMC_NANDInitStruct)
 /**
   * @brief  Initializes the FSMC PCCARD Bank according to the specified 
   *   parameters in the FSMC_PCCARDInitStruct.
-  * @param FSMC_PCCARDInitStruct : pointer to a FSMC_PCCARDInitTypeDef
-  *   structure that contains the configuration information for 
-  *   the FSMC PCCARD Bank.                       
-  * @retval : None
+  * @param  FSMC_PCCARDInitStruct : pointer to a FSMC_PCCARDInitTypeDef
+  *   structure that contains the configuration information for the FSMC PCCARD Bank.                       
+  * @retval None
   */
 void FSMC_PCCARDInit(FSMC_PCCARDInitTypeDef* FSMC_PCCARDInitStruct)
 {
@@ -370,9 +366,9 @@ void FSMC_PCCARDInit(FSMC_PCCARDInitTypeDef* FSMC_PCCARDInitStruct)
 
 /**
   * @brief  Fills each FSMC_NORSRAMInitStruct member with its default value.
-  * @param FSMC_NORSRAMInitStruct: pointer to a FSMC_NORSRAMInitTypeDef 
+  * @param  FSMC_NORSRAMInitStruct: pointer to a FSMC_NORSRAMInitTypeDef 
   *   structure which will be initialized.
-  * @retval : None
+  * @retval None
   */
 void FSMC_NORSRAMStructInit(FSMC_NORSRAMInitTypeDef* FSMC_NORSRAMInitStruct)
 {  
@@ -407,9 +403,9 @@ void FSMC_NORSRAMStructInit(FSMC_NORSRAMInitTypeDef* FSMC_NORSRAMInitStruct)
 
 /**
   * @brief  Fills each FSMC_NANDInitStruct member with its default value.
-  * @param FSMC_NANDInitStruct: pointer to a FSMC_NANDInitTypeDef 
+  * @param  FSMC_NANDInitStruct: pointer to a FSMC_NANDInitTypeDef 
   *   structure which will be initialized.
-  * @retval : None
+  * @retval None
   */
 void FSMC_NANDStructInit(FSMC_NANDInitTypeDef* FSMC_NANDInitStruct)
 { 
@@ -433,9 +429,9 @@ void FSMC_NANDStructInit(FSMC_NANDInitTypeDef* FSMC_NANDInitStruct)
 
 /**
   * @brief  Fills each FSMC_PCCARDInitStruct member with its default value.
-  * @param FSMC_PCCARDInitStruct: pointer to a FSMC_PCCARDInitTypeDef 
+  * @param  FSMC_PCCARDInitStruct: pointer to a FSMC_PCCARDInitTypeDef 
   *   structure which will be initialized.
-  * @retval : None
+  * @retval None
   */
 void FSMC_PCCARDStructInit(FSMC_PCCARDInitTypeDef* FSMC_PCCARDInitStruct)
 {
@@ -459,15 +455,14 @@ void FSMC_PCCARDStructInit(FSMC_PCCARDInitTypeDef* FSMC_PCCARDInitStruct)
 
 /**
   * @brief  Enables or disables the specified NOR/SRAM Memory Bank.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank1_NORSRAM1: FSMC Bank1 NOR/SRAM1  
-  * @arg FSMC_Bank1_NORSRAM2: FSMC Bank1 NOR/SRAM2 
-  * @arg FSMC_Bank1_NORSRAM3: FSMC Bank1 NOR/SRAM3 
-  * @arg FSMC_Bank1_NORSRAM4: FSMC Bank1 NOR/SRAM4 
-  * @param NewState: new state of the FSMC_Bank.
-  *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  *     @arg FSMC_Bank1_NORSRAM1: FSMC Bank1 NOR/SRAM1  
+  *     @arg FSMC_Bank1_NORSRAM2: FSMC Bank1 NOR/SRAM2 
+  *     @arg FSMC_Bank1_NORSRAM3: FSMC Bank1 NOR/SRAM3 
+  *     @arg FSMC_Bank1_NORSRAM4: FSMC Bank1 NOR/SRAM4 
+  * @param  NewState: new state of the FSMC_Bank. This parameter can be: ENABLE or DISABLE.
+  * @retval None
   */
 void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 {
@@ -488,13 +483,12 @@ void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the specified NAND Memory Bank.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @param NewState: new state of the FSMC_Bank.
-  *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  * @param  NewState: new state of the FSMC_Bank. This parameter can be: ENABLE or DISABLE.
+  * @retval None
   */
 void FSMC_NANDCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 {
@@ -529,9 +523,9 @@ void FSMC_NANDCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the PCCARD Memory Bank.
-  * @param NewState: new state of the PCCARD Memory Bank.  
+  * @param  NewState: new state of the PCCARD Memory Bank.  
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void FSMC_PCCARDCmd(FunctionalState NewState)
 {
@@ -551,13 +545,13 @@ void FSMC_PCCARDCmd(FunctionalState NewState)
 
 /**
   * @brief  Enables or disables the FSMC NAND ECC feature.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @param NewState: new state of the FSMC NAND ECC feature.  
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  * @param  NewState: new state of the FSMC NAND ECC feature.  
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void FSMC_NANDECCCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 {
@@ -592,11 +586,11 @@ void FSMC_NANDECCCmd(uint32_t FSMC_Bank, FunctionalState NewState)
 
 /**
   * @brief  Returns the error correction code register value.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @retval : The Error Correction Code (ECC) value.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  * @retval The Error Correction Code (ECC) value.
   */
 uint32_t FSMC_GetECC(uint32_t FSMC_Bank)
 {
@@ -618,20 +612,19 @@ uint32_t FSMC_GetECC(uint32_t FSMC_Bank)
 
 /**
   * @brief  Enables or disables the specified FSMC interrupts.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
-  * @param FSMC_IT: specifies the FSMC interrupt sources to be
-  *   enabled or disabled.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  *     @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
+  * @param  FSMC_IT: specifies the FSMC interrupt sources to be enabled or disabled.
   *   This parameter can be any combination of the following values:
-  * @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
-  * @arg FSMC_IT_Level: Level edge detection interrupt.
-  * @arg FSMC_IT_FallingEdge: Falling edge detection interrupt.
-  * @param NewState: new state of the specified FSMC interrupts.
+  *     @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
+  *     @arg FSMC_IT_Level: Level edge detection interrupt.
+  *     @arg FSMC_IT_FallingEdge: Falling edge detection interrupt.
+  * @param  NewState: new state of the specified FSMC interrupts.
   *   This parameter can be: ENABLE or DISABLE.
-  * @retval : None
+  * @retval None
   */
 void FSMC_ITConfig(uint32_t FSMC_Bank, uint32_t FSMC_IT, FunctionalState NewState)
 {
@@ -680,18 +673,18 @@ void FSMC_ITConfig(uint32_t FSMC_Bank, uint32_t FSMC_IT, FunctionalState NewStat
 
 /**
   * @brief  Checks whether the specified FSMC flag is set or not.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
-  * @param FSMC_FLAG: specifies the flag to check.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  *     @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
+  * @param  FSMC_FLAG: specifies the flag to check.
   *   This parameter can be one of the following values:
-  * @arg FSMC_FLAG_RisingEdge: Rising egde detection Flag.
-  * @arg FSMC_FLAG_Level: Level detection Flag.
-  * @arg FSMC_FLAG_FallingEdge: Falling egde detection Flag.
-  * @arg FSMC_FLAG_FEMPT: Fifo empty Flag. 
-  * @retval : The new state of FSMC_FLAG (SET or RESET).
+  *     @arg FSMC_FLAG_RisingEdge: Rising egde detection Flag.
+  *     @arg FSMC_FLAG_Level: Level detection Flag.
+  *     @arg FSMC_FLAG_FallingEdge: Falling egde detection Flag.
+  *     @arg FSMC_FLAG_FEMPT: Fifo empty Flag. 
+  * @retval The new state of FSMC_FLAG (SET or RESET).
   */
 FlagStatus FSMC_GetFlagStatus(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
 {
@@ -731,17 +724,17 @@ FlagStatus FSMC_GetFlagStatus(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
 
 /**
   * @brief  Clears the FSMC’s pending flags.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
-  * @param FSMC_FLAG: specifies the flag to clear.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  *     @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
+  * @param  FSMC_FLAG: specifies the flag to clear.
   *   This parameter can be any combination of the following values:
-  * @arg FSMC_FLAG_RisingEdge: Rising egde detection Flag.
-  * @arg FSMC_FLAG_Level: Level detection Flag.
-  * @arg FSMC_FLAG_FallingEdge: Falling egde detection Flag.
-  * @retval : None
+  *     @arg FSMC_FLAG_RisingEdge: Rising egde detection Flag.
+  *     @arg FSMC_FLAG_Level: Level detection Flag.
+  *     @arg FSMC_FLAG_FallingEdge: Falling egde detection Flag.
+  * @retval None
   */
 void FSMC_ClearFlag(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
 {
@@ -766,17 +759,17 @@ void FSMC_ClearFlag(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
 
 /**
   * @brief  Checks whether the specified FSMC interrupt has occurred or not.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
-  * @param FSMC_IT: specifies the FSMC interrupt source to check.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  *     @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
+  * @param  FSMC_IT: specifies the FSMC interrupt source to check.
   *   This parameter can be one of the following values:
-  * @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
-  * @arg FSMC_IT_Level: Level edge detection interrupt.
-  * @arg FSMC_IT_FallingEdge: Falling edge detection interrupt. 
-  * @retval : The new state of FSMC_IT (SET or RESET).
+  *     @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
+  *     @arg FSMC_IT_Level: Level edge detection interrupt.
+  *     @arg FSMC_IT_FallingEdge: Falling edge detection interrupt. 
+  * @retval The new state of FSMC_IT (SET or RESET).
   */
 ITStatus FSMC_GetITStatus(uint32_t FSMC_Bank, uint32_t FSMC_IT)
 {
@@ -817,17 +810,17 @@ ITStatus FSMC_GetITStatus(uint32_t FSMC_Bank, uint32_t FSMC_IT)
 
 /**
   * @brief  Clears the FSMC’s interrupt pending bits.
-  * @param FSMC_Bank: specifies the FSMC Bank to be used
+  * @param  FSMC_Bank: specifies the FSMC Bank to be used
   *   This parameter can be one of the following values:
-  * @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
-  * @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
-  * @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
-  * @param FSMC_IT: specifies the interrupt pending bit to clear.
+  *     @arg FSMC_Bank2_NAND: FSMC Bank2 NAND 
+  *     @arg FSMC_Bank3_NAND: FSMC Bank3 NAND
+  *     @arg FSMC_Bank4_PCCARD: FSMC Bank4 PCCARD
+  * @param  FSMC_IT: specifies the interrupt pending bit to clear.
   *   This parameter can be any combination of the following values:
-  * @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
-  * @arg FSMC_IT_Level: Level edge detection interrupt.
-  * @arg FSMC_IT_FallingEdge: Falling edge detection interrupt.
-  * @retval : None
+  *     @arg FSMC_IT_RisingEdge: Rising edge detection interrupt. 
+  *     @arg FSMC_IT_Level: Level edge detection interrupt.
+  *     @arg FSMC_IT_FallingEdge: Falling edge detection interrupt.
+  * @retval None
   */
 void FSMC_ClearITPendingBit(uint32_t FSMC_Bank, uint32_t FSMC_IT)
 {

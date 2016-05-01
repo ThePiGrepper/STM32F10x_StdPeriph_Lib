@@ -59,7 +59,7 @@ td.kt { color: #000000; background-color: #E0E0E0; border-top: 1pt solid #A0A0A0
 <h1>Cortex Microcontroller Software Interface Standard</h1>
 
 <p align="center">This file describes the Cortex Microcontroller Software Interface Standard (CMSIS).</p>
-<p align="center">Version: 1.10 - 24. Feb. 2009</p>
+<p align="center">Version: 1.20 - 22. May 2009</p>
 
 <p class="TinyT">Information in this file, the accompany manuals, and software is<br>
                  Copyright © ARM Ltd.<br>All rights reserved.
@@ -73,6 +73,7 @@ td.kt { color: #000000; background-color: #E0E0E0; border-top: 1pt solid #A0A0A0
 	<li>Version 1.01: added __LDREX<em>x</em>, __STREX<em>x</em>, and __CLREX.</li>
 	<li>Version 1.02: added Cortex-M0. </li>
 	<li>Version 1.10: second review. </li>
+	<li>Version 1.20: third review. </li>
 </ul>
 
 <hr>
@@ -367,6 +368,7 @@ typedef enum IRQn
 {
 /******  Cortex-M3 Processor Exceptions/Interrupt Numbers ************************************************/
   NonMaskableInt_IRQn             = -14,      /*!&lt; 2 Non Maskable Interrupt                              */
+  HardFault_IRQn                  = -13,      /*!&lt; 3 Cortex-M3 Hard Fault Interrupt                      */
   MemoryManagement_IRQn           = -12,      /*!&lt; 4 Cortex-M3 Memory Management Interrupt               */
   BusFault_IRQn                   = -11,      /*!&lt; 5 Cortex-M3 Bus Fault Interrupt                       */
   UsageFault_IRQn                 = -10,      /*!&lt; 6 Cortex-M3 Usage Fault Interrupt                     */
@@ -949,6 +951,12 @@ void WWDG_IRQHandler(void)
       <td class="kt">Cortex-Mx Non Maskable Interrupt</td>
     </tr>
     <tr>
+      <td class="kt" nowrap="nowrap">HardFault_IRQn</td>
+      <td class="kt">M0, M3</td>
+      <td class="kt">-13</td>
+      <td class="kt">Cortex-Mx Hard Fault Interrupt</td>
+    </tr>
+    <tr>
       <td class="kt" nowrap="nowrap">MemoryManagement_IRQn</td>
       <td class="kt">M3</td>
       <td class="kt">-12</td>
@@ -1005,19 +1013,19 @@ The functions are defined as <strong>static inline</strong>.</p>
       <th class="kt">Description</th>
     </tr>
     <tr>
-      <td class="kt" nowrap="nowrap">void NVIC_SetPriorityGrouping(uint32_t priority_grouping)</td>
-      <td class="kt">M0, M3</td>
+      <td class="kt" nowrap="nowrap">void NVIC_SetPriorityGrouping (uint32_t PriorityGroup)</td>
+      <td class="kt">M3</td>
       <td class="kt">Priority Grouping Value</td>
       <td class="kt">Set the Priority Grouping (Groups . Subgroups)</td>
     </tr>
     <tr>
-      <td class="kt" nowrap="nowrap">void NVIC_EnableIRQ(IRQn_Type IRQn)</td>
+      <td class="kt" nowrap="nowrap">void NVIC_EnableIRQ (IRQn_Type IRQn)</td>
       <td class="kt">M0, M3</td>
       <td class="kt">IRQ Number</td>
       <td class="kt">Enable IRQn</td>
     </tr>
     <tr>
-      <td class="kt" nowrap="nowrap">void NVIC_DisableIRQ(IRQn_Type IRQn)</td>
+      <td class="kt" nowrap="nowrap">void NVIC_DisableIRQ (IRQn_Type IRQn)</td>
       <td class="kt">M0, M3</td>
       <td class="kt">IRQ Number</td>
       <td class="kt">Disable IRQn</td>
@@ -1026,7 +1034,7 @@ The functions are defined as <strong>static inline</strong>.</p>
       <td class="kt" nowrap="nowrap">uint32_t NVIC_GetPendingIRQ (IRQn_Type IRQn)</td>
       <td class="kt">M0, M3</td>
       <td class="kt">IRQ Number</td>
-      <td class="kt">Return true (IRQ-Number) if IRQn is pending</td>
+      <td class="kt">Return 1 if IRQn is pending else 0</td>
     </tr>
     <tr>
       <td class="kt" nowrap="nowrap">void NVIC_SetPendingIRQ (IRQn_Type IRQn)</td>
@@ -1044,7 +1052,7 @@ The functions are defined as <strong>static inline</strong>.</p>
       <td class="kt" nowrap="nowrap">uint32_t NVIC_GetActive (IRQn_Type IRQn)</td>
       <td class="kt">M3</td>
       <td class="kt">IRQ Number</td>
-      <td class="kt">Return the IRQn of the active interrupt</td>
+      <td class="kt">Return 1 if IRQn is active else 0</td>
     </tr>
     <tr>
       <td class="kt" nowrap="nowrap">void NVIC_SetPriority (IRQn_Type IRQn, uint32_t priority)</td>
@@ -1060,6 +1068,19 @@ The functions are defined as <strong>static inline</strong>.</p>
       <td class="kt">Get Priority for IRQn</td>
     </tr>
     <tr>
+<!--      <td class="kt" nowrap="nowrap">uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t PreemptPriority, uint32_t SubPriority)</td> -->
+      <td class="kt">uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t PreemptPriority, uint32_t SubPriority)</td>
+      <td class="kt">M3</td>
+      <td class="kt">IRQ Number, Priority Group, Preemtive Priority, Sub Priority</td>
+      <td class="kt">Encode priority for given group, preemtive and sub priority</td>
+    </tr>
+<!--      <td class="kt" nowrap="nowrap">NVIC_DecodePriority (uint32_t Priority, uint32_t PriorityGroup, uint32_t* pPreemptPriority, uint32_t* pSubPriority)</td> -->
+      <td class="kt">NVIC_DecodePriority (uint32_t Priority, uint32_t PriorityGroup, uint32_t* pPreemptPriority, uint32_t* pSubPriority)</td>
+      <td class="kt">M3</td>
+      <td class="kt">IRQ Number, Priority, pointer to Priority Group, pointer to Preemtive Priority, pointer to Sub Priority</td>
+      <td class="kt">Deccode given priority to group, preemtive and sub priority</td>
+    </tr>
+    <tr>
       <td class="kt" nowrap="nowrap">void NVIC_SystemReset (void)</td>
       <td class="kt">M0, M3</td>
       <td class="kt">(void)</td>
@@ -1070,8 +1091,14 @@ The functions are defined as <strong>static inline</strong>.</p>
 <p class="Note">Note</p>
 <ul>
   <li><p>The processor exceptions have negative enum values. Device specific interrupts 
-	have positive enum values and start with 0. The values are defined in
-    <b><em>device.h</em></b> file.</p>
+	       have positive enum values and start with 0. The values are defined in
+         <b><em>device.h</em></b> file.
+      </p>
+  </li>
+  <li><p>The values for <b>PreemptPriority</b> and <b>SubPriority</b>
+         used in functions <b>NVIC_EncodePriority</b> and <b>NVIC_DecodePriority</b>
+         depend on the available __NVIC_PRIO_BITS implemented in the NVIC.
+      </p>
   </li>
 </ul>
 

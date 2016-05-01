@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_i2c.h
+  * @file    stm32f10x_i2c.h
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file contains all the functions prototypes for the I2C firmware 
-  *         library.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file contains all the functions prototypes for the I2C firmware 
+  *          library.
   ******************************************************************************
   * @copy
   *
@@ -23,10 +23,14 @@
 #ifndef __STM32F10x_I2C_H
 #define __STM32F10x_I2C_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -44,12 +48,23 @@
 
 typedef struct
 {
-  uint16_t I2C_Mode;
-  uint16_t I2C_DutyCycle;
-  uint16_t I2C_OwnAddress1;
-  uint16_t I2C_Ack;
-  uint16_t I2C_AcknowledgedAddress;
-  uint32_t I2C_ClockSpeed;
+  uint32_t I2C_ClockSpeed;          /*!< Specifies the clock frequency.
+                                         This parameter must be set to a value lower than 400kHz */
+
+  uint16_t I2C_Mode;                /*!< Specifies the I2C mode.
+                                         This parameter can be a value of @ref I2C_mode */
+
+  uint16_t I2C_DutyCycle;           /*!< Specifies the I2C fast mode duty cycle.
+                                         This parameter can be a value of @ref I2C_duty_cycle_in_fast_mode */
+
+  uint16_t I2C_OwnAddress1;         /*!< Specifies the first device own address.
+                                         This parameter can be a 7-bit or 10-bit address. */
+
+  uint16_t I2C_Ack;                 /*!< Enables or disables the acknowledgement.
+                                         This parameter can be a value of @ref I2C_acknowledgement */
+
+  uint16_t I2C_AcknowledgedAddress; /*!< Specifies if 7-bit or 10-bit address is acknowledged.
+                                         This parameter can be a value of @ref I2C_acknowledged_address */
 }I2C_InitTypeDef;
 
 /**
@@ -61,14 +76,14 @@ typedef struct
   * @{
   */
 
-#define IS_I2C_ALL_PERIPH(PERIPH) (((*(uint32_t*)&(PERIPH)) == I2C1_BASE) || \
-                                   ((*(uint32_t*)&(PERIPH)) == I2C2_BASE))
-/** @defgroup I2C_modes 
+#define IS_I2C_ALL_PERIPH(PERIPH) (((PERIPH) == I2C1) || \
+                                   ((PERIPH) == I2C2))
+/** @defgroup I2C_mode 
   * @{
   */
 
 #define I2C_Mode_I2C                    ((uint16_t)0x0000)
-#define I2C_Mode_SMBusDevice            ((uint16_t)0x0002)
+#define I2C_Mode_SMBusDevice            ((uint16_t)0x0002)  
 #define I2C_Mode_SMBusHost              ((uint16_t)0x000A)
 #define IS_I2C_MODE(MODE) (((MODE) == I2C_Mode_I2C) || \
                            ((MODE) == I2C_Mode_SMBusDevice) || \
@@ -81,15 +96,15 @@ typedef struct
   * @{
   */
 
-#define I2C_DutyCycle_16_9              ((uint16_t)0x4000)
-#define I2C_DutyCycle_2                 ((uint16_t)0xBFFF)
+#define I2C_DutyCycle_16_9              ((uint16_t)0x4000) /*!< I2C fast mode Tlow/Thigh = 16/9 */
+#define I2C_DutyCycle_2                 ((uint16_t)0xBFFF) /*!< I2C fast mode Tlow/Thigh = 2 */
 #define IS_I2C_DUTY_CYCLE(CYCLE) (((CYCLE) == I2C_DutyCycle_16_9) || \
                                   ((CYCLE) == I2C_DutyCycle_2))
 /**
   * @}
   */ 
 
-/** @defgroup I2C_cknowledgementy 
+/** @defgroup I2C_acknowledgement
   * @{
   */
 
@@ -113,7 +128,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup I2C_acknowledged_address_defines 
+/** @defgroup I2C_acknowledged_address 
   * @{
   */
 
@@ -436,6 +451,10 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
 void I2C_ClearFlag(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
 ITStatus I2C_GetITStatus(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
 void I2C_ClearITPendingBit(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*__STM32F10x_I2C_H */
 /**

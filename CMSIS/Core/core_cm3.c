@@ -1,8 +1,8 @@
 /******************************************************************************
  * @file:    core_cm3.c
  * @purpose: CMSIS Cortex-M3 Core Peripheral Access Layer Source File
- * @version: V1.10
- * @date:    24. Feb. 2009
+ * @version: V1.20
+ * @date:    22. May 2009
  *----------------------------------------------------------------------------
  *
  * Copyright (C) 2009 ARM Limited. All rights reserved.
@@ -26,17 +26,21 @@
 
 /* define compiler specific symbols */
 #if defined   ( __CC_ARM   )
-  #define __ASM            __asm           /*!< asm keyword for armcc          */
+  #define __ASM            __asm           /*!< asm keyword for armcc           */
   #define __INLINE         __inline        /*!< inline keyword for armcc        */
 
 #elif defined ( __ICCARM__ )
   #define __ASM           __asm            /*!< asm keyword for iarcc           */
   #define __INLINE        inline           /*!< inline keyword for iarcc. Only avaiable in High optimization mode! */
-  #define __nop           __no_operation   /*!< no operation intrinsic in iarcc */
 
 #elif defined (  __GNUC__  )
-  #define __ASM             asm            /*!< asm keyword for gcc            */
+  #define __ASM             __asm          /*!< asm keyword for gcc            */
   #define __INLINE          inline         /*!< inline keyword for gcc         */
+
+#elif defined   (  __TASKING__  )
+  #define __ASM            __asm           /*!< asm keyword for TASKING Compiler          */
+  #define __INLINE         inline          /*!< inline keyword for TASKING Compiler       */
+
 #endif
 
 
@@ -452,13 +456,17 @@ uint32_t __STREXW(uint32_t value, uint32_t *addr)
  *
  * Return the actual process stack pointer
  */
+uint32_t __get_PSP(void) __attribute__( ( naked ) );
 uint32_t __get_PSP(void)
 {
   uint32_t result=0;
 
-  __ASM volatile ("MRS %0, psp" : "=r" (result) );
+  __ASM volatile ("MRS %0, psp\n\t" 
+                  "MOV r0, %0 \n\t"
+                  "BX  lr     \n\t"  : "=r" (result) );
   return(result);
 }
+
 
 /**
  * @brief  Set the Process Stack Pointer
@@ -469,9 +477,11 @@ uint32_t __get_PSP(void)
  * Assign the value ProcessStackPointer to the MSP 
  * (process stack pointer) Cortex processor register
  */
+void __set_PSP(uint32_t topOfProcStack) __attribute__( ( naked ) );
 void __set_PSP(uint32_t topOfProcStack)
 {
-  __ASM volatile ("MSR psp, %0" : : "r" (topOfProcStack) );
+  __ASM volatile ("MSR psp, %0\n\t"
+                  "BX  lr     \n\t" : : "r" (topOfProcStack) );
 }
 
 /**
@@ -483,11 +493,14 @@ void __set_PSP(uint32_t topOfProcStack)
  * Return the current value of the MSP (main stack pointer)
  * Cortex processor register
  */
+uint32_t __get_MSP(void) __attribute__( ( naked ) );
 uint32_t __get_MSP(void)
 {
   uint32_t result=0;
 
-  __ASM volatile ("MRS %0, msp" : "=r" (result) );
+  __ASM volatile ("MRS %0, msp\n\t" 
+                  "MOV r0, %0 \n\t"
+                  "BX  lr     \n\t"  : "=r" (result) );
   return(result);
 }
 
@@ -500,9 +513,11 @@ uint32_t __get_MSP(void)
  * Assign the value mainStackPointer to the MSP 
  * (main stack pointer) Cortex processor register
  */
+void __set_MSP(uint32_t topOfMainStack) __attribute__( ( naked ) );
 void __set_MSP(uint32_t topOfMainStack)
 {
-  __ASM volatile ("MSR msp, %0" : : "r" (topOfMainStack) );
+  __ASM volatile ("MSR msp, %0\n\t"
+                  "BX  lr     \n\t" : : "r" (topOfMainStack) );
 }
 
 /**
@@ -784,6 +799,15 @@ void __set_CONTROL(uint32_t control)
 {
   __ASM volatile ("MSR control, %0" : : "r" (control) );
 }
+
+#elif (defined (__TASKING__)) /*------------------ TASKING Compiler ---------------------*/
+/* TASKING carm specific functions */
+
+/*
+ * The CMSIS functions have been implemented as intrinsics in the compiler.
+ * Please use "carm -?i" to get an up to date list of all instrinsics,
+ * Including the CMSIS ones.
+ */
 
 #endif
 

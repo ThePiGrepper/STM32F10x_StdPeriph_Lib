@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file  stm32f10x_iwdg.h
+  * @file    stm32f10x_iwdg.h
   * @author  MCD Application Team
-  * @version  V3.0.0
-  * @date  04/06/2009
-  * @brief  This file contains all the functions prototypes for the IWDG 
-  *         firmware library.
+  * @version V3.1.0
+  * @date    06/19/2009
+  * @brief   This file contains all the functions prototypes for the IWDG 
+  *          firmware library.
   ******************************************************************************
   * @copy
   *
@@ -23,10 +23,14 @@
 #ifndef __STM32F10x_IWDG_H
 #define __STM32F10x_IWDG_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 
-/** @addtogroup StdPeriph_Driver
+/** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
 
@@ -46,7 +50,7 @@
   * @{
   */
 
-/** @defgroup Write_access_to_IWDG_PR_and_IWDG_RLR_registers 
+/** @defgroup IWDG_WriteAccess
   * @{
   */
 
@@ -114,6 +118,10 @@ void IWDG_SetReload(uint16_t Reload);
 void IWDG_ReloadCounter(void);
 void IWDG_Enable(void);
 FlagStatus IWDG_GetFlagStatus(uint16_t IWDG_FLAG);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __STM32F10x_IWDG_H */
 /**

@@ -1,8 +1,8 @@
 ;******************** (C) COPYRIGHT 2009 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_ld.s
 ;* Author             : MCD Application Team
-;* Version            : V3.0.0
-;* Date               : 04/06/2009
+;* Version            : V3.1.0
+;* Date               : 06/19/2009
 ;* Description        : STM32F10x Low Density Devices vector table for RVMDK 
 ;*                      toolchain. 
 ;*                      This module performs:
@@ -29,7 +29,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000200
+Stack_Size      EQU     0x00000400
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -40,7 +40,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size       EQU     0x00000000
+Heap_Size       EQU     0x00000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -111,7 +111,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     0                         ; Reserved
                 DCD     0                         ; Reserved
                 DCD     SPI1_IRQHandler           ; SPI1
-                DCD     SPI2_IRQHandler           ; SPI2
+                DCD     0                         ; Reserved
                 DCD     USART1_IRQHandler         ; USART1
                 DCD     USART2_IRQHandler         ; USART2
                 DCD     0                         ; Reserved
@@ -211,7 +211,6 @@ Default_Handler PROC
                 EXPORT  I2C1_EV_IRQHandler         [WEAK]
                 EXPORT  I2C1_ER_IRQHandler         [WEAK]
                 EXPORT  SPI1_IRQHandler            [WEAK]
-                EXPORT  SPI2_IRQHandler            [WEAK]
                 EXPORT  USART1_IRQHandler          [WEAK]
                 EXPORT  USART2_IRQHandler          [WEAK]
                 EXPORT  EXTI15_10_IRQHandler       [WEAK]
@@ -251,7 +250,6 @@ TIM3_IRQHandler
 I2C1_EV_IRQHandler
 I2C1_ER_IRQHandler
 SPI1_IRQHandler
-SPI2_IRQHandler
 USART1_IRQHandler
 USART2_IRQHandler
 EXTI15_10_IRQHandler
