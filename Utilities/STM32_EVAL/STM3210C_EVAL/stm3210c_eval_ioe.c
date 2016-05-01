@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_ioe.c
   * @author  MCD Application Team
-  * @version V3.1.0
-  * @date    06/19/2009
+  * @version V3.1.2
+  * @date    09/28/2009
   * @brief   This file includes the IO Expander driver for STMPE811 IO Expander 
   *          devices.
   ******************************************************************************
@@ -1191,9 +1191,9 @@ uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr)
   * @param  RegisterAddr: The target register adress (between 00x and 0x24)
   * @retval : The value of the read register (0xAA if Timout occured)   
   */
-uint32_t I2C_ReadDataBuffer(u8 DeviceAddr, uint32_t RegisterAddr)
+uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr)
 {
-  u8 Buffer[4] , idx = 2;
+  uint8_t Buffer[4] , idx = 2;
   
   /* Initialize the buffer */
   Buffer[0] = 0; 
@@ -1312,7 +1312,7 @@ uint32_t I2C_ReadDataBuffer(u8 DeviceAddr, uint32_t RegisterAddr)
   */
 static uint16_t IOE_TS_Read_X(void)
 {
-  s32 x, xr;
+  int32_t x, xr;
  
   x = I2C_ReadDataBuffer(IOE_1_ADDR, IOE_REG_TSC_DATA_Y);
   
@@ -1334,7 +1334,7 @@ static uint16_t IOE_TS_Read_X(void)
   */
 static uint16_t IOE_TS_Read_Y(void)
 {
-  s32 y, yr;
+  int32_t y, yr;
   y= I2C_ReadDataBuffer(IOE_1_ADDR, IOE_REG_TSC_DATA_X);
   
   yr= (y * 240) >> 12;

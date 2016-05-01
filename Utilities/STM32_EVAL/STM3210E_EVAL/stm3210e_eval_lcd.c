@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval_lcd.c
   * @author  MCD Application Team
-  * @version V3.1.0
-  * @date    06/19/2009
+  * @version V3.1.2
+  * @date    09/28/2009
   * @brief   This file includes the LCD driver for AM-240320L8TNQW00H 
   *          (LCD_ILI9320) and AM-240320LDTNQW00H (LCD_SPFD5408B) Liquid Crystal
   *          Display Module of STM3210E-EVAL board.
@@ -74,7 +74,7 @@ static  __IO uint16_t TextColor = 0x0000, BackColor = 0xFFFF;
   * @{
   */ 
 #ifndef USE_Delay
-static void delay(vu32 nCount);
+static void delay(__IO uint32_t nCount);
 #endif /* USE_Delay*/
 /**
   * @}
@@ -815,9 +815,9 @@ void LCD_FSMCConfig(void)
   * @param  nCount: specifies the delay time length.
   * @retval None
   */
-static void delay(vu32 nCount)
+static void delay(__IO uint32_t nCount)
 {
-  vu32 index = 0; 
+  __IO uint32_t index = 0; 
   for(index = (100000 * nCount); index != 0; index--)
   {
   }

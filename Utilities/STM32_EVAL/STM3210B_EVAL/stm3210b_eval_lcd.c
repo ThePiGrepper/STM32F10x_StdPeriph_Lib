@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210b_eval_lcd.c
   * @author  MCD Application Team
-  * @version V3.1.0
-  * @date    06/19/2009
+  * @version V3.1.2
+  * @date    09/28/2009
   * @brief   This file includes the LCD driver for AM-240320LTNQW00H (LCD_HX8312),
   *          AM-240320L8TNQW00H (LCD_ILI9320), AM-240320LDTNQW00H (LCD_SPFD5408B)
   *          Liquid Crystal Display Module of STM3210B-EVAL board.
@@ -82,7 +82,7 @@ static __IO uint32_t LCDType = LCD_ILI9320;
   * @{
   */ 
 #ifndef USE_Delay
-static void delay(vu32 nCount);
+static void delay(__IO uint32_t nCount);
 #endif /* USE_Delay*/
 
 static void LCD_WriteRegHX8312(uint8_t LCD_Reg, uint8_t LCD_RegValue);
@@ -1361,9 +1361,9 @@ void LCD_SPIConfig(void)
   * @param  nCount: specifies the delay time length.
   * @retval None
   */
-static void delay(vu32 nCount)
+static void delay(__IO uint32_t nCount)
 {
-  vu32 index = 0; 
+  __IO uint32_t index = 0; 
   for(index = (100000 * nCount); index != 0; index--)
   {
   }

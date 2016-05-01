@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210c_eval_ioe.h
   * @author  MCD Application Team
-  * @version V3.1.0
-  * @date    06/19/2009
+  * @version V3.1.2
+  * @date    09/28/2009
   * @brief   This file contains all the functions prototypes for the IO Expander
   *   firmware driver.
   ******************************************************************************
@@ -445,7 +445,7 @@ uint8_t IOE_ITOutConfig(uint8_t Polarity, uint8_t Type);
 
 uint8_t I2C_WriteDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr, uint8_t RegisterValue);
 uint8_t I2C_ReadDeviceRegister(uint8_t DeviceAddr, uint8_t RegisterAddr);
-uint32_t I2C_ReadDataBuffer(u8 DeviceAddr, u32 RegisterAddr);
+uint32_t I2C_ReadDataBuffer(uint8_t DeviceAddr, uint32_t RegisterAddr);
 
 #ifdef __cplusplus
 }
