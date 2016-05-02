@@ -1,8 +1,8 @@
 /******************** (C) COPYRIGHT 2008 STMicroelectronics ********************
 * File Name          : stm32f10x_i2c.h
 * Author             : MCD Application Team
-* Version            : V2.0.2
-* Date               : 07/11/2008
+* Version            : V2.0.3
+* Date               : 09/22/2008
 * Description        : This file contains all the functions prototypes for the
 *                      I2C firmware library.
 ********************************************************************************
@@ -208,6 +208,9 @@ typedef struct
 #define  I2C_EVENT_MASTER_BYTE_RECEIVED                    ((u32)0x00030040)  /* BUSY, MSL and RXNE flags */
 
 /* EV8 */
+#define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((u32)0x00070080) /* TRA, BUSY, MSL, TXE flags */
+
+/* EV8_2 */
 #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((u32)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */
       
 /* EV9 */
