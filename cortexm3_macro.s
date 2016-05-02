@@ -1,18 +1,20 @@
-;******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
+;******************** (C) COPYRIGHT 2008 STMicroelectronics ********************
 ;* File Name          : cortexm3_macro.s
 ;* Author             : MCD Application Team
-;* Version            : V1.0
-;* Date               : 10/08/2007
+;* Version            : V2.0.2
+;* Date               : 07/11/2008
 ;* Description        : Instruction wrappers for special Cortex-M3 instructions.
+;*                      to be used with EWARM4.x toolchain.
 ;*******************************************************************************
-; THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+; THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 ; WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
 ; AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
 ; INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE
-; CONTENT OF SUCH SOFTWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
+; CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
 ; INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 ;*******************************************************************************
     
+;  RSEG CODE:CODE(2)
   THUMB
   REQUIRE8
   PRESERVE8
@@ -32,15 +34,17 @@
   EXPORT __MRS_PSP
   EXPORT __MSR_PSP
   EXPORT __MRS_MSP
-  EXPORT __MSR_MSP   
-  EXPORT __SETPRIMASK
+  EXPORT __MSR_MSP    
   EXPORT __RESETPRIMASK
-  EXPORT __SETFAULTMASK
+  EXPORT __SETPRIMASK
+  EXPORT __READ_PRIMASK
   EXPORT __RESETFAULTMASK
+  EXPORT __SETFAULTMASK
+  EXPORT __READ_FAULTMASK
   EXPORT __BASEPRICONFIG
   EXPORT __GetBASEPRI
   EXPORT __REV_HalfWord
-  EXPORT __REV_Word
+  EXPORT __REV_Word  
 
 ;*******************************************************************************
 ; Function Name  : __WFI
@@ -185,7 +189,18 @@ __MSR_MSP
  
     MSR MSP, r0 ; set Main Stack value
     BX r14
+            
+;*******************************************************************************
+; Function Name  : __RESETPRIMASK
+; Description    : Assembler function to reset the PRIMASK.
+; Input          : None 
+; Return         : None
+;*******************************************************************************
+__RESETPRIMASK
 
+  CPSIE i
+  BX r14
+  
 ;*******************************************************************************
 ; Function Name  : __SETPRIMASK
 ; Description    : Assembler function to set the PRIMASK.
@@ -198,27 +213,16 @@ __SETPRIMASK
   BX r14
 
 ;*******************************************************************************
-; Function Name  : __RESETPRIMASK
-; Description    : Assembler function to reset the PRIMASK.
-; Input          : None 
-; Return         : None
+; Function Name  : __READ_PRIMASK
+; Description    : Assembler function to get the PRIMASK value.
+; Input          : None
+; Return         : - r0 : PRIMASK register value 
 ;*******************************************************************************
-__RESETPRIMASK
-
-  CPSIE i
+__READ_PRIMASK 
+ 
+  MRS r0, PRIMASK
   BX r14
-
-;*******************************************************************************
-; Function Name  : __SETFAULTMASK
-; Description    : Assembler function to set the FAULTMASK.
-; Input          : None 
-; Return         : None
-;*******************************************************************************
-__SETFAULTMASK
-
-  CPSID f
-  BX r14
-
+  
 ;*******************************************************************************
 ; Function Name  : __RESETFAULTMASK
 ; Description    : Assembler function to reset the FAULTMASK.
@@ -229,6 +233,28 @@ __RESETFAULTMASK
 
   CPSIE f
   BX r14
+  
+;*******************************************************************************
+; Function Name  : __SETFAULTMASK
+; Description    : Assembler function to set the FAULTMASK.
+; Input          : None 
+; Return         : None
+;*******************************************************************************
+__SETFAULTMASK
+
+  CPSID f
+  BX r14
+  
+;*******************************************************************************
+; Function Name  : __READ_FAULTMASK
+; Description    : Assembler function to get the FAULTMASK value.
+; Input          : None
+; Return         : - r0 : FAULTMASK register value 
+;*******************************************************************************
+__READ_FAULTMASK 
+ 
+  MRS r0, FAULTMASK
+  BX r14  
 
 ;*******************************************************************************
 ; Function Name  : __BASEPRICONFIG
@@ -273,7 +299,7 @@ __REV_Word
  
   REV r0, r0
   BX r14
-    
+  
   END
   
-;******************* (C) COPYRIGHT 2007 STMicroelectronics *****END OF FILE*****
+;******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE*****
