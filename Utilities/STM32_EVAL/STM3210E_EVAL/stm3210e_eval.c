@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm3210e_eval.c
   * @author  MCD Application Team
-  * @version V4.5.0
-  * @date    07-March-2011
+  * @version V5.1.0
+  * @date    18-January-2013
   * @brief   This file provides
   *            - set of firmware functions to manage Leds, push-button and COM ports
   *            - low level initialization functions for SD card (on SDIO), SPI serial
@@ -12,14 +12,20 @@
   ******************************************************************************
   * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
   ******************************************************************************
   */
 
@@ -426,7 +432,7 @@ void SD_LowLevel_Init(void)
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_SDIO, ENABLE);
 
   /*!< Enable the DMA2 Clock */
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
+  RCC_AHBPeriphClockCmd(SD_SDIO_DMA_CLK, ENABLE);
 }
 
 /**
@@ -440,12 +446,12 @@ void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
 
   DMA_InitTypeDef DMA_InitStructure;
 
-  DMA_ClearFlag(DMA2_FLAG_TC4 | DMA2_FLAG_TE4 | DMA2_FLAG_HT4 | DMA2_FLAG_GL4);
+  DMA_ClearFlag(SD_SDIO_DMA_FLAG_TC | SD_SDIO_DMA_FLAG_TE | SD_SDIO_DMA_FLAG_HT | SD_SDIO_DMA_FLAG_GL);
 
   /*!< DMA2 Channel4 disable */
-  DMA_Cmd(DMA2_Channel4, DISABLE);
+  DMA_Cmd(SD_SDIO_DMA_CHANNEL, DISABLE);
 
-  /*!< DMA2 Channel4 Config */
+  /*!< SDIO DMA CHANNEL Config */
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)BufferSRC;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
@@ -457,10 +463,12 @@ void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+  DMA_Init(SD_SDIO_DMA_CHANNEL, &DMA_InitStructure);
 
-  /*!< DMA2 Channel4 enable */
-  DMA_Cmd(DMA2_Channel4, ENABLE);
+  DMA_ITConfig(SD_SDIO_DMA_CHANNEL, DMA_IT_TC, ENABLE);
+
+  /*!< SDIO DMA CHANNEL enable */
+  DMA_Cmd(SD_SDIO_DMA_CHANNEL, ENABLE);
 }
 
 /**
@@ -473,12 +481,12 @@ void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)
 {
   DMA_InitTypeDef DMA_InitStructure;
 
-  DMA_ClearFlag(DMA2_FLAG_TC4 | DMA2_FLAG_TE4 | DMA2_FLAG_HT4 | DMA2_FLAG_GL4);
+  DMA_ClearFlag(SD_SDIO_DMA_FLAG_TC | SD_SDIO_DMA_FLAG_TE | SD_SDIO_DMA_FLAG_HT | SD_SDIO_DMA_FLAG_GL);
 
-  /*!< DMA2 Channel4 disable */
-  DMA_Cmd(DMA2_Channel4, DISABLE);
+  /*!< SDIO DMA CHANNEL disable */
+  DMA_Cmd(SD_SDIO_DMA_CHANNEL, DISABLE);
 
-  /*!< DMA2 Channel4 Config */
+  /*!< SDIO DMA CHANNEL Config */
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)BufferDST;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
@@ -490,10 +498,12 @@ void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+  DMA_Init(SD_SDIO_DMA_CHANNEL, &DMA_InitStructure);
 
-  /*!< DMA2 Channel4 enable */
-  DMA_Cmd(DMA2_Channel4, ENABLE);
+  DMA_ITConfig(SD_SDIO_DMA_CHANNEL, DMA_IT_TC, ENABLE);
+
+  /*!< SDIO DMA CHANNEL enable */
+  DMA_Cmd(SD_SDIO_DMA_CHANNEL, ENABLE);
 }
 
 /**
@@ -664,4 +674,4 @@ void LM75_LowLevel_Init(void)
   * @}
   */
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
